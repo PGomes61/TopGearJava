@@ -1,15 +1,7 @@
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.Dimension;
 import java.awt.Color;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -18,73 +10,36 @@ public class DrawPanel extends JPanel {
     private static final int D_H = 768;
     private List<Line> lines;
     public int pos = 0;
-    public int playerX = 0;
+    public double playerX = 0;
     private int width = 1024;
     private int heigth = 768;
     private int roadW = 2000;
     private int segL = 200; // Segment Length
     private double camD = 0.84; // Camera Depth
+    private int lap = 3, count = 0;
+    private Carro player1;
 
-    public DrawPanel() {
+    public DrawPanel(int tamMaxPista, Carro player1) {
         this.lines = new ArrayList<>();
-
-        for(int i = 0; i < 1600; i++) {
+        this.player1 = player1;
+        for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
 
-            if (i > 200 && i < 700) {
+            if (i > 200 + tamMaxPista * count && i < 600 + tamMaxPista * count) {
                 line.curve = 1;
+                line.flagTurn = 1;
+            }
+
+            if (i > 650 + tamMaxPista * count && i < 1200 + tamMaxPista * count) {
+                line.curve = -1;
+                line.flagTurn = -1;
             }
 
             lines.add(line);
+            if(i == tamMaxPista * (count + 1))
+                count++;
         }
-
-        InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = getActionMap();
-
-        String VK_UP = "VK_UP";
-        KeyStroke WVK_UP = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0);
-        inputMap.put(WVK_UP, VK_UP);
-        actionMap.put(VK_UP, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pos += 200;
-                repaint();
-            }
-        });
-
-        String VK_DOWN = "VK_DOWN";
-        KeyStroke WVK_DOWN = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0);
-        inputMap.put(WVK_DOWN, VK_DOWN);
-        actionMap.put(VK_DOWN, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pos -= 200;
-                repaint();
-            }
-        });
-
-        String VK_LEFT = "VK_LEFT";
-        KeyStroke WVK_LEFT = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0);
-        inputMap.put(WVK_LEFT, VK_LEFT);
-        actionMap.put(VK_LEFT, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                playerX -= 200;
-                repaint();
-            }
-        });
-
-        String VK_RIGHT = "VK_RIGHT";
-        KeyStroke WVK_RIGHT = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0);
-        inputMap.put(WVK_RIGHT, VK_RIGHT);
-        actionMap.put(VK_RIGHT, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                playerX += 200;
-                repaint();
-            }
-        });
     }
 
     protected void paintComponent(Graphics g) {
@@ -102,6 +57,21 @@ public class DrawPanel extends JPanel {
 
             x += dx;
             dx += l.curve;
+
+            if(n > startPos + 28 && n < startPos + 35 && l.flagTurn == 1)
+            {
+                
+                //System.out.println("Curva Direita!");
+                if(player1.getVelocidade() > 0)
+                    playerX -= 5/60.0 * l.curve * player1.getVelocidade() * 0.01;
+            }
+            
+            if(n > startPos + 28 && n < startPos + 35 && l.flagTurn == -1)
+            {
+                //System.out.println("Curva Esquerda!");
+                if(player1.getVelocidade() > 0)
+                    playerX += 5/60.0 * (- l.curve) * player1.getVelocidade() * 0.01;
+            }
 
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
@@ -140,12 +110,14 @@ public class DrawPanel extends JPanel {
         double x, y, z;   // 3D center of line
         double X, Y, W;   // Screen coordinates
         double scale, curve;
+        int flagTurn;
 
         public Line() {
-            curve = x = y = z = 0;
+            this.curve = x = y = z = 0;
+            this.flagTurn = 0;
         }
 
-        void project(int camX, int camY, int camZ) {
+        void project(double camX, int camY, int camZ) {
             scale = camD / (z - camZ);
             X = (1 + scale * (x - camX)) * width / 2;
             Y = (1 - scale * (y - camY)) * heigth / 2;

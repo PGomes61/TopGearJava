@@ -4,10 +4,9 @@ import java.awt.*;
 public class PainelCorrida extends JPanel implements Runnable{
     Thread gameThread;
     private JFrame frame;
-    private DrawPanel drawPanel = new DrawPanel();
-    //private Percurso percurso = new Percurso(frame);
     private int FPS = 60;
     private Carro player1 = new Carro("src/Carro/Carro1F.png");
+    private DrawPanel drawPanel = new DrawPanel(1600, player1);
     private int aux = 0;
 
     public PainelCorrida(){
@@ -68,15 +67,15 @@ public class PainelCorrida extends JPanel implements Runnable{
         }
         if(player1.leftPressed == true && player1.rightPressed == false){
             if(player1.getVelocidade() != 0)
-                drawPanel.playerX -=20;
-            System.out.println("ESQUERDA");
+                drawPanel.playerX -=25 - (player1.getVelocidade() * 0.01);
+            //System.out.println("ESQUERDA");
             if(player1.upPressed == false)
                 player1.banguela();
         }
         if(player1.rightPressed == true && player1.leftPressed == false){
             if(player1.getVelocidade() !=0)
-                drawPanel.playerX +=20;
-            System.out.println("DIREITA");
+                drawPanel.playerX +=25 - (player1.getVelocidade() * 0.01);
+            //System.out.println("DIREITA");
             if(player1.upPressed == false)
             {
                 player1.banguela();
@@ -95,7 +94,7 @@ public class PainelCorrida extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
         //percurso.desenharRetangulo(g2);
         //g2.setColor(Color.white);
-        g2.drawImage(player1.getImagem(0).getImage(), ((frame.getWidth() - player1.getImagem(0).getIconWidth())/2) -10, frame.getHeight() - player1.getImagem(0).getIconHeight() - 250, player1.getImagem(0).getIconWidth(), player1.getImagem(0).getIconHeight(), null);
+        g2.drawImage(player1.getImagem(0).getImage(), ((frame.getWidth() - player1.getImagem(0).getIconWidth())/2) -10, frame.getHeight() - player1.getImagem(0).getIconHeight() - 100, player1.getImagem(0).getIconWidth(), player1.getImagem(0).getIconHeight(), null);
         //g2.fillRect(10, 10, 50, 50);
 
         g2.setColor(Color.WHITE);
