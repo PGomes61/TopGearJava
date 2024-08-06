@@ -48,6 +48,7 @@ public class Menu extends JPanel{
     }
     
     private void setImages(){
+        //Colocado imagens nos JPANELS!!!!
         menuP1 = createMenuPanel("src/Menus/MenuPrincipal1.png");
         menuP2 = createMenuPanel("src/Menus/MenuPrincipal2.png");
         menuP3 = createMenuPanel("src/Menus/MenuPrincipal3.png");
