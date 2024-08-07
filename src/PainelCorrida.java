@@ -67,14 +67,14 @@ public class PainelCorrida extends JPanel implements Runnable{
         }
         if(player1.leftPressed == true && player1.rightPressed == false){
             if(player1.getVelocidade() != 0)
-                drawPanel.playerX -=25 - (player1.getVelocidade() * 0.01);
+                drawPanel.playerX -=30 - (player1.getVelocidade() * 0.01);
             //System.out.println("ESQUERDA");
             if(player1.upPressed == false)
                 player1.banguela();
         }
         if(player1.rightPressed == true && player1.leftPressed == false){
             if(player1.getVelocidade() !=0)
-                drawPanel.playerX +=25 - (player1.getVelocidade() * 0.01);
+                drawPanel.playerX +=30 - (player1.getVelocidade() * 0.01);
             //System.out.println("DIREITA");
             if(player1.upPressed == false)
             {
