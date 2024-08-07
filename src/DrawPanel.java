@@ -18,6 +18,7 @@ public class DrawPanel extends JPanel {
     private double camD = 0.84; // Camera Depth
     private int lap = 3, count = 0;
     private Carro player1;
+    private int linhaHorizonte = 300;
 
     public DrawPanel(int tamMaxPista, Carro player1) {
         this.lines = new ArrayList<>();
@@ -51,25 +52,26 @@ public class DrawPanel extends JPanel {
         int startPos = pos / segL;
         double x = 0, dx = 0;
 
-        for(int n = startPos; n < 300 + startPos; n++) {
+        for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
             l.project(playerX - (int) x, 1500, pos);
 
             x += dx;
             dx += l.curve;
 
-            if(n > startPos + 15 && n < startPos + 22 && l.flagTurn == 1)
+            if(n > startPos + 1 && n < startPos + 7 && l.flagTurn == 1)
             {
                 //System.out.println("Curva Direita!");
                 if(player1.getVelocidade() > 0)
-                    playerX -= 5/60.0 * l.curve * player1.getVelocidade() * 0.03;
+                    playerX -= 1 * (int) l.curve * (int) (player1.getVelocidade() * 0.01);
             }
             
-            if(n > startPos + 15 && n < startPos + 22 && l.flagTurn == -1)
+            if(n > startPos + 1 && n < startPos + 7 && l.flagTurn == -1)
             {
                 //System.out.println("Curva Esquerda!");
                 if(player1.getVelocidade() > 0)
-                    playerX += 5/60.0 * (- l.curve) * player1.getVelocidade() * 0.03;
+                    playerX += 1 * (int) (- l.curve) * (int) (player1.getVelocidade() * 0.01);
+                //linhaHorizonte += 1;    
             }
 
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
