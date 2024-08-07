@@ -28,6 +28,8 @@ public class Menu extends JPanel{
     private JPanel opt24 = new JPanel();
     private JPanel opt25 = new JPanel();
     private JPanel pista1 = new JPanel();
+    private JPanel pista2 = new JPanel();
+    private JPanel pista3 = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
 
@@ -67,6 +69,8 @@ public class Menu extends JPanel{
         opt24 = createMenuPanel("src/Menus/Opt2 4.png");
         opt25 = createMenuPanel("src/Menus/Opt2 5.png");
         pista1 = createMenuPanel("src/Menus/Pista1.png");
+        pista2 = createMenuPanel("src/Menus/Pista2.png");
+        pista3 = createMenuPanel("src/Menus/Pista3.png");
         menuP1.setFocusable(true);
         menuP2.setFocusable(true);
         menuP3.setFocusable(true);
@@ -85,6 +89,8 @@ public class Menu extends JPanel{
         opt24.setFocusable(true);
         opt25.setFocusable(true);
         pista1.setFocusable(true);
+        pista2.setFocusable(true);
+        pista3.setFocusable(true);
     }
     
     public void setContainers(){
@@ -95,6 +101,9 @@ public class Menu extends JPanel{
         options.setLayout(cl);
         dificuldades.setLayout(cl);
         pistas.setLayout(cl);
+        pistas.add(pista1, "p1");
+        pistas.add(pista2, "p2");
+        pistas.add(pista3, "p3");
         dificuldades.add(dificuldade1, "dif1");
         dificuldades.add(dificuldade2, "dif2");
         dificuldades.add(dificuldade3, "dif3");
@@ -131,11 +140,13 @@ public class Menu extends JPanel{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     frame.remove(menuPrincipal);
+                    //frame.add(pistas);
+                    //cl.show(pistas, "p1");
                     frame.add(painelCorrida);
-                    //frame.add(drawPanel);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
                     painelCorrida.requestFocus(true);
+                    //pista1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -516,7 +527,75 @@ public class Menu extends JPanel{
                         opt13.requestFocusInWindow();
                         frame.remove(controles);
                     }
-                    
+            }
+        });
+
+        pista1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(pistas, "p3");
+                    pista3.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(pistas, "p2");
+                    pista2.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    frame.remove(pistas);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        pista2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(pistas, "p1");
+                    pista1.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(pistas, "p3");
+                    pista3.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    frame.remove(pistas);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        pista3.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(pistas, "p2");
+                    pista2.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(pistas, "p1");
+                    pista1.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    frame.remove(pistas);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
     }
