@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 public class Carro implements KeyListener{
     private String path;
     private ImageIcon imagem, velocidadeImg;
-    public boolean upPressed = false, leftPressed = false, downPressed = false, rightPressed = false;
+    public boolean upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
     private double velocidadeInicial = 2; // V_0
     private double velocidadeMaxima = 300;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;

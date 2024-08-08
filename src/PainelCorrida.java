@@ -57,34 +57,35 @@ public class PainelCorrida extends JPanel implements Runnable{
         aux--;
         if(player1.upPressed == true && player1.downPressed == false){
             //System.out.println("CIMA");
-            drawPanel.pos += (int) player1.getVelocidade();
+            drawPanel.pos += 2 * (int) player1.getVelocidade();
             player1.acelerar();
         }
         if(player1.downPressed == true && player1.upPressed == false){
             //System.out.println("BAIXO");
-            drawPanel.pos += (int) player1.getVelocidade();
+            drawPanel.pos += 2 * (int) player1.getVelocidade();
             player1.freio();
         }
         if(player1.leftPressed == true && player1.rightPressed == false){
-            if(player1.getVelocidade() != 0)
-                drawPanel.playerX -=30 - (player1.getVelocidade() * 0.01);
             //System.out.println("ESQUERDA");
+            if(player1.getVelocidade() != 0 && player1.curva == false)
+                drawPanel.playerX -=60 - (player1.getVelocidade() * 0.01);
+            if(player1.getVelocidade() != 0 && player1.curva == true)
+                drawPanel.playerX -=100 - (player1.getVelocidade() * 0.01);
             if(player1.upPressed == false)
                 player1.banguela();
         }
         if(player1.rightPressed == true && player1.leftPressed == false){
-            if(player1.getVelocidade() !=0)
-                drawPanel.playerX +=30 - (player1.getVelocidade() * 0.01);
             //System.out.println("DIREITA");
+            if(player1.getVelocidade() !=0 && player1.curva == false)
+                drawPanel.playerX +=60 - (player1.getVelocidade() * 0.01);
+            if(player1.getVelocidade() != 0 && player1.curva == true)
+                drawPanel.playerX +=100 + (player1.getVelocidade() * 0.01);
             if(player1.upPressed == false)
-            {
                 player1.banguela();
-            }
         }
         if(player1.upPressed == false && player1.downPressed == false){
-            //System.out.println("CIMA");
             player1.banguela();
-            drawPanel.pos += (int) player1.getVelocidade();
+            drawPanel.pos += 2 * (int) player1.getVelocidade();
         }
     }
 

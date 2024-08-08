@@ -1,9 +1,9 @@
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Dimension;
 import java.awt.Color;
-import java.util.List;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPanel;
 
 public class DrawPanel extends JPanel {
     private static final int D_W = 1024;
@@ -12,7 +12,7 @@ public class DrawPanel extends JPanel {
     public int pos = 0;
     public double playerX = 0;
     private int width = 1024;
-    private int heigth = 768;
+    private int height = 768;
     private int roadW = 2000;
     private int segL = 200; // Segment Length
     private double camD = 0.84; // Camera Depth
@@ -59,20 +59,24 @@ public class DrawPanel extends JPanel {
             x += dx;
             dx += l.curve;
 
-            if(n > startPos + 1 && n < startPos + 7 && l.flagTurn == 1)
+            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1)
             {
                 //System.out.println("Curva Direita!");
+                player1.curva = true;
                 if(player1.getVelocidade() > 0)
-                    playerX -= 1 * (int) l.curve * (int) (player1.getVelocidade() * 0.01);
+                    playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.01);
             }
             
-            if(n > startPos + 1 && n < startPos + 7 && l.flagTurn == -1)
+            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1)
             {
                 //System.out.println("Curva Esquerda!");
+                player1.curva = true; 
                 if(player1.getVelocidade() > 0)
-                    playerX += 1 * (int) (- l.curve) * (int) (player1.getVelocidade() * 0.01);
-                //linhaHorizonte += 1;    
+                    playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
             }
+
+            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 0)
+                player1.curva = false;
 
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
@@ -86,6 +90,8 @@ public class DrawPanel extends JPanel {
                 p = lines.get((n - 1) % lines.size());
             }
 
+
+
             drawQuad(g, grass, 0, (int) p.Y, width, 0, (int) l.Y, width);
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
@@ -93,7 +99,7 @@ public class DrawPanel extends JPanel {
         }
 
         g.setColor(Color.blue);
-        g.fillRect(0, 0, D_W, 392);
+        g.fillRect(0, 0, D_W, 0);
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
@@ -121,7 +127,7 @@ public class DrawPanel extends JPanel {
         void project(double camX, int camY, int camZ) {
             scale = camD / (z - camZ);
             X = (1 + scale * (x - camX)) * width / 2;
-            Y = (1 - scale * (y - camY)) * heigth / 2;
+            Y = (1 - scale * (y - camY)) * height / 2;
             W = scale * roadW * width / 2;
         }
     }
