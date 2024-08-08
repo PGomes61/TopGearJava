@@ -19,6 +19,7 @@ public class DrawPanel extends JPanel {
     private int lap = 3, count = 0;
     private Carro player1;
     private int linhaHorizonte = 300;
+    double amplitude = 1000;
 
     public DrawPanel(int tamMaxPista, Carro player1) {
         this.lines = new ArrayList<>();
@@ -26,6 +27,7 @@ public class DrawPanel extends JPanel {
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
+            double elevationAtual = 0;
 
             if (i > 200 + tamMaxPista * count && i < 600 + tamMaxPista * count) {
                 line.curve = 1;
@@ -35,6 +37,19 @@ public class DrawPanel extends JPanel {
             if (i > 600 + tamMaxPista * count && i < 1200 + tamMaxPista * count) {
                 line.curve = -1;
                 line.flagTurn = -1;
+            }
+
+            // Add hills and valleys
+            if (i > 50 && i < 150) {
+                line.elevation = Math.sin((i % 100) / 100.0 * Math.PI) * amplitude; // Hill
+                if(line.elevation != Math.abs(line.elevation))
+                    line.elevation = elevationAtual;
+            } 
+            if (i > 151 && i < 250) 
+            {
+                line.elevation = Math.sin((i % 100) / 50.0 * Math.PI) * -amplitude; // Valley
+                if(line.elevation == Math.abs(line.elevation))
+                    line.elevation = elevationAtual;
             }
 
             lines.add(line);
@@ -54,29 +69,31 @@ public class DrawPanel extends JPanel {
 
         for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
+            l.W += 1;
             l.project(playerX - (int) x, 1500, pos);
 
             x += dx;
             dx += l.curve;
 
+
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1)
             {
                 //System.out.println("Curva Direita!");
                 player1.curva = true;
+                width = 1024;
+                height = 768;
                 if(player1.getVelocidade() > 0)
                     playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.01);
             }
-            
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1)
             {
                 //System.out.println("Curva Esquerda!");
-                player1.curva = true; 
+                width = 1024;
+                height = 768;
+                player1.curva = true;
                 if(player1.getVelocidade() > 0)
                     playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
             }
-
-            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 0)
-                player1.curva = false;
 
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
@@ -90,8 +107,6 @@ public class DrawPanel extends JPanel {
                 p = lines.get((n - 1) % lines.size());
             }
 
-
-
             drawQuad(g, grass, 0, (int) p.Y, width, 0, (int) l.Y, width);
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
@@ -99,7 +114,7 @@ public class DrawPanel extends JPanel {
         }
 
         g.setColor(Color.blue);
-        g.fillRect(0, 0, D_W, 0);
+        g.fillRect(0, 0, D_W, 390);
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
@@ -116,19 +131,20 @@ public class DrawPanel extends JPanel {
     public class Line {
         double x, y, z;   // 3D center of line
         double X, Y, W;   // Screen coordinates
-        double scale, curve;
+        double scale, curve, elevation;
         int flagTurn;
 
         public Line() {
             this.curve = x = y = z = 0;
             this.flagTurn = 0;
+            this.elevation = 0;
         }
 
         void project(double camX, int camY, int camZ) {
             scale = camD / (z - camZ);
             X = (1 + scale * (x - camX)) * width / 2;
-            Y = (1 - scale * (y - camY)) * height / 2;
-            W = scale * roadW * width / 2;
+            Y = (1 - scale * (y - camY + elevation)) * height / 2;
+            W = scale * roadW * width/2;
         }
     }
 }
