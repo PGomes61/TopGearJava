@@ -41,13 +41,19 @@ public class DrawPanel extends JPanel {
 
             // Add hills and valleys
             if (i > 50 && i < 150) {
-                line.elevation = Math.sin((i % 100) / 100.0 * Math.PI) * amplitude; // Hill
+                line.elevation = Math.sin(((i % 100) / 50.0) * Math.PI) * amplitude; // Hill
                 if(line.elevation != Math.abs(line.elevation))
                     line.elevation = elevationAtual;
             } 
             if (i > 151 && i < 250) 
             {
                 line.elevation = Math.sin((i % 100) / 50.0 * Math.PI) * -amplitude; // Valley
+                if(line.elevation == Math.abs(line.elevation))
+                    line.elevation = elevationAtual;
+            }
+            if (i > 200 && i < 600) 
+            {
+                line.elevation = Math.sin((i % 400) / 200.0 * Math.PI) * -amplitude * 10; // Valley
                 if(line.elevation == Math.abs(line.elevation))
                     line.elevation = elevationAtual;
             }
@@ -75,6 +81,15 @@ public class DrawPanel extends JPanel {
             x += dx;
             dx += l.curve;
 
+            if(player1.wPressed)
+            {
+                l.y+=10;
+            }
+
+            if(player1.sPressed)
+            {
+                l.y-=10;
+            }
 
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1)
             {

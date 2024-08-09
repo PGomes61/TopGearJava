@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 public class Carro implements KeyListener{
     private String path;
     private ImageIcon imagem, velocidadeImg;
-    public boolean upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
+    public boolean upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false, wPressed = false, sPressed = false;
     private double velocidadeInicial = 2; // V_0
     private double velocidadeMaxima = 300;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
@@ -69,6 +69,12 @@ public class Carro implements KeyListener{
             case KeyEvent.VK_UP:
                 upPressed = true;    
                 break;
+            case KeyEvent.VK_W:
+                wPressed = true;
+                break;
+            case KeyEvent.VK_S:
+                sPressed = true;
+                break;
         }
     }
 
@@ -96,6 +102,12 @@ public class Carro implements KeyListener{
                 break;
             case KeyEvent.VK_UP:
                 upPressed = false; 
+                break;
+            case KeyEvent.VK_W:
+                wPressed = false;
+                break;
+            case KeyEvent.VK_S:
+                sPressed = false;
                 break;
         }
     }
