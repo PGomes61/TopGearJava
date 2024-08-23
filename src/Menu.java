@@ -162,7 +162,7 @@ public class Menu extends JPanel{
                     frame.remove(menuPrincipal);
                         //frame.add(pistas);
                         //cl.show(pistas, "p1");
-                    painelCorrida.setCarroEscolhido(2);
+                    painelCorrida.setCarroEscolhido(6);
                     frame.add(painelCorrida);
                             //frame.add(carros);
                             //cl.show(carros, "c1");

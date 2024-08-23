@@ -102,7 +102,6 @@ public class DrawPanel extends JPanel {
             }
 
             
-
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
             Color road = Color.black;
