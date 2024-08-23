@@ -1,148 +1,30 @@
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
+import java.util.ArrayList;
 
-public class Carro implements KeyListener{
-    private String path;
-    private ImageIcon imagem, velocidadeImg;
-    public boolean upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
-    private double velocidadeInicial = 2; // V_0
-    private double velocidadeMaxima = 300;
+public class Carro{
+    protected String path;
+    protected ImageIcon imagem;
+    protected ArrayList<ImageIcon> sprites = new ArrayList<ImageIcon>(); 
+    protected double velocidadeInicial = 2;
+    private double aceleracao;
+    private double peso;
+    private double tracao; 
+    protected double velocidadeMaxima = 300;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
 
-    public Carro(String defaultImagePath){
-        this.path = defaultImagePath;
+    public Carro(String defaultImagePath1,String defaultImagePath2, String defaultImagePath3, double aceleracao, double peso, double tracao, double velocidadeMaxima){
+        this.path = defaultImagePath1;
         this.imagem = new ImageIcon(path);
-    }
-    public ImageIcon getImagem(int caso){
-        switch (caso) {
-            case 0:
-                return imagem;
-            case 1:
-                this.path = "src/Velocidade/0km.png";
-                this.velocidadeImg = new ImageIcon(path);
-                return velocidadeImg;
-            case 2:
-                this.path = "src/Velocidade/1km.png";
-                this.velocidadeImg = new ImageIcon(path);
-                return velocidadeImg;
-            case 3:
-                this.path = "src/Velocidade/2km.png";
-                this.velocidadeImg = new ImageIcon(path);
-                return velocidadeImg;
-            case 4:
-                this.path = "src/Velocidade/3km.png";
-                this.velocidadeImg = new ImageIcon(path);
-                return velocidadeImg;
-            default:
-                return imagem;
-        }
+        sprites.add(new ImageIcon(defaultImagePath1));
+        sprites.add(new ImageIcon(defaultImagePath2));
+        sprites.add(new ImageIcon(defaultImagePath3));
+        this.aceleracao = aceleracao;
+        this.peso = peso;
+        this.tracao = tracao;
+        this. velocidadeMaxima = velocidadeMaxima;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-    
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                if(rightPressed == false && velocidadeInicial !=0)
-                {
-                    leftPressed = true;
-                    path = "src/Carro/Carro1E.png";
-                    imagem = new ImageIcon(path);
-                }
-                break;
-            case KeyEvent.VK_RIGHT:
-                if(leftPressed == false && velocidadeInicial !=0)
-                {
-                    rightPressed = true;
-                    path = "src/Carro/Carro1D.png";
-                    imagem = new ImageIcon(path);
-                }
-                break;
-            case KeyEvent.VK_DOWN:
-                downPressed = true;
-                break;
-            case KeyEvent.VK_UP:
-                upPressed = true;    
-                break;
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                leftPressed = false;
-                if(rightPressed == false)
-                {
-                    path = "src/Carro/Carro1F.png";
-                    imagem = new ImageIcon(path);
-                }
-                break;
-            case KeyEvent.VK_RIGHT:
-                rightPressed = false;
-                if(leftPressed == false)
-                {
-                    path = "src/Carro/Carro1F.png";
-                    imagem = new ImageIcon(path);
-                }
-                break;
-            case KeyEvent.VK_DOWN:
-                downPressed = false;
-                break;
-            case KeyEvent.VK_UP:
-                upPressed = false; 
-                break;
-        }
-    }
-
-    public void acelerar(){   
-        if(tempo2 == 0 && velocidadeInicial + 1 <= velocidadeMaxima)
-        {   
-                velocidadeInicial = velocidadeInicial + 1;
-                System.out.println((int)velocidadeInicial);
-                velocidadeInicial = velocidadeInicial + 1;
-                System.out.println((int)velocidadeInicial);
-                tempo2++;
-        }
-        tempo2--;
-        if(tempo2 < 0)
-            tempo2 = 0;
-    }
-    public void banguela(){
-        if (tempo3 == 0 && velocidadeInicial-1 >=0)
-        {
-            velocidadeInicial = velocidadeInicial - 1;
-            System.out.println((int)velocidadeInicial);
-            tempo3 = 3;
-        }
-        tempo3--;
-        if(tempo3 < 0)
-            tempo3 = 0;
-    }
-
-    public void freio(){
-        if(tempo == 0 && velocidadeInicial -3 >= 0)
-        {
-            velocidadeInicial -= 1;
-            System.out.println((int) velocidadeInicial);
-            velocidadeInicial -= 1;
-            System.out.println((int) velocidadeInicial);
-            velocidadeInicial -= 1;
-            System.out.println((int) velocidadeInicial);
-            tempo = 1;
-        }
-        else
-            velocidadeInicial = 0;
-        tempo--;
-        if(tempo < 0)
-            tempo = 0;
-    }
-    public double getVelocidade(){
-        return velocidadeInicial;
+    public ImageIcon getImagem(){
+        return imagem;
     }
 }

@@ -10,6 +10,7 @@ public class Menu extends JPanel{
     private JPanel pistas = new JPanel();
     private JPanel options = new JPanel();
     private JPanel dificuldades = new JPanel();
+    private JPanel carros = new JPanel();
     private JPanel menuP1 = new JPanel();
     private JPanel menuP2 = new JPanel();
     private JPanel menuP3 = new JPanel();
@@ -30,6 +31,12 @@ public class Menu extends JPanel{
     private JPanel pista1 = new JPanel();
     private JPanel pista2 = new JPanel();
     private JPanel pista3 = new JPanel();
+    private JPanel carro1 = new JPanel();
+    private JPanel carro2 = new JPanel();
+    private JPanel carro3 = new JPanel();
+    private JPanel carro4 = new JPanel();
+    private JPanel carro5 = new JPanel();
+    private JPanel carro6 = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
 
@@ -71,6 +78,12 @@ public class Menu extends JPanel{
         pista1 = createMenuPanel("src/Menus/Pista1.png");
         pista2 = createMenuPanel("src/Menus/Pista2.png");
         pista3 = createMenuPanel("src/Menus/Pista3.png");
+        carro1 = createMenuPanel("src/Menus/Carro1.png");
+        carro2 = createMenuPanel("src/Menus/Carro2.png");
+        carro3 = createMenuPanel("src/Menus/Carro3.png");
+        carro4 = createMenuPanel("src/Menus/Carro4.png");
+        carro5 = createMenuPanel("src/Menus/Carro5.png");
+        carro6 = createMenuPanel("src/Menus/Carro6.png");
         menuP1.setFocusable(true);
         menuP2.setFocusable(true);
         menuP3.setFocusable(true);
@@ -95,12 +108,13 @@ public class Menu extends JPanel{
     
     public void setContainers(){
         menuPrincipal.setLayout(cl);
-        menuPrincipal.add(menuP1, "1");
-        menuPrincipal.add(menuP2, "2");
-        menuPrincipal.add(menuP3, "3");
         options.setLayout(cl);
         dificuldades.setLayout(cl);
         pistas.setLayout(cl);
+        carros.setLayout(cl);
+        menuPrincipal.add(menuP1, "1");
+        menuPrincipal.add(menuP2, "2");
+        menuPrincipal.add(menuP3, "3");
         pistas.add(pista1, "p1");
         pistas.add(pista2, "p2");
         pistas.add(pista3, "p3");
@@ -117,6 +131,12 @@ public class Menu extends JPanel{
         options.add(opt23, "op8");
         options.add(opt24, "op9");
         options.add(opt25, "op10");
+        carros.add(carro1, "c1");
+        carros.add(carro2, "c2");
+        carros.add(carro3, "c3");
+        carros.add(carro4, "c4");
+        carros.add(carro5, "c5");
+        carros.add(carro6, "c6");
     }
     
     private JPanel createMenuPanel(String imagePath) {
@@ -140,13 +160,17 @@ public class Menu extends JPanel{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     frame.remove(menuPrincipal);
-                    //frame.add(pistas);
-                    //cl.show(pistas, "p1");
+                        //frame.add(pistas);
+                        //cl.show(pistas, "p1");
+                    painelCorrida.setCarroEscolhido(2);
                     frame.add(painelCorrida);
+                            //frame.add(carros);
+                            //cl.show(carros, "c1");
+                            //carro1.requestFocusInWindow();
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
                     painelCorrida.requestFocus(true);
-                    //pista1.requestFocusInWindow();
+                        //pista1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -589,6 +613,198 @@ public class Menu extends JPanel{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     frame.remove(pistas);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        carro1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(carros, "c2");
+                    carro2.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(carros, "c2");
+                    carro2.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(carros, "c3");
+                    carro3.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(carros, "c5");
+                    carro5.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    painelCorrida.setCarroEscolhido(1);
+                    frame.remove(carros);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        carro2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(carros, "c1");
+                    carro1.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(carros, "c1");
+                    carro1.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(carros, "c4");
+                    carro4.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(carros, "c6");
+                    carro6.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    painelCorrida.setCarroEscolhido(2);
+                    frame.remove(carros);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        carro3.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(carros, "c4");
+                    carro4.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(carros, "c4");
+                    carro4.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(carros, "c5");
+                    carro5.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(carros, "c1");
+                    carro1.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    painelCorrida.setCarroEscolhido(3);
+                    frame.remove(carros);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        carro4.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(carros, "c3");
+                    carro3.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(carros, "c3");
+                    carro3.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(carros, "c6");
+                    carro6.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(carros, "c2");
+                    carro2.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    painelCorrida.setCarroEscolhido(4);
+                    frame.remove(carros);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        carro5.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(carros, "c6");
+                    carro6.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(carros, "c6");
+                    carro6.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(carros, "c1");
+                    carro1.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(carros, "c3");
+                    carro3.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    painelCorrida.setCarroEscolhido(5);
+                    frame.remove(carros);
+                    frame.add(painelCorrida);
+                    painelCorrida.setFrame(frame);
+                    painelCorrida.startThread();
+                    painelCorrida.requestFocus(true);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        carro6.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    cl.show(carros, "c5");
+                    carro5.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    cl.show(carros, "c5");
+                    carro5.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(carros, "c2");
+                    carro2.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(carros, "c4");
+                    carro4.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    painelCorrida.setCarroEscolhido(6);
+                    frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();

@@ -17,11 +17,13 @@ public class DrawPanel extends JPanel {
     private int segL = 200; // Segment Length
     private double camD = 0.84; // Camera Depth
     private int lap = 3, count = 0;
-    private Carro player1;
+    private Player player1;
     private int linhaHorizonte = 300;
     double amplitude = 1000;
+    private int tamMaxPista;
 
-    public DrawPanel(int tamMaxPista, Carro player1) {
+    public DrawPanel(int tamMaxPista, Player player1) {
+        this.tamMaxPista = tamMaxPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
         for(int i = 0; i < tamMaxPista * lap; i++) {
@@ -39,18 +41,24 @@ public class DrawPanel extends JPanel {
                 line.flagTurn = -1;
             }
 
-            // Add hills and valleys
-            if (i > 50 && i < 150) {
-                line.elevation = Math.sin((i % 100) / 100.0 * Math.PI) * amplitude; // Hill
-                if(line.elevation != Math.abs(line.elevation))
-                    line.elevation = elevationAtual;
-            } 
-            if (i > 151 && i < 250) 
-            {
-                line.elevation = Math.sin((i % 100) / 50.0 * Math.PI) * -amplitude; // Valley
-                if(line.elevation == Math.abs(line.elevation))
-                    line.elevation = elevationAtual;
-            }
+            // // Add hills and valleys
+            // if (i > 50 && i < 150) {
+            //     line.elevation = Math.sin(((i % 100) / 50.0) * Math.PI) * amplitude; // Hill
+            //     if(line.elevation != Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // } 
+            // if (i > 151 && i < 250) 
+            // {
+            //     line.elevation = Math.sin((i % 100) / 50.0 * Math.PI) * -amplitude; // Valley
+            //     if(line.elevation == Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // }
+            // if (i > 200 && i < 600) 
+            // {
+            //     line.elevation = Math.sin((i % 400) / 200.0 * Math.PI) * -amplitude * 10; // Valley
+            //     if(line.elevation == Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // }
 
             lines.add(line);
             if(i == tamMaxPista * (count + 1))
@@ -69,12 +77,10 @@ public class DrawPanel extends JPanel {
 
         for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
-            l.W += 1;
             l.project(playerX - (int) x, 1500, pos);
 
             x += dx;
             dx += l.curve;
-
 
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1)
             {
@@ -95,6 +101,8 @@ public class DrawPanel extends JPanel {
                     playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
             }
 
+            
+
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
             Color road = Color.black;
@@ -111,10 +119,14 @@ public class DrawPanel extends JPanel {
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
+
+            if (n > 100 + tamMaxPista * count && n < 200 + tamMaxPista * count){
+                drawQuad(g, Color.white, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
+            }
         }
 
         g.setColor(Color.blue);
-        g.fillRect(0, 0, D_W, 390);
+        g.fillRect(0, 0, D_W, 392);
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {

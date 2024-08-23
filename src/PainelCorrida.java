@@ -5,14 +5,19 @@ public class PainelCorrida extends JPanel implements Runnable{
     Thread gameThread;
     private JFrame frame;
     private int FPS = 60;
-    private Carro player1 = new Carro("src/Carro/Carro1F.png");
-    private DrawPanel drawPanel = new DrawPanel(1600, player1);
+    private Carro carro1;
+    private Carro carro2;
+    private Carro carro3;
+    private Carro carro4;
+    private Carro carro5;
+    private Carro carro6;
+    private Player player1;
+    private DrawPanel drawPanel;
     private int aux = 0;
 
     public PainelCorrida(){
         this.setDoubleBuffered(true);
         this.setBackground(Color.BLACK);
-        this.addKeyListener(player1);
         this.setFocusable(true);
     }
 
@@ -46,8 +51,8 @@ public class PainelCorrida extends JPanel implements Runnable{
     public void update(){
         if(aux == 0)
         {
-            int x = ((frame.getWidth() - player1.getImagem(0).getIconWidth())/2);
-            int y = ((frame.getHeight() - player1.getImagem(0).getIconHeight())/2);
+            int x = ((frame.getWidth() - player1.getImagem().getIconWidth())/2);
+            int y = ((frame.getHeight() - player1.getImagem().getIconHeight())/2);
             int sizeY = frame.getHeight();
             int sizeX = frame.getWidth();
             System.out.println(x + " " + y + " " + sizeX + " " + sizeY);
@@ -93,10 +98,7 @@ public class PainelCorrida extends JPanel implements Runnable{
         super.paintComponent(g);
         drawPanel.drawValues(g);
         Graphics2D g2 = (Graphics2D)g;
-        //percurso.desenharRetangulo(g2);
-        //g2.setColor(Color.white);
-        g2.drawImage(player1.getImagem(0).getImage(), ((frame.getWidth() - player1.getImagem(0).getIconWidth())/2) -10, frame.getHeight() - player1.getImagem(0).getIconHeight() - 100, player1.getImagem(0).getIconWidth(), player1.getImagem(0).getIconHeight(), null);
-        //g2.fillRect(10, 10, 50, 50);
+        g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth())/2) -10, frame.getHeight() - player1.getImagem().getIconHeight() - 100, player1.getImagem().getIconWidth(), player1.getImagem().getIconHeight(), null);
 
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 20));
@@ -116,13 +118,43 @@ public class PainelCorrida extends JPanel implements Runnable{
 
     public void startThread(){
         gameThread = new Thread(this);
-        //percurso.percursoThread = new Thread(this.percurso);
         gameThread.start();
-        //percurso.percursoThread.start();
     }
 
     public void setFrame(JFrame frame){
         this.frame = frame;
     }
-}
 
+    public void setCarroEscolhido(int carroEscolhido){
+        switch (carroEscolhido) {
+            case 1:
+                carro1 = new Player("src/Carro/Carro1F.png", "src/Carro/Carro1E.png", "src/Carro/Carro1D.png", 2, 2, 2, 300);
+                player1 = (Player) carro1;
+                break;
+            case 2:
+                carro2 = new Player("src/Carro/Carro2F.png", "src/Carro/Carro2E.png", "src/Carro/Carro2D.png", 2, 2, 2, 2);
+                player1 = (Player) carro2;
+                break;
+            case 3:
+                carro3 = new Player("src/Carro/Carro3F.png", "src/Carro/Carro3E.png", "src/Carro/Carro3D.png", 2, 2, 2, 2);
+                player1 = (Player) carro3;
+                break;
+            case 4:
+                carro4 = new Player("src/Carro/Carro4F.png", "src/Carro/Carro4E.png", "src/Carro/Carro4D.png", 2, 2, 2, 2);
+                player1 = (Player) carro4;
+                break;
+            case 5:
+                carro5 = new Player("src/Carro/Carro5F.png", "src/Carro/Carro5E.png", "src/Carro/Carro5D.png", 2, 2, 2, 2);
+                player1 = (Player) carro5;
+                break;
+            case 6:
+                carro6 = new Player("src/Carro/Carro6F.png", "src/Carro/Carro6E.png", "src/Carro/Carro6D.png", 2, 2, 2, 2);
+                player1 = (Player) carro6;
+                break;
+            default:
+                break;
+        }
+        this.addKeyListener(player1);
+        drawPanel = new DrawPanel(1600, player1);
+    }
+}
