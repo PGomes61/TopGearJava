@@ -16,7 +16,7 @@ public class DrawPanel extends JPanel {
     private int roadW = 2000;
     private int segL = 200; // Segment Length
     private double camD = 0.84; // Camera Depth
-    private int lap = 3, count = 0;
+    private int lap = 100, count = 0;
     private Carro player1;
 
     public DrawPanel(int tamMaxPista, Carro player1) {
@@ -31,7 +31,7 @@ public class DrawPanel extends JPanel {
                 line.flagTurn = 1;
             }
 
-            if (i > 650 + tamMaxPista * count && i < 1200 + tamMaxPista * count) {
+            if (i > 650 + tamMaxPista * count && i < 1050 + tamMaxPista * count) {
                 line.curve = -1;
                 line.flagTurn = -1;
             }
@@ -58,19 +58,19 @@ public class DrawPanel extends JPanel {
             x += dx;
             dx += l.curve;
 
-            if(n > startPos + 28 && n < startPos + 35 && l.flagTurn == 1)
+            if(n > startPos + 25 && n < startPos + 37 && l.flagTurn == 1)
             {
                 
                 //System.out.println("Curva Direita!");
                 if(player1.getVelocidade() > 0)
-                    playerX -= 5/60.0 * l.curve * player1.getVelocidade() * 0.01;
+                    playerX -= 5/60.0 * l.curve * player1.getVelocidade() * 0.018;
             }
             
-            if(n > startPos + 28 && n < startPos + 35 && l.flagTurn == -1)
+            if(n > startPos + 25 && n < startPos + 37 && l.flagTurn == -1)
             {
                 //System.out.println("Curva Esquerda!");
                 if(player1.getVelocidade() > 0)
-                    playerX += 5/60.0 * (- l.curve) * player1.getVelocidade() * 0.01;
+                    playerX += 5/60.0 * (- l.curve) * player1.getVelocidade() * 0.018;
             }
 
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);

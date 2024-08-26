@@ -6,7 +6,7 @@ public class PainelCorrida extends JPanel implements Runnable{
     private JFrame frame;
     private int FPS = 60;
     private Carro player1 = new Carro("src/Carro/Carro1F.png");
-    private DrawPanel drawPanel = new DrawPanel(1600, player1);
+    private DrawPanel drawPanel = new DrawPanel(1200, player1);
     private int aux = 0;
 
     public PainelCorrida(){
@@ -67,14 +67,14 @@ public class PainelCorrida extends JPanel implements Runnable{
         }
         if(player1.leftPressed == true && player1.rightPressed == false){
             if(player1.getVelocidade() != 0)
-                drawPanel.playerX -=25 - (player1.getVelocidade() * 0.01);
+                drawPanel.playerX -= 50 - (player1.getVelocidade() * 0.01);
             //System.out.println("ESQUERDA");
             if(player1.upPressed == false)
                 player1.banguela();
         }
         if(player1.rightPressed == true && player1.leftPressed == false){
             if(player1.getVelocidade() !=0)
-                drawPanel.playerX +=25 - (player1.getVelocidade() * 0.01);
+                drawPanel.playerX += 50 - (player1.getVelocidade() * 0.01);
             //System.out.println("DIREITA");
             if(player1.upPressed == false)
             {
