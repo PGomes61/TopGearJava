@@ -74,7 +74,7 @@ public class DrawPanel extends JPanel {
     public void drawValues(Graphics g) {
         int startPos = pos / segL;
         double x = 0, dx = 0;
-
+        int kkk=0;
         for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
             l.project(playerX - (int) x, 1500, pos);
@@ -101,6 +101,18 @@ public class DrawPanel extends JPanel {
                     playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
             }
 
+            if(n == startPos + 2){
+                double roadLeftEdge = l.X - l.W;
+                double roadRightEdge = l.X + l.W;
+                if (playerX < (roadLeftEdge - 10000) || playerX > (roadRightEdge + 7500)) {
+                    System.out.println("COLIDINDO");
+                    player1.colision = true; 
+                }
+                else{
+                    player1.colision = false;
+                }
+            }
+
             
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
@@ -118,10 +130,15 @@ public class DrawPanel extends JPanel {
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
+            // kkk++;
+            // if (kkk%10==0){
+            //     drawQuad(g, Color.white, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
+            //     drawQuad(g, Color.red, (int) p.X+20, (int) p.Y+100, (int) (p.W * 0.01)+20, (int) l.X+20, (int) l.Y+20, (int) (l.W * 0.01));
+            //     drawQuad(g, Color.red, (int) p.X+50, (int) p.Y, (int) (p.W * 0.01), (int) l.X+50, (int) l.Y, (int) (l.W * 0.01));
+            //     drawQuad(g, Color.red, (int) p.X+80, (int) p.Y, (int) (p.W * 0.01), (int) l.X+80, (int) l.Y, (int) (l.W * 0.01));
 
-            if (n > 100 + tamMaxPista * count && n < 200 + tamMaxPista * count){
-                drawQuad(g, Color.white, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
-            }
+
+            // }
         }
 
         g.setColor(Color.blue);

@@ -94,17 +94,30 @@ public class Player extends Carro implements KeyListener{
     }
 
     public void acelerar(){   
-        if(tempo2 == 0 && super.velocidadeInicial + 1 <= super.velocidadeMaxima)
-        {   
-                super.velocidadeInicial = super.velocidadeInicial + 1;
+        if(colision == false){
+            if(tempo2 == 0 && super.velocidadeInicial + 1 <= super.velocidadeMaxima)
+            {   
+                super.velocidadeInicial += 1;
                 System.out.println((int)super.velocidadeInicial);
-                super.velocidadeInicial = super.velocidadeInicial + 1;
+                super.velocidadeInicial += 1;
                 System.out.println((int)super.velocidadeInicial);
                 tempo2++;
+            }
+            tempo2--;
+            if(tempo2 < 0)
+                tempo2 = 0;
+            return;
         }
-        tempo2--;
-        if(tempo2 < 0)
-            tempo2 = 0;
+        if(super.velocidadeInicial - 2 >= 30){
+            super.velocidadeInicial -= 1;
+            System.out.println((int)super.velocidadeInicial);
+            super.velocidadeInicial -= 1;
+            System.out.println((int)super.velocidadeInicial);
+            super.velocidadeInicial -= 1;
+            System.out.println((int)super.velocidadeInicial);
+            super.velocidadeInicial -= 1;
+            System.out.println((int)super.velocidadeInicial);
+        }
     }
     public void banguela(){
         if (tempo3 == 0 && super.velocidadeInicial-1 >=0)

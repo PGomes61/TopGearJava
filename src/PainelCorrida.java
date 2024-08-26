@@ -2,6 +2,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.*;
 public class PainelCorrida extends JPanel implements Runnable{
+    EnviromentVariables env = new EnviromentVariables();
     Thread gameThread;
     private JFrame frame;
     private int FPS = 60;
@@ -128,27 +129,27 @@ public class PainelCorrida extends JPanel implements Runnable{
     public void setCarroEscolhido(int carroEscolhido){
         switch (carroEscolhido) {
             case 1:
-                carro1 = new Player("src/Carro/Carro1F.png", "src/Carro/Carro1E.png", "src/Carro/Carro1D.png", 2, 2, 2, 300);
+                carro1 = new Player(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300);
                 player1 = (Player) carro1;
                 break;
             case 2:
-                carro2 = new Player("src/Carro/Carro2F.png", "src/Carro/Carro2E.png", "src/Carro/Carro2D.png", 2, 2, 2, 2);
+                carro2 = new Player(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25);
                 player1 = (Player) carro2;
                 break;
             case 3:
-                carro3 = new Player("src/Carro/Carro3F.png", "src/Carro/Carro3E.png", "src/Carro/Carro3D.png", 2, 2, 2, 2);
+                carro3 = new Player(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50);
                 player1 = (Player) carro3;
                 break;
             case 4:
-                carro4 = new Player("src/Carro/Carro4F.png", "src/Carro/Carro4E.png", "src/Carro/Carro4D.png", 2, 2, 2, 2);
+                carro4 = new Player(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75);
                 player1 = (Player) carro4;
                 break;
             case 5:
-                carro5 = new Player("src/Carro/Carro5F.png", "src/Carro/Carro5E.png", "src/Carro/Carro5D.png", 2, 2, 2, 2);
+                carro5 = new Player(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100);
                 player1 = (Player) carro5;
                 break;
             case 6:
-                carro6 = new Player("src/Carro/Carro6F.png", "src/Carro/Carro6E.png", "src/Carro/Carro6D.png", 2, 2, 2, 2);
+                carro6 = new Player(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150);
                 player1 = (Player) carro6;
                 break;
             default:
