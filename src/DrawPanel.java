@@ -1,9 +1,9 @@
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Dimension;
 import java.awt.Color;
-import java.util.List;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPanel;
 
 public class DrawPanel extends JPanel {
     private static final int D_W = 1024;
@@ -12,29 +12,53 @@ public class DrawPanel extends JPanel {
     public int pos = 0;
     public double playerX = 0;
     private int width = 1024;
-    private int heigth = 768;
+    private int height = 768;
     private int roadW = 2000;
     private int segL = 200; // Segment Length
     private double camD = 0.84; // Camera Depth
-    private int lap = 100, count = 0;
-    private Carro player1;
+    private int lap = 3, count = 0;
+    private Player player1;
+    private int linhaHorizonte = 300;
+    double amplitude = 1000;
+    private int tamMaxPista;
 
-    public DrawPanel(int tamMaxPista, Carro player1) {
+    public DrawPanel(int tamMaxPista, Player player1) {
+        this.tamMaxPista = tamMaxPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
+            double elevationAtual = 0;
 
             if (i > 200 + tamMaxPista * count && i < 600 + tamMaxPista * count) {
                 line.curve = 1;
                 line.flagTurn = 1;
             }
 
-            if (i > 650 + tamMaxPista * count && i < 1050 + tamMaxPista * count) {
+            if (i > 600 + tamMaxPista * count && i < 1200 + tamMaxPista * count) {
                 line.curve = -1;
                 line.flagTurn = -1;
             }
+
+            // // Add hills and valleys
+            // if (i > 50 && i < 150) {
+            //     line.elevation = Math.sin(((i % 100) / 50.0) * Math.PI) * amplitude; // Hill
+            //     if(line.elevation != Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // } 
+            // if (i > 151 && i < 250) 
+            // {
+            //     line.elevation = Math.sin((i % 100) / 50.0 * Math.PI) * -amplitude; // Valley
+            //     if(line.elevation == Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // }
+            // if (i > 200 && i < 600) 
+            // {
+            //     line.elevation = Math.sin((i % 400) / 200.0 * Math.PI) * -amplitude * 10; // Valley
+            //     if(line.elevation == Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // }
 
             lines.add(line);
             if(i == tamMaxPista * (count + 1))
@@ -50,29 +74,46 @@ public class DrawPanel extends JPanel {
     public void drawValues(Graphics g) {
         int startPos = pos / segL;
         double x = 0, dx = 0;
-
-        for(int n = startPos; n < 300 + startPos; n++) {
+        int kkk=0;
+        for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
             l.project(playerX - (int) x, 1500, pos);
 
             x += dx;
             dx += l.curve;
 
-            if(n > startPos + 25 && n < startPos + 37 && l.flagTurn == 1)
+            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1)
             {
-                
                 //System.out.println("Curva Direita!");
+                player1.curva = true;
+                width = 1024;
+                height = 768;
                 if(player1.getVelocidade() > 0)
-                    playerX -= 5/60.0 * l.curve * player1.getVelocidade() * 0.018;
+                    playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.01);
             }
-            
-            if(n > startPos + 25 && n < startPos + 37 && l.flagTurn == -1)
+            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1)
             {
                 //System.out.println("Curva Esquerda!");
+                width = 1024;
+                height = 768;
+                player1.curva = true;
                 if(player1.getVelocidade() > 0)
-                    playerX += 5/60.0 * (- l.curve) * player1.getVelocidade() * 0.018;
+                    playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
             }
 
+            if(n == startPos + 2){
+                double roadLeftEdge = l.X - l.W;
+                double roadRightEdge = l.X + l.W;
+                if (playerX < (roadLeftEdge - 10000) || playerX > (roadRightEdge + 7500)) {
+                    System.out.println("COLIDINDO");
+                    player1.colision = true; 
+                }
+                else{
+                    player1.colision = false;
+                }
+            }
+
+            
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
             Color road = Color.black;
@@ -89,6 +130,15 @@ public class DrawPanel extends JPanel {
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
+            // kkk++;
+            // if (kkk%10==0){
+            //     drawQuad(g, Color.white, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
+            //     drawQuad(g, Color.red, (int) p.X+20, (int) p.Y+100, (int) (p.W * 0.01)+20, (int) l.X+20, (int) l.Y+20, (int) (l.W * 0.01));
+            //     drawQuad(g, Color.red, (int) p.X+50, (int) p.Y, (int) (p.W * 0.01), (int) l.X+50, (int) l.Y, (int) (l.W * 0.01));
+            //     drawQuad(g, Color.red, (int) p.X+80, (int) p.Y, (int) (p.W * 0.01), (int) l.X+80, (int) l.Y, (int) (l.W * 0.01));
+
+
+            // }
         }
 
         g.setColor(Color.blue);
@@ -109,19 +159,20 @@ public class DrawPanel extends JPanel {
     public class Line {
         double x, y, z;   // 3D center of line
         double X, Y, W;   // Screen coordinates
-        double scale, curve;
+        double scale, curve, elevation;
         int flagTurn;
 
         public Line() {
             this.curve = x = y = z = 0;
             this.flagTurn = 0;
+            this.elevation = 0;
         }
 
         void project(double camX, int camY, int camZ) {
             scale = camD / (z - camZ);
             X = (1 + scale * (x - camX)) * width / 2;
-            Y = (1 - scale * (y - camY)) * heigth / 2;
-            W = scale * roadW * width / 2;
+            Y = (1 - scale * (y - camY + elevation)) * height / 2;
+            W = scale * roadW * width/2;
         }
     }
 }

@@ -2,17 +2,23 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.*;
 public class PainelCorrida extends JPanel implements Runnable{
+    EnviromentVariables env = new EnviromentVariables();
     Thread gameThread;
     private JFrame frame;
     private int FPS = 60;
-    private Carro player1 = new Carro("src/Carro/Carro1F.png");
-    private DrawPanel drawPanel = new DrawPanel(1200, player1);
+    private Carro carro1;
+    private Carro carro2;
+    private Carro carro3;
+    private Carro carro4;
+    private Carro carro5;
+    private Carro carro6;
+    private Player player1;
+    private DrawPanel drawPanel;
     private int aux = 0;
 
     public PainelCorrida(){
         this.setDoubleBuffered(true);
         this.setBackground(Color.BLACK);
-        this.addKeyListener(player1);
         this.setFocusable(true);
     }
 
@@ -46,8 +52,8 @@ public class PainelCorrida extends JPanel implements Runnable{
     public void update(){
         if(aux == 0)
         {
-            int x = ((frame.getWidth() - player1.getImagem(0).getIconWidth())/2);
-            int y = ((frame.getHeight() - player1.getImagem(0).getIconHeight())/2);
+            int x = ((frame.getWidth() - player1.getImagem().getIconWidth())/2);
+            int y = ((frame.getHeight() - player1.getImagem().getIconHeight())/2);
             int sizeY = frame.getHeight();
             int sizeX = frame.getWidth();
             System.out.println(x + " " + y + " " + sizeX + " " + sizeY);
@@ -57,34 +63,35 @@ public class PainelCorrida extends JPanel implements Runnable{
         aux--;
         if(player1.upPressed == true && player1.downPressed == false){
             //System.out.println("CIMA");
-            drawPanel.pos += (int) player1.getVelocidade();
+            drawPanel.pos += 2 * (int) player1.getVelocidade();
             player1.acelerar();
         }
         if(player1.downPressed == true && player1.upPressed == false){
             //System.out.println("BAIXO");
-            drawPanel.pos += (int) player1.getVelocidade();
+            drawPanel.pos += 2 * (int) player1.getVelocidade();
             player1.freio();
         }
         if(player1.leftPressed == true && player1.rightPressed == false){
-            if(player1.getVelocidade() != 0)
-                drawPanel.playerX -= 50 - (player1.getVelocidade() * 0.01);
             //System.out.println("ESQUERDA");
+            if(player1.getVelocidade() != 0 && player1.curva == false)
+                drawPanel.playerX -=60 - (player1.getVelocidade() * 0.01);
+            if(player1.getVelocidade() != 0 && player1.curva == true)
+                drawPanel.playerX -=100 - (player1.getVelocidade() * 0.01);
             if(player1.upPressed == false)
                 player1.banguela();
         }
         if(player1.rightPressed == true && player1.leftPressed == false){
-            if(player1.getVelocidade() !=0)
-                drawPanel.playerX += 50 - (player1.getVelocidade() * 0.01);
             //System.out.println("DIREITA");
+            if(player1.getVelocidade() !=0 && player1.curva == false)
+                drawPanel.playerX +=60 - (player1.getVelocidade() * 0.01);
+            if(player1.getVelocidade() != 0 && player1.curva == true)
+                drawPanel.playerX +=100 + (player1.getVelocidade() * 0.01);
             if(player1.upPressed == false)
-            {
                 player1.banguela();
-            }
         }
         if(player1.upPressed == false && player1.downPressed == false){
-            //System.out.println("CIMA");
             player1.banguela();
-            drawPanel.pos += (int) player1.getVelocidade();
+            drawPanel.pos += 2 * (int) player1.getVelocidade();
         }
     }
 
@@ -92,10 +99,7 @@ public class PainelCorrida extends JPanel implements Runnable{
         super.paintComponent(g);
         drawPanel.drawValues(g);
         Graphics2D g2 = (Graphics2D)g;
-        //percurso.desenharRetangulo(g2);
-        //g2.setColor(Color.white);
-        g2.drawImage(player1.getImagem(0).getImage(), ((frame.getWidth() - player1.getImagem(0).getIconWidth())/2) -10, frame.getHeight() - player1.getImagem(0).getIconHeight() - 100, player1.getImagem(0).getIconWidth(), player1.getImagem(0).getIconHeight(), null);
-        //g2.fillRect(10, 10, 50, 50);
+        g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth())/2) -10, frame.getHeight() - player1.getImagem().getIconHeight() - 100, player1.getImagem().getIconWidth(), player1.getImagem().getIconHeight(), null);
 
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 20));
@@ -115,13 +119,43 @@ public class PainelCorrida extends JPanel implements Runnable{
 
     public void startThread(){
         gameThread = new Thread(this);
-        //percurso.percursoThread = new Thread(this.percurso);
         gameThread.start();
-        //percurso.percursoThread.start();
     }
 
     public void setFrame(JFrame frame){
         this.frame = frame;
     }
-}
 
+    public void setCarroEscolhido(int carroEscolhido){
+        switch (carroEscolhido) {
+            case 1:
+                carro1 = new Player(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300);
+                player1 = (Player) carro1;
+                break;
+            case 2:
+                carro2 = new Player(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25);
+                player1 = (Player) carro2;
+                break;
+            case 3:
+                carro3 = new Player(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50);
+                player1 = (Player) carro3;
+                break;
+            case 4:
+                carro4 = new Player(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75);
+                player1 = (Player) carro4;
+                break;
+            case 5:
+                carro5 = new Player(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100);
+                player1 = (Player) carro5;
+                break;
+            case 6:
+                carro6 = new Player(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150);
+                player1 = (Player) carro6;
+                break;
+            default:
+                break;
+        }
+        this.addKeyListener(player1);
+        drawPanel = new DrawPanel(1600, player1);
+    }
+}
