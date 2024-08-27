@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 public class Menu extends JPanel{
     CardLayout cl = new CardLayout();
     private JFrame frame;
-    private PainelCorrida painelCorrida;
+    private GameLoop painelCorrida;
     private JPanel menuPrincipal = new JPanel();
     private JPanel pistas = new JPanel();
     private JPanel options = new JPanel();
@@ -40,7 +40,7 @@ public class Menu extends JPanel{
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
 
-    public Menu(JFrame frame, PainelCorrida painelCorrida){
+    public Menu(JFrame frame, GameLoop painelCorrida){
         this.frame = frame;
         this.painelCorrida = painelCorrida;
         setImages();

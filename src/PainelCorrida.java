@@ -30,7 +30,6 @@ public class PainelCorrida extends JPanel implements Runnable{
         while(gameThread != null){
 
             update();
-            
             repaint();
 
             try {

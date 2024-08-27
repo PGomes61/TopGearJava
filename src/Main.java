@@ -6,7 +6,7 @@ public class Main{
             @Override
             public void run(){
                 EnviromentVariables env = new EnviromentVariables();
-                PainelCorrida pista1 = new PainelCorrida();
+                GameLoop pista1 = new GameLoop();
                 Janela janela = new Janela();
                 Menu menu = new Menu(janela, pista1);
                 janela.add(menu.getCont(), BorderLayout.CENTER);

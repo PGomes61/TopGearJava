@@ -13,7 +13,7 @@ public class DrawPanel extends JPanel {
     public double playerX = 0;
     private int width = 1024;
     private int height = 768;
-    private int roadW = 2000;
+    private int roadW = 2800;
     private int segL = 200; // Segment Length
     private double camD = 0.84; // Camera Depth
     private int lap = 3, count = 0;
@@ -89,7 +89,7 @@ public class DrawPanel extends JPanel {
                 width = 1024;
                 height = 768;
                 if(player1.getVelocidade() > 0)
-                    playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.01);
+                    playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.005);
             }
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1)
             {
@@ -98,7 +98,7 @@ public class DrawPanel extends JPanel {
                 height = 768;
                 player1.curva = true;
                 if(player1.getVelocidade() > 0)
-                    playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
+                    playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.005); 
             }
 
             if(n == startPos + 2){
@@ -114,10 +114,10 @@ public class DrawPanel extends JPanel {
             }
 
             
-            Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
+            Color grass = ((n / 2) % 2) == 0 ? new Color(163,128,104) : new Color(120,64,8);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
-            Color road = Color.black;
-            Color trace = ((n / 2) % 4) == 0 ? new Color(255,255,255) : new Color(0,0,0);
+            Color road = new Color(71,74,81);
+            Color trace = ((n / 2) % 4) == 0 ? new Color(255,255,255) : new Color(71,74,81);
 
             Line p = null;
             if (n == 0) {
