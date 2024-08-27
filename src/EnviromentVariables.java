@@ -22,6 +22,14 @@ public class EnviromentVariables{
     public String SPRITE_C6_F="src/Carro/Carro6F.png";
     public String SPRITE_C6_E="src/Carro/Carro6E.png";
     public String SPRITE_C6_D="src/Carro/Carro6D.png";
+
+
+    public String Acelerometro1="src/Velocidade/0km.png";
+    public String Acelerometro2="src/Velocidade/1km.png";
+    public String Acelerometro3="src/Velocidade/2km.png";
+    public String Acelerometro4="src/Velocidade/3km.png";
+
+
     
     public EnviromentVariables(){
 

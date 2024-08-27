@@ -3,6 +3,7 @@ import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 
 public class Player extends Carro implements KeyListener{
+    EnviromentVariables env = new EnviromentVariables();
     private String path;
     private ImageIcon velocidadeImg;
     public boolean upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
@@ -15,19 +16,19 @@ public class Player extends Carro implements KeyListener{
     public ImageIcon getImagem(int caso){
         switch (caso) {
             case 1:
-                this.path = "src/Velocidade/0km.png";
+                this.path = env.Acelerometro1;
                 this.velocidadeImg = new ImageIcon(path);
                 return velocidadeImg;
             case 2:
-                this.path = "src/Velocidade/1km.png";
+                this.path = env.Acelerometro2;;
                 this.velocidadeImg = new ImageIcon(path);
                 return velocidadeImg;
             case 3:
-                this.path = "src/Velocidade/2km.png";
+                this.path = env.Acelerometro3;;
                 this.velocidadeImg = new ImageIcon(path);
                 return velocidadeImg;
             case 4:
-                this.path = "src/Velocidade/3km.png";
+                this.path = env.Acelerometro4;
                 this.velocidadeImg = new ImageIcon(path);
                 return velocidadeImg;
             default:
