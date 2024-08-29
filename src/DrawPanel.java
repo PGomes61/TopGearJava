@@ -1,8 +1,10 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class DrawPanel extends JPanel {
@@ -21,10 +23,10 @@ public class DrawPanel extends JPanel {
     private int linhaHorizonte = 300;
     double amplitude = 1000;
     private int tamMaxPista;
-    private List<Npc> npcs;
+    JFrame frame;
 
-    public DrawPanel(int tamMaxPista, Player player1, List<Npc> npcs) {
-        this.npcs = npcs;
+    public DrawPanel(int tamMaxPista, Player player1, JFrame frame) {
+        this.frame = frame;
         this.tamMaxPista = tamMaxPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
@@ -68,10 +70,6 @@ public class DrawPanel extends JPanel {
         }
     }
 
-    public DrawPanel(){
-
-    }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawValues(g);
@@ -96,6 +94,7 @@ public class DrawPanel extends JPanel {
                 if(player1.getVelocidade() > 0)
                     playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.01);
             }
+
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1)
             {
                 //System.out.println("Curva Esquerda!");
@@ -106,16 +105,16 @@ public class DrawPanel extends JPanel {
                     playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
             }
 
-            if(n == startPos + 1){
-                double roadLeftEdge = (l.X - l.W/2) - 7800;
-                double roadRightEdge = (l.X + l.W/2) + 7800;
-                if (playerX < roadLeftEdge || playerX > roadRightEdge) {
-                    player1.colision = true;
-                }
-                else{
-                    player1.colision = false;
-                }
-            }
+            // if(n == startPos + 1){
+            //     double roadLeftEdge = (l.X - l.W/2) - 7800;
+            //     double roadRightEdge = (l.X + l.W/2) + 7800;
+            //     if (playerX < roadLeftEdge || playerX > roadRightEdge) {
+            //         player1.colision = true;
+            //     }
+            //     else{
+            //         player1.colision = false;
+            //     }
+            // }
 
             
             Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
@@ -134,39 +133,43 @@ public class DrawPanel extends JPanel {
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
-            // kkk++;
-            // if (kkk%10==0){
-            //     drawQuad(g, Color.white, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
-            //     drawQuad(g, Color.red, (int) p.X+20, (int) p.Y+100, (int) (p.W * 0.01)+20, (int) l.X+20, (int) l.Y+20, (int) (l.W * 0.01));
-            //     drawQuad(g, Color.red, (int) p.X+50, (int) p.Y, (int) (p.W * 0.01), (int) l.X+50, (int) l.Y, (int) (l.W * 0.01));
-            //     drawQuad(g, Color.red, (int) p.X+80, (int) p.Y, (int) (p.W * 0.01), (int) l.X+80, (int) l.Y, (int) (l.W * 0.01));
-            // }
+
+            g.setColor(Color.blue);
+            g.fillRect(0, 0, D_W, 392);
+            Graphics2D g2 = (Graphics2D)g;
+
+            g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth())/2) -10, frame.getHeight() - player1.getImagem().getIconHeight() - 100, player1.getImagem().getIconWidth(), player1.getImagem().getIconHeight(), null);
+            g2.setColor(Color.WHITE);
+            if(player1.getVelocidade() < 100)
+                g2.drawImage(player1.getImagem(1).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else if(player1.getVelocidade() < 200)
+                g2.drawImage(player1.getImagem(2).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else if(player1.getVelocidade() <=299)
+                g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else
+                g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
             
-            for (Npc npc : npcs) {
-                // Crie uma nova linha para representar o NPC
-                DrawPanel.Line npcLine = new DrawPanel().new Line();
-                
-                // Defina a profundidade do NPC
-                npcLine.z = npc.getPos();
-                
-                // Projete a posição do NPC usando a lógica de projeção
-                npcLine.project(playerX - npc.getX(), 1500, pos);
-                
-                // Calcule a escala para ajustar o tamanho do NPC
-                double scale = npcLine.scale;
-                int npcWidth = (int)(128 * scale);
-                int npcHeight = (int)(64 * scale);
-                // Desenhe o NPC na posição projetada e com o tamanho ajustado
-                g.drawImage(npc.getImagem().getImage(), (int)p.X-npcWidth, (int)(npcLine.Y - npcHeight / 2), 20, 20, null);
-                //System.out.println("NPC X: " + npcLine.X + ", Y: " + npcLine.Y + ", Width: " + npcWidth + ", Height: " + npcHeight);
-                // Atualize a posição do NPC
-                npc.setPos(npc.getPos() + 1);
-            }
-
+                // for (Npc npc : npcs) {
+            //     int npcIndex = (npc.getPos() / segL) % lines.size();
+            //     DrawPanel.Line npcLine = lines.get(npcIndex);
+            
+            //     // Calcula os limites da pista
+            //     int pistaEsquerda = (int) (npcLine.X - npcLine.W / 2);
+            //     int pistaDireita = (int) (npcLine.X + npcLine.W / 2);
+            
+            //     // Projeta o NPC dentro da pista
+            //     int npcX = pistaEsquerda + (int) ((pistaDireita - pistaEsquerda) * npc.getPosicaoRelativaNaPista());
+            
+            //     // Ajusta a projeção Y do NPC
+            //     int npcY = (int) npcLine.Y;
+            
+            //     // Desenha o NPC
+            //     g.drawImage(npc.getImagem().getImage(), npcX, npcY, 25, 25, null);
+            
+            //     // Atualiza a posição do NPC para o próximo quadro
+            //     npc.setPos(npc.getPos() + 1);
+            // }
         }
-
-        g.setColor(Color.blue);
-        g.fillRect(0, 0, D_W, 392);
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {

@@ -10,7 +10,6 @@ public class Carro{
     private double peso;
     private double tracao; 
     protected double velocidadeMaxima = 300;
-    private double tempo3 = 0, tempo2 = 0, tempo = 0;
 
     public Carro(String defaultImagePath1,String defaultImagePath2, String defaultImagePath3, double aceleracao, double peso, double tracao, double velocidadeMaxima){
         this.path = defaultImagePath1;

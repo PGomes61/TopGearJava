@@ -162,12 +162,12 @@ public class Menu extends JPanel{
                     frame.remove(menuPrincipal);
                         //frame.add(pistas);
                         //cl.show(pistas, "p1");
+                    painelCorrida.setFrame(frame);
                     painelCorrida.setCarroEscolhido(1);
                     frame.add(painelCorrida);
                             //frame.add(carros);
                             //cl.show(carros, "c1");
                             //carro1.requestFocusInWindow();
-                    painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
                     painelCorrida.requestFocus(true);
                         //pista1.requestFocusInWindow();

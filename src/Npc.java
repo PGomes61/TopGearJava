@@ -1,8 +1,8 @@
 public class Npc extends Carro{
 
     private int pos = 0;
-    private int xTela;
-    private int yTela;
+    private double xTela;
+    private double yTela;
 
 
     public Npc(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade){
@@ -13,15 +13,23 @@ public class Npc extends Carro{
         return pos;
     }  
 
-    public int getX(){
+    public double getX(){
         return xTela;
     }
 
-    public int getY(){
+    public double getY(){
         return yTela;
     }
 
     public void setPos(int pos){
         this.pos = pos;
     }    
+
+    public void setX(double x){
+        this.xTela = x;
+    }
+
+    public double getPosicaoRelativaNaPista(){
+        return 1;
+    }
 }

@@ -99,9 +99,9 @@ public class Player extends Carro implements KeyListener{
             if(tempo2 == 0 && super.velocidadeInicial + 1 <= super.velocidadeMaxima)
             {   
                 super.velocidadeInicial += 1;
-                System.out.println((int)super.velocidadeInicial);
+                //System.out.println((int)super.velocidadeInicial);
                 super.velocidadeInicial += 1;
-                System.out.println((int)super.velocidadeInicial);
+                //System.out.println((int)super.velocidadeInicial);
                 tempo2++;
             }
             tempo2--;
@@ -111,20 +111,20 @@ public class Player extends Carro implements KeyListener{
         }
         if(super.velocidadeInicial - 2 >= 30){
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
         }
     }
     public void banguela(){
         if (tempo3 == 0 && super.velocidadeInicial-1 >=0)
         {
             super.velocidadeInicial = super.velocidadeInicial - 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             tempo3 = 3;
         }
         tempo3--;
@@ -136,11 +136,11 @@ public class Player extends Carro implements KeyListener{
         if(tempo == 0 && super.velocidadeInicial -3 >= 0)
         {
             super.velocidadeInicial -= 1;
-            System.out.println((int) super.velocidadeInicial);
+            //System.out.println((int) super.velocidadeInicial);
             velocidadeInicial -= 1;
-            System.out.println((int) super.velocidadeInicial);
+            //System.out.println((int) super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int) super.velocidadeInicial);
+            //System.out.println((int) super.velocidadeInicial);
             tempo = 1;
         }
         else

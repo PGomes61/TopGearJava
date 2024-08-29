@@ -46,7 +46,7 @@ public class PainelCorrida extends JPanel implements Runnable{
         while(gameThread != null){
 
             update();
-            
+
             repaint();
 
             try {
@@ -66,18 +66,6 @@ public class PainelCorrida extends JPanel implements Runnable{
     }
 
     public void update(){
-        if(aux == 0)
-        {
-            int x = ((frame.getWidth() - player1.getImagem().getIconWidth())/2);
-            int y = ((frame.getHeight() - player1.getImagem().getIconHeight())/2);
-            int sizeY = frame.getHeight();
-            int sizeX = frame.getWidth();
-            //System.out.println(x + " " + y + " " + sizeX + " " + sizeY);
-            //System.out.println("Jogo rodando a " + FPS);
-            System.out.println(drawPanel.pos);
-            aux = 61;
-        }
-        aux--;
         if(player1.upPressed == true && player1.downPressed == false){
             //System.out.println("CIMA");
             drawPanel.pos += 2 * (int) player1.getVelocidade();
@@ -115,23 +103,6 @@ public class PainelCorrida extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         drawPanel.drawValues(g);
-        Graphics2D g2 = (Graphics2D)g;
-
-        g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth())/2) -10, frame.getHeight() - player1.getImagem().getIconHeight() - 100, player1.getImagem().getIconWidth(), player1.getImagem().getIconHeight(), null);
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 20));
-        if(player1.getVelocidade() < 100)
-            g2.drawImage(player1.getImagem(1).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-        else if(player1.getVelocidade() < 200)
-            g2.drawImage(player1.getImagem(2).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-        else if(player1.getVelocidade() <=299)
-            g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-        else
-            g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-        frame.revalidate();
-        frame.repaint();
-
-        g2.dispose();
     }
 
     public void startThread(){
@@ -239,6 +210,6 @@ public class PainelCorrida extends JPanel implements Runnable{
                 break;
         }
         this.addKeyListener(player1);
-        drawPanel = new DrawPanel(1600, player1, npcs);
+        drawPanel = new DrawPanel(1600, player1, frame);
     }
 }
