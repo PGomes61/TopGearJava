@@ -5,7 +5,6 @@ public class Main{
         SwingUtilities.invokeLater(new Runnable(){
             @Override
             public void run(){
-                EnviromentVariables env = new EnviromentVariables();
                 GameLoop pista1 = new GameLoop();
                 Janela janela = new Janela();
                 Menu menu = new Menu(janela, pista1);
