@@ -1,8 +1,11 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class DrawPanel extends JPanel {
@@ -21,8 +24,10 @@ public class DrawPanel extends JPanel {
     private int linhaHorizonte = 300;
     double amplitude = 1000;
     private int tamMaxPista;
+    JFrame frame;
 
-    public DrawPanel(int tamMaxPista, Player player1) {
+    public DrawPanel(int tamMaxPista, Player player1, JFrame frame) {
+        this.frame = frame;
         this.tamMaxPista = tamMaxPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
@@ -74,7 +79,6 @@ public class DrawPanel extends JPanel {
     public void drawValues(Graphics g) {
         int startPos = pos / segL;
         double x = 0, dx = 0;
-        int kkk=0;
         for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
             l.project(playerX - (int) x, 1500, pos);
@@ -130,15 +134,20 @@ public class DrawPanel extends JPanel {
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
-            // kkk++;
-            // if (kkk%10==0){
-            //     drawQuad(g, Color.white, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
-            //     drawQuad(g, Color.red, (int) p.X+20, (int) p.Y+100, (int) (p.W * 0.01)+20, (int) l.X+20, (int) l.Y+20, (int) (l.W * 0.01));
-            //     drawQuad(g, Color.red, (int) p.X+50, (int) p.Y, (int) (p.W * 0.01), (int) l.X+50, (int) l.Y, (int) (l.W * 0.01));
-            //     drawQuad(g, Color.red, (int) p.X+80, (int) p.Y, (int) (p.W * 0.01), (int) l.X+80, (int) l.Y, (int) (l.W * 0.01));
+            
+            
+            Graphics2D g2 = (Graphics2D) g;
+            g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 10, frame.getHeight() - player1.getImagem().getIconHeight() - 100, player1.getImagem().getIconWidth(), player1.getImagem().getIconHeight(), null);
 
-
-            // }
+            g2.setColor(Color.WHITE);
+            if (player1.getVelocidade() < 100)
+                g2.drawImage(player1.getImagem(1).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else if (player1.getVelocidade() < 200)
+                g2.drawImage(player1.getImagem(2).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else if (player1.getVelocidade() <= 299)
+                g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else
+                g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
         }
 
         g.setColor(Color.blue);
