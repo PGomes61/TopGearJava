@@ -1,6 +1,8 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameLoop extends JPanel implements Runnable {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
@@ -15,8 +17,10 @@ public class GameLoop extends JPanel implements Runnable {
 
     // Outras variáveis já existentes
     EnviromentVariables env = new EnviromentVariables();
+    List<Npc> npcs = new ArrayList<>();
     private JFrame frame;
     private Carro carro1, carro2, carro3, carro4, carro5, carro6;
+    private Npc npc1, npc2, npc3, npc4, npc5;
     private Player player1;
     private DrawPanel drawPanel;
     private int aux = 0;
@@ -77,16 +81,16 @@ public class GameLoop extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (aux == 0) {
-            int x = ((frame.getWidth() - player1.getImagem().getIconWidth())/2);
-            int y = ((frame.getHeight() - player1.getImagem().getIconHeight())/2);
-            int sizeY = frame.getHeight();
-            int sizeX = frame.getWidth();
-            System.out.println(x + " " + y + " " + sizeX + " " + sizeY);
-            System.out.println("Jogo rodando a " + TARGET_FPS);
-            aux = 61;
-        }
-        aux--;
+        // if (aux == 0) {
+        //     int x = ((frame.getWidth() - player1.getImagem().getIconWidth())/2);
+        //     int y = ((frame.getHeight() - player1.getImagem().getIconHeight())/2);
+        //     int sizeY = frame.getHeight();
+        //     int sizeX = frame.getWidth();
+        //     System.out.println(x + " " + y + " " + sizeX + " " + sizeY);
+        //     System.out.println("Jogo rodando a " + TARGET_FPS);
+        //     aux = 61;
+        // }
+        // aux--;
     
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
@@ -98,28 +102,59 @@ public class GameLoop extends JPanel implements Runnable {
             drawPanel.pos += 2 * (int) player1.getVelocidade();
             player1.freio();
         }
+
         if (player1.leftPressed && !player1.rightPressed) {
             // Lógica para movimento à esquerda
-            System.out.println("ESQUERDA");
+            double aux = (player1.getVelocidade() * 0.01);
             if (player1.getVelocidade() != 0 && !player1.curva)
-                drawPanel.playerX -= 60 - (player1.getVelocidade() * 0.01);
+            {
+                drawPanel.playerX -= 60 - aux;
+                for (Npc npc : npcs) {
+                    npc.setX(npc.getX() + ((60 - aux)/7));
+                }
+            }
             if (player1.getVelocidade() != 0 && player1.curva)
-                drawPanel.playerX -= 100 - (player1.getVelocidade() * 0.01);
+            {
+                drawPanel.playerX -= 100 - aux;
+                for (Npc npc : npcs) {
+                    npc.setX(npc.getX() + ((100 - aux)/7));
+                }
+            }
+
             if (!player1.upPressed)
                 player1.banguela();
         }
         if (player1.rightPressed && !player1.leftPressed) {
             // Lógica para movimento à direita
+            double aux = (player1.getVelocidade() * 0.01);
             if (player1.getVelocidade() != 0 && !player1.curva)
-                drawPanel.playerX += 60 - (player1.getVelocidade() * 0.01);
+            {
+                drawPanel.playerX += 60 + aux;              
+                for (Npc npc : npcs) {
+                    npc.setX(npc.getX() - ((60 + aux)/7));
+                }  
+            }
             if (player1.getVelocidade() != 0 && player1.curva)
-                drawPanel.playerX += 100 + (player1.getVelocidade() * 0.01);
+            {
+                drawPanel.playerX += 100 + aux;
+                for (Npc npc : npcs) {
+                    npc.setX(npc.getX() - ((100 + aux)/7));
+                }
+            }
+
             if (!player1.upPressed)
                 player1.banguela();
         }
         if (!player1.upPressed && !player1.downPressed) {
             player1.banguela();
             drawPanel.pos += 2 * (int) player1.getVelocidade();
+        }
+
+        /////NPCs///////
+        for (Npc npc : npcs) {
+            // Fazer algo com cada NPC
+            npc.setPos(npc.getPos() + 800);
+            System.out.println(drawPanel.pos);
         }
     }
 
@@ -133,33 +168,106 @@ public class GameLoop extends JPanel implements Runnable {
         switch (carroEscolhido) {
             case 1:
                 carro1 = new Player(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300);
+                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 100, 100);
+                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 200, 200);
+                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
+                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro1;
+                npc1 = (Npc) carro2;
+                npc2 = (Npc) carro3;
+                npc3 = (Npc) carro4;
+                npc4 = (Npc) carro5;
+                npc5 = (Npc) carro6;
+                setNpc();
                 break;
             case 2:
+                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
                 carro2 = new Player(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25);
+                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 200, 200);
+                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
+                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150,500, 500);
                 player1 = (Player) carro2;
+                npc1 = (Npc) carro1;
+                npc2 = (Npc) carro3;
+                npc3 = (Npc) carro4;
+                npc4 = (Npc) carro5;
+                npc5 = (Npc) carro6;
+                setNpc();
                 break;
             case 3:
+                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
                 carro3 = new Player(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50);
+                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
+                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro3;
+                npc1 = (Npc) carro2;
+                npc2 = (Npc) carro1;
+                npc3 = (Npc) carro4;
+                npc4 = (Npc) carro5;
+                npc5 = (Npc) carro6;
+                setNpc();
                 break;
             case 4:
+                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
+                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
                 carro4 = new Player(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75);
+                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro4;
+                npc1 = (Npc) carro2;
+                npc2 = (Npc) carro3;
+                npc3 = (Npc) carro1;
+                npc4 = (Npc) carro5;
+                npc5 = (Npc) carro6;
+                setNpc();
                 break;
             case 5:
+                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
+                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
+                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 400, 400);
                 carro5 = new Player(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100);
+                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro5;
+                npc1 = (Npc) carro2;
+                npc2 = (Npc) carro3;
+                npc3 = (Npc) carro4;
+                npc4 = (Npc) carro1;
+                npc5 = (Npc) carro6;
+                setNpc();
                 break;
             case 6:
+                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
+                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
+                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 400, 400);
+                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 500, 500);
                 carro6 = new Player(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150);
                 player1 = (Player) carro6;
+                npc1 = (Npc) carro2;
+                npc2 = (Npc) carro3;
+                npc3 = (Npc) carro4;
+                npc4 = (Npc) carro5;
+                npc5 = (Npc) carro1;
+                setNpc();
                 break;
             default:
                 break;
         }
         this.addKeyListener(player1);
-        drawPanel = new DrawPanel(1600, this.player1, this.frame);
+        drawPanel = new DrawPanel(1600, player1, frame, npcs);
+    }
+    private void setNpc(){
+        npcs.add(npc1);
+        npcs.add(npc2);
+        npcs.add(npc3);
+        npcs.add(npc4);
+        npcs.add(npc5);
     }
 }
 

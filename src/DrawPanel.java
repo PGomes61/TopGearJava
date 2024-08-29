@@ -12,6 +12,7 @@ public class DrawPanel extends JPanel {
     private static final int D_W = 1024;
     private static final int D_H = 768;
     private List<Line> lines;
+    private List<Npc> npcs;
     public int pos = 0;
     public double playerX = 0;
     private int width = 1024;
@@ -26,8 +27,9 @@ public class DrawPanel extends JPanel {
     private int tamMaxPista;
     JFrame frame;
 
-    public DrawPanel(int tamMaxPista, Player player1, JFrame frame) {
+    public DrawPanel(int tamMaxPista, Player player1, JFrame frame, List<Npc> npcs) {
         this.frame = frame;
+        this.npcs = npcs;
         this.tamMaxPista = tamMaxPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
@@ -72,6 +74,7 @@ public class DrawPanel extends JPanel {
     }
 
     protected void paintComponent(Graphics g) {
+        
         super.paintComponent(g);
         drawValues(g);
     }
@@ -134,6 +137,7 @@ public class DrawPanel extends JPanel {
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
+
             
             
             Graphics2D g2 = (Graphics2D) g;
@@ -148,10 +152,16 @@ public class DrawPanel extends JPanel {
                 g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
             else
                 g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-        }
 
-        g.setColor(Color.blue);
-        g.fillRect(0, 0, D_W, 392);
+            //Desenhando NPCS
+            for (Npc npc : npcs) {
+                if(npc.getPos() > pos){
+                    g2.drawImage(npc.getImagem().getImage(), (int) npc.getX(), (int) npc.getY(), 100, 100, null);
+                }
+            }
+        }
+        //g.setColor(Color.blue);
+        //g.fillRect(0, 0, D_W, 392);
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
