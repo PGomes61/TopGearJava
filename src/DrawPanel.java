@@ -23,7 +23,7 @@ public class DrawPanel extends JPanel {
     double amplitude = 1000;
     private int tamMaxPista;
     JFrame frame;
-    private int aux;
+    private int aux = 0;
     private double curve;
 
     public DrawPanel(int tamMaxPista, Player player1, JFrame frame, List<Npc> npcs) {
@@ -93,6 +93,7 @@ public class DrawPanel extends JPanel {
     public void drawValues(Graphics g) {
         int startPos = pos / segL;
         double x = 0, dx = 0;
+        Graphics2D g2 = (Graphics2D) g;
         for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
             
@@ -125,9 +126,6 @@ public class DrawPanel extends JPanel {
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
             
-            
-
-            Graphics2D g2 = (Graphics2D) g;
             g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 10, frame.getHeight() - player1.getImagem().getIconHeight() - 100, player1.getImagem().getIconWidth(), player1.getImagem().getIconHeight(), null);
 
             g2.setColor(Color.WHITE);
@@ -141,14 +139,47 @@ public class DrawPanel extends JPanel {
                 g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
 
             //Desenhando NPCS
-            for (Npc npc : npcs) {
-                if(npc.getPos() > pos){
-                    g2.drawImage(npc.getImagem().getImage(), (int) npc.getX(), (int) npc.getY(), 100, 100, null);
+            g.setColor(Color.blue);
+            g.fillRect(0, 0, D_W, 392);
+        }
+        for (Npc npc : npcs) {
+            if(npc.getPos() > pos) {
+                int npcIndex = (npc.getPos() / segL) % lines.size();
+                Line npcLine = lines.get(npcIndex);
+
+                // Calcular a posição horizontal do NPC com base na curva da pista
+                double npcX = npcLine.X + (npcLine.W * npc.getOffset()); // getOffset é a posição relativa do NPC na pista (-1 a 1)
+                
+                // Calcular a posição vertical do NPC na tela
+                int scale = (npc.getPos()-pos)/550;
+                int npcY = (int) npcLine.Y-(50-scale/2);
+
+                //calculo scale
+                // Desenhar o NPC na posição correta
+                //System.out.println((npc.getPos()-pos)/500.0);
+                if(100-scale<0){
+                    
                 }
+                if(100-scale > 10)
+                    g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, 100-scale, 50-scale/2, null);
+                
             }
         }
-        g.setColor(Color.blue);
-        g.fillRect(0, 0, D_W, 392);
+
+        aux++;
+
+        if(aux == 60)
+            {
+                System.out.println("Isso executa 1 vez por segundo!");
+                npcs.get(1).npcOffset();
+                npcs.get(2).npcOffset();
+                npcs.get(3).npcOffset();
+                npcs.get(4).npcOffset();
+                npcs.get(5).npcOffset();
+
+                aux = 0;
+            }
+
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {

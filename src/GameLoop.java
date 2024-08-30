@@ -3,6 +3,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameLoop extends JPanel implements Runnable {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
@@ -23,6 +24,7 @@ public class GameLoop extends JPanel implements Runnable {
     private Npc npc1, npc2, npc3, npc4, npc5;
     private Player player1;
     private DrawPanel drawPanel;
+    private Random random = new Random();
     //private int aux = 0;
     
     public GameLoop() {
@@ -178,7 +180,7 @@ public class GameLoop extends JPanel implements Runnable {
         /////NPCs///////
         for (Npc npc : npcs) {
             // Fazer algo com cada NPC
-            npc.setPos(npc.getPos() + 800);
+            npc.setPos(random.nextInt(300) + npc.getPos());
             System.out.println(drawPanel.pos);
         }
     }

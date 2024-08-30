@@ -1,6 +1,9 @@
+import java.util.Random;
 public class Npc extends Carro{
 
+    private Random random = new Random();
     private int pos = 0;
+    private double offset = 0;
     private double xTela = 500;
     private double yTela = 500;
     private double zTela;
@@ -42,6 +45,26 @@ public class Npc extends Carro{
 
     public double getPosicaoRelativaNaPista(){
         return 1;
+    }
+
+    public double npcOffset() {
+        double aux = -0.1 + (0.2 * random.nextDouble());
+        
+        // Verifica se a soma do offset atual com aux está dentro do intervalo permitido
+        if (offset + aux > 1) {
+            offset = 1;
+        } else if (offset + aux < -1) {
+            offset = -1;
+        } else {
+            offset += aux;
+        }
+        
+        return offset;
+    }
+
+    public double getOffset(){
+        //System.out.println(offset);
+        return offset;
     }
 
     public double[] project(double camX, int camY, int camZ, double camD, int width, int height, int roadW) {
