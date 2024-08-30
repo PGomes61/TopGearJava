@@ -23,8 +23,7 @@ public class GameLoop extends JPanel implements Runnable {
     private Npc npc1, npc2, npc3, npc4, npc5;
     private Player player1;
     private DrawPanel drawPanel;
-    private int aux = 0;
-
+    //private int aux = 0;
     
     public GameLoop() {
         this.setDoubleBuffered(true);
@@ -149,6 +148,32 @@ public class GameLoop extends JPanel implements Runnable {
             player1.banguela();
             drawPanel.pos += 2 * (int) player1.getVelocidade();
         }
+
+        /////// IMPLEMENTAÇÃO DA CURVA ///////
+
+        int startPos = drawPanel.pos / drawPanel.getSegL();
+        double x = 0, dx = 0;
+        for(int n = startPos; n < drawPanel.getLinhaHorizonte() + startPos; n++) {
+            Line l = drawPanel.getLines().get(n % drawPanel.getLines().size());
+            l.project(drawPanel.playerX - (int) x, 1500, drawPanel.pos);
+
+            x += dx;
+            dx += l.curve;
+
+            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1) {
+                //System.out.println("Curva Direita!");
+                player1.curva = true;
+                if(player1.getVelocidade() > 0)
+                    drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.02);
+            }
+            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1) {
+                //System.out.println("Curva Esquerda!");
+                player1.curva = true;
+                if(player1.getVelocidade() > 0)
+                    drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.02);
+            }
+        }
+        ///////////////////////////////////////
 
         /////NPCs///////
         for (Npc npc : npcs) {
