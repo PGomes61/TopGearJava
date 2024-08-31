@@ -166,13 +166,13 @@ public class GameLoop extends JPanel implements Runnable {
                 //System.out.println("Curva Direita!");
                 player1.curva = true;
                 if(player1.getVelocidade() > 0)
-                    drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.02);
+                    drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.05);
             }
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1) {
                 //System.out.println("Curva Esquerda!");
                 player1.curva = true;
                 if(player1.getVelocidade() > 0)
-                    drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.02);
+                    drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.05);
             }
         }
         ///////////////////////////////////////
