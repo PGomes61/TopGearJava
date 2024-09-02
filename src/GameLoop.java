@@ -15,7 +15,6 @@ public class GameLoop extends JPanel implements Runnable {
     private double accumulator = 0.0;
     private long lastTime;
 
-
     // Outras variáveis já existentes
     EnviromentVariables env = new EnviromentVariables();
     List<Npc> npcs = new ArrayList<>();
@@ -50,7 +49,7 @@ public class GameLoop extends JPanel implements Runnable {
         }
     }
 
-    public void setFrame(JFrame frame){
+    public void setFrame(JFrame frame) {
         this.frame = frame;
     }
 
@@ -154,7 +153,9 @@ public class GameLoop extends JPanel implements Runnable {
         int startPos = drawPanel.getPos() / drawPanel.getSegL();
         double x = 0, dx = 0;
         for(int n = startPos; n < drawPanel.getLinhaHorizonte() + startPos; n++) {
+
             Line l = drawPanel.getLines().get(n % drawPanel.getLines().size());
+            
             l.project(drawPanel.getPlayerX() - (int) x, 1500, drawPanel.getPos());
 
             x += dx;

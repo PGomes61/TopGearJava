@@ -12,7 +12,8 @@ public class Carro{
     protected double velocidadeMaxima = 300;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
 
-    public Carro(String defaultImagePath1,String defaultImagePath2, String defaultImagePath3, double aceleracao, double peso, double tracao, double velocidadeMaxima){
+    public Carro(String defaultImagePath1,String defaultImagePath2, 
+                    String defaultImagePath3, double aceleracao, double peso, double tracao, double velocidadeMaxima){
         this.path = defaultImagePath1;
         this.imagem = new ImageIcon(path);
         sprites.add(new ImageIcon(defaultImagePath1));
