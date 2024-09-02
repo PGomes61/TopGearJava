@@ -1,5 +1,5 @@
 public class EnviromentVariables{
-    public String SPRITE_C1_E="Carro/Carro1E.png";
+    public String SPRITE_C1_E="src/Carro/Carro1E.png";
     public String SPRITE_C1_F="Carro/Carro1F.png";
     public String SPRITE_C1_D="Carro/Carro1D.png";
 

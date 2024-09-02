@@ -139,7 +139,7 @@ public class DrawPanel extends JPanel {
                 g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
 
             //Desenhando NPCS
-            g.setColor(Color.blue);
+            //g.setColor(Color.blue);
             g.fillRect(0, 0, D_W, 392);
         }
         for (Npc npc : npcs) {
