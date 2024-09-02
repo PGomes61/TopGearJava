@@ -96,18 +96,6 @@ public class DrawPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
-            
-            if(n == startPos + 2){
-                double roadLeftEdge = l.X - l.W;
-                double roadRightEdge = l.X + l.W;
-                if (playerX < (roadLeftEdge - 10000) || playerX > (roadRightEdge + 7500)) {
-                    System.out.println("COLIDINDO");
-                    player1.colision = true; 
-                }
-                else{
-                    player1.colision = false;
-                }
-            }
 
             Color grass = ((n / 2) % 2) == 0 ? new Color(163,128,104) : new Color(120,64,8);
             Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);

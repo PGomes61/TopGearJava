@@ -166,13 +166,26 @@ public class GameLoop extends JPanel implements Runnable {
                 //System.out.println("Curva Direita!");
                 player1.curva = true;
                 if(player1.getVelocidade() > 0)
-                    drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.02);
+                    drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.05);
             }
             if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1) {
                 //System.out.println("Curva Esquerda!");
                 player1.curva = true;
                 if(player1.getVelocidade() > 0)
-                    drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.02);
+                    drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.05);
+            }
+
+            // COLISÃO DA GRAMA
+            if(n == startPos + 1){
+                double roadLeftEdge = l.X - l.W - 6000;
+                double roadRightEdge = l.X + l.W + 6000;
+                if (drawPanel.playerX < (roadLeftEdge) || drawPanel.playerX > (roadRightEdge)) {
+                    System.out.println("COLIDINDO");
+                    player1.colision = true; 
+                }
+                else{
+                    player1.colision = false;
+                }
             }
         }
         ///////////////////////////////////////
