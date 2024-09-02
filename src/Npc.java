@@ -9,7 +9,7 @@ public class Npc extends Carro{
     private double zTela;
 
 
-    public Npc(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, double xTela, double Ytela){
+    public Npc(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, double xTela, double yTela){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
         this.xTela = xTela;
         this.yTela = yTela;

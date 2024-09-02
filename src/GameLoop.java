@@ -28,9 +28,9 @@ public class GameLoop extends JPanel implements Runnable {
     //private int aux = 0;
     
     public GameLoop() {
-        this.setDoubleBuffered(true);
-        this.setBackground(Color.BLACK);
-        this.setFocusable(true);
+        //this.setDoubleBuffered(true);
+        //this.setBackground(Color.BLACK);
+        //this.setFocusable(true);
     }
 
     public void startThread() {
@@ -56,28 +56,25 @@ public class GameLoop extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        lastTime = System.nanoTime();
+        long startTime;
+        long timeTaken;
+        long timeToWait;
         
         while (running) {
-            long currentTime = System.nanoTime();
-            double elapsed = (currentTime - lastTime) / NANOSECONDS_PER_SECOND;
-            lastTime = currentTime;
-
-            accumulator += elapsed;
-
-            // Atualize o jogo enquanto houver tempo acumulado suficiente
-            while (accumulator >= TIME_PER_UPDATE) {
-                update();  // Atualiza a lógica do jogo
-                accumulator -= TIME_PER_UPDATE;
-            }
-
+            startTime = System.nanoTime();
+            update();
             repaint();  // Renderiza o jogo
 
-            try {
-                Thread.sleep(1); // Pequena pausa para evitar busy-waiting
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            timeTaken = System.nanoTime() - startTime;
+            timeToWait = (long) ((NANOSECONDS_PER_SECOND/ TARGET_FPS) - timeTaken);
+            if(timeToWait > 0){
+                try {
+                    Thread.sleep(timeToWait / 2000000); // Pequena pausa para evitar busy-waiting
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            
         }
     }
 
@@ -95,61 +92,61 @@ public class GameLoop extends JPanel implements Runnable {
     
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
-            System.out.println("CIMA");
+            //System.out.println("CIMA");
             drawPanel.pos += 2 * (int) player1.getVelocidade();
             player1.acelerar();
         }
-        if (player1.downPressed && !player1.upPressed) {
-            drawPanel.pos += 2 * (int) player1.getVelocidade();
-            player1.freio();
-        }
+        // if (player1.downPressed && !player1.upPressed) {
+        //     drawPanel.pos += 2 * (int) player1.getVelocidade();
+        //     player1.freio();
+        // }
 
-        if (player1.leftPressed && !player1.rightPressed) {
-            // Lógica para movimento à esquerda
-            double aux = (player1.getVelocidade() * 0.01);
-            if (player1.getVelocidade() != 0 && !player1.curva)
-            {
-                drawPanel.playerX -= 60 - aux;
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() + ((60 - aux)/7));
-                }
-            }
-            if (player1.getVelocidade() != 0 && player1.curva)
-            {
-                drawPanel.playerX -= 100 - aux;
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() + ((100 - aux)/7));
-                }
-            }
+        // if (player1.leftPressed && !player1.rightPressed) {
+        //     // Lógica para movimento à esquerda
+        //     double aux = (player1.getVelocidade() * 0.01);
+        //     if (player1.getVelocidade() != 0 && !player1.curva)
+        //     {
+        //         drawPanel.playerX -= 60 - aux;
+        //         for (Npc npc : npcs) {
+        //             npc.setX(npc.getX() + ((60 - aux)/7));
+        //         }
+        //     }
+        //     if (player1.getVelocidade() != 0 && player1.curva)
+        //     {
+        //         drawPanel.playerX -= 100 - aux;
+        //         for (Npc npc : npcs) {
+        //             npc.setX(npc.getX() + ((100 - aux)/7));
+        //         }
+        //     }
 
-            if (!player1.upPressed)
-                player1.banguela();
-        }
-        if (player1.rightPressed && !player1.leftPressed) {
-            // Lógica para movimento à direita
-            double aux = (player1.getVelocidade() * 0.01);
-            if (player1.getVelocidade() != 0 && !player1.curva)
-            {
-                drawPanel.playerX += 60 + aux;              
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() - ((60 + aux)/7));
-                }  
-            }
-            if (player1.getVelocidade() != 0 && player1.curva)
-            {
-                drawPanel.playerX += 100 + aux;
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() - ((100 + aux)/7));
-                }
-            }
+        //     if (!player1.upPressed)
+        //         player1.banguela();
+        // }
+        // if (player1.rightPressed && !player1.leftPressed) {
+        //     // Lógica para movimento à direita
+        //     double aux = (player1.getVelocidade() * 0.01);
+        //     if (player1.getVelocidade() != 0 && !player1.curva)
+        //     {
+        //         drawPanel.playerX += 60 + aux;              
+        //         for (Npc npc : npcs) {
+        //             npc.setX(npc.getX() - ((60 + aux)/7));
+        //         }  
+        //     }
+        //     if (player1.getVelocidade() != 0 && player1.curva)
+        //     {
+        //         drawPanel.playerX += 100 + aux;
+        //         for (Npc npc : npcs) {
+        //             npc.setX(npc.getX() - ((100 + aux)/7));
+        //         }
+        //     }
 
-            if (!player1.upPressed)
-                player1.banguela();
-        }
-        if (!player1.upPressed && !player1.downPressed) {
-            player1.banguela();
-            drawPanel.pos += 2 * (int) player1.getVelocidade();
-        }
+        //     if (!player1.upPressed)
+        //         player1.banguela();
+        // }
+        // if (!player1.upPressed && !player1.downPressed) {
+        //     player1.banguela();
+        //     drawPanel.pos += 2 * (int) player1.getVelocidade();
+        // }
 
         /////// IMPLEMENTAÇÃO DA CURVA ///////
 
@@ -162,45 +159,44 @@ public class GameLoop extends JPanel implements Runnable {
             x += dx;
             dx += l.curve;
 
-            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1) {
-                //System.out.println("Curva Direita!");
-                player1.curva = true;
-                if(player1.getVelocidade() > 0)
-                    drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.05);
-            }
-            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1) {
-                //System.out.println("Curva Esquerda!");
-                player1.curva = true;
-                if(player1.getVelocidade() > 0)
-                    drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.05);
-            }
+            // if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1) {
+            //     //System.out.println("Curva Direita!");
+            //     player1.curva = true;
+            //     if(player1.getVelocidade() > 0)
+            //         drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.05);
+            // }
+            // if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1) {
+            //     //System.out.println("Curva Esquerda!");
+            //     player1.curva = true;
+            //     if(player1.getVelocidade() > 0)
+            //         drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.05);
+            // }
 
-            // COLISÃO DA GRAMA
-            if(n == startPos + 1){
-                double roadLeftEdge = l.X - l.W - 6000;
-                double roadRightEdge = l.X + l.W + 6000;
-                if (drawPanel.playerX < (roadLeftEdge) || drawPanel.playerX > (roadRightEdge)) {
-                    System.out.println("COLIDINDO");
-                    player1.colision = true; 
-                }
-                else{
-                    player1.colision = false;
-                }
-            }
+            // // COLISÃO DA GRAMA
+            // if(n == startPos + 1){
+            //     double roadLeftEdge = l.X - l.W - 6000;
+            //     double roadRightEdge = l.X + l.W + 6000;
+            //     if (drawPanel.playerX < (roadLeftEdge) || drawPanel.playerX > (roadRightEdge)) {
+            //         //System.out.println("COLIDINDO");
+            //         player1.colision = true; 
+            //     }
+            //     else{
+            //         player1.colision = false;
+            //     }
+            // }
         }
         ///////////////////////////////////////
 
         /////NPCs///////
-        for (Npc npc : npcs) {
-            // Fazer algo com cada NPC
-            npc.setPos(random.nextInt(300) + npc.getPos());
-            System.out.println(drawPanel.pos);
-        }
+        // for (Npc npc : npcs) {
+        //     // Fazer algo com cada NPC
+        //     npc.setPos(random.nextInt(300) + npc.getPos());
+        //     //System.out.println(drawPanel.pos);
+        // }
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         drawPanel.drawValues(g);
     }
 
