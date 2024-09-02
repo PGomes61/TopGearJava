@@ -37,15 +37,15 @@ public class DrawPanel extends JPanel {
             line.z = i * segL;
             //double elevationAtual = 0;
 
-            // if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
-            //     line.curve = 1;
-            //     line.flagTurn = 1;
-            // }
+            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
+                line.curve = 1;
+                line.flagTurn = 1;
+            }
 
-            // if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
-            //     line.curve = -1;
-            //     line.flagTurn = -1;
-            // }
+            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+                line.curve = -1;
+                line.flagTurn = -1;
+            }
 
             // // Add hills and valleys
             // if (i > 50 && i < 150) {
@@ -107,18 +107,6 @@ public class DrawPanel extends JPanel {
                 p = l;
             } else {
                 p = lines.get((n - 1) % lines.size());
-            }
-
-            if(n == startPos + 2){
-                double roadLeftEdge = p.X - p.W ;
-                double roadRightEdge = p.X + p.W;
-                if (playerX < (roadLeftEdge - 10000) || playerX > (roadRightEdge + 7500)) {
-                    System.out.println("COLIDINDO");
-                    player1.colision = true; 
-                }
-                else{
-                    player1.colision = false;
-                }
             }
 
             drawQuad(g, grass, 0, (int) p.Y, width, 0, (int) l.Y, width);
