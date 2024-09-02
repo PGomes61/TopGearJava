@@ -96,94 +96,87 @@ public class GameLoop extends JPanel implements Runnable {
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
             System.out.println("CIMA");
-            drawPanel.pos += 2 * (int) player1.getVelocidade();
+            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
             player1.acelerar();
         }
         if (player1.downPressed && !player1.upPressed) {
-            drawPanel.pos += 2 * (int) player1.getVelocidade();
+            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
             player1.freio();
         }
 
         if (player1.leftPressed && !player1.rightPressed) {
             // Lógica para movimento à esquerda
             double aux = (player1.getVelocidade() * 0.01);
-            if (player1.getVelocidade() != 0 && !player1.curva)
-            {
-                drawPanel.playerX -= 60 - aux;
+            if(player1.getVelocidade() != 0 && !player1.curva) {
+                drawPanel.setPlayerXDecrescimo(60 + aux);
                 for (Npc npc : npcs) {
-                    npc.setX(npc.getX() + ((60 - aux)/7));
+                    npc.setX(npc.getX() + ((60 + aux)/7));
                 }
             }
-            if (player1.getVelocidade() != 0 && player1.curva)
-            {
-                drawPanel.playerX -= 100 - aux;
+            if(player1.getVelocidade() != 0 && player1.curva) {
+                drawPanel.setPlayerXDecrescimo(100 + aux);
                 for (Npc npc : npcs) {
-                    npc.setX(npc.getX() + ((100 - aux)/7));
+                    npc.setX(npc.getX() + ((100 + aux)/7));
                 }
             }
 
-            if (!player1.upPressed)
+            if (!player1.upPressed) {
                 player1.banguela();
+            }
         }
-        if (player1.rightPressed && !player1.leftPressed) {
+        if(player1.rightPressed && !player1.leftPressed) {
             // Lógica para movimento à direita
             double aux = (player1.getVelocidade() * 0.01);
-            if (player1.getVelocidade() != 0 && !player1.curva)
-            {
-                drawPanel.playerX += 60 + aux;              
+            if (player1.getVelocidade() != 0 && !player1.curva) {
+                drawPanel.setPlayerXAcrescimo(60 + aux);              
                 for (Npc npc : npcs) {
                     npc.setX(npc.getX() - ((60 + aux)/7));
                 }  
             }
-            if (player1.getVelocidade() != 0 && player1.curva)
-            {
-                drawPanel.playerX += 100 + aux;
+            if(player1.getVelocidade() != 0 && player1.curva) {
+                drawPanel.setPlayerXAcrescimo(100 + aux);
                 for (Npc npc : npcs) {
                     npc.setX(npc.getX() - ((100 + aux)/7));
                 }
             }
 
-            if (!player1.upPressed)
+            if(!player1.upPressed) {
                 player1.banguela();
+            }
         }
-        if (!player1.upPressed && !player1.downPressed) {
+        if(!player1.upPressed && !player1.downPressed) {
             player1.banguela();
-            drawPanel.pos += 2 * (int) player1.getVelocidade();
+            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
         }
 
         /////// IMPLEMENTAÇÃO DA CURVA ///////
 
-        int startPos = drawPanel.pos / drawPanel.getSegL();
+        int startPos = drawPanel.getPos() / drawPanel.getSegL();
         double x = 0, dx = 0;
         for(int n = startPos; n < drawPanel.getLinhaHorizonte() + startPos; n++) {
             Line l = drawPanel.getLines().get(n % drawPanel.getLines().size());
-            l.project(drawPanel.playerX - (int) x, 1500, drawPanel.pos);
+            l.project(drawPanel.getPlayerX() - (int) x, 1500, drawPanel.getPos());
 
             x += dx;
             dx += l.curve;
 
-            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1) {
-                //System.out.println("Curva Direita!");
+            if(n > startPos + 1 && n < startPos + 14 && (l.flagTurn == 1 || l.flagTurn == -1)) {
+                double auxCurva = 0.5 * l.curve * (player1.getVelocidade() * 0.05);
                 player1.curva = true;
-                if(player1.getVelocidade() > 0)
-                    drawPanel.playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.05);
-            }
-            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1) {
-                //System.out.println("Curva Esquerda!");
-                player1.curva = true;
-                if(player1.getVelocidade() > 0)
-                    drawPanel.playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.05);
+                if(player1.getVelocidade() > 0) {
+                    drawPanel.setPlayerXDecrescimo(auxCurva);
+                }
             }
 
             // COLISÃO DA GRAMA
-            if(n == startPos + 1){
+            if(n == startPos + 1) {
                 double roadLeftEdge = l.X - l.W - 6000;
                 double roadRightEdge = l.X + l.W + 6000;
-                if (drawPanel.playerX < (roadLeftEdge) || drawPanel.playerX > (roadRightEdge)) {
+                if(drawPanel.getPlayerX() < roadLeftEdge || drawPanel.getPlayerX() > roadRightEdge) {
                     System.out.println("COLIDINDO");
                     player1.colision = true; 
                 }
-                else{
+                else {
                     player1.colision = false;
                 }
             }
@@ -194,7 +187,7 @@ public class GameLoop extends JPanel implements Runnable {
         for (Npc npc : npcs) {
             // Fazer algo com cada NPC
             npc.setPos(random.nextInt(300) + npc.getPos());
-            System.out.println(drawPanel.pos);
+            System.out.println(drawPanel.getPos());
         }
     }
 
