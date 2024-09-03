@@ -20,9 +20,9 @@ public class DrawPanel extends JPanel {
     private int lap = 100, count = 0;
     private Player player1;
     private int linhaHorizonte = 300;
-    double amplitude = 1000;
+    //private double amplitude = 1000;
     private int tamMaxPista;
-    JFrame frame;
+    private JFrame frame;
     private int aux = 0;
 
     public DrawPanel(int tamMaxPista, Player player1, JFrame frame, List<Npc> npcs) {
@@ -31,6 +31,7 @@ public class DrawPanel extends JPanel {
         this.tamMaxPista = tamMaxPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
+
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
