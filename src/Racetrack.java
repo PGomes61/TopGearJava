@@ -8,23 +8,23 @@ public class Racetrack {
     private int laps, count = 0;
     private int tamPista;
 
-    public Racetrack(int tamPista, int lap) {
-        for(int i = 0; i < tamPista * lap; i++) {
+    public Racetrack() {
+        for(int i = 0; i < this.tamPista * this.laps; i++) {
             Line line = new Line();
             line.z = i * drawPanel.getSegL();
 
-            if(i > 200 + this.tamPista * count && i < 600 + this.tamPista * count) {
+            if(i > 200 + this.tamPista * this.count && i < 600 + this.tamPista * this.count) {
                 line.curve = 1;
                 line.flagTurn = 1;
             }
 
-            if(i > 600 + this.tamPista * count && i < 1200 + this.tamPista * count) {
+            if(i > 600 + this.tamPista * this.count && i < 1200 + this.tamPista * this.count) {
                 line.curve = -1;
                 line.flagTurn = -1;
             }
 
-            lines.add(line);
-            if(i == tamPista * (count + 1)) {
+            (this.lines).add(line);
+            if(i == this.tamPista * (this.count + 1)) {
                 count++;
             }
         }
@@ -44,5 +44,9 @@ public class Racetrack {
 
     public int getLaps() {
         return this.laps;
+    }
+
+    public List<Line> getLines() {
+        return this.lines;
     }
 }

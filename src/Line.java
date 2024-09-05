@@ -22,4 +22,12 @@ public class Line {
         Y = (1 - scale * (y - camY /*+ elevation*/)) * height / 2;
         W = scale * roadW * width/2;
     }
+
+    public void setCurve(double curve) {
+        this.curve = curve;
+    }
+
+    public void setFlagTurn(int flagTurn) {
+        this.flagTurn = flagTurn;
+    }
 }

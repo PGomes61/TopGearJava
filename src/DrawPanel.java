@@ -17,35 +17,41 @@ public class DrawPanel extends JPanel {
     private double playerX = 0;
     private int width = 1024;
     private int segL = 200; // Segment Length
-    private int lap = 100, count = 0;
+    private int laps = 100, count = 0;
     private Player player1;
     private int linhaHorizonte = 300;
     //private double amplitude = 1000;
-    private int tamMaxPista;
+    private int tamPista;
     private JFrame frame;
     private int aux = 0;
+    private Racetrack racetrack = new Racetrack();
 
-    public DrawPanel(int tamMaxPista, Player player1, JFrame frame, List<Npc> npcs) {
+    public DrawPanel(int tamPista, Player player1, JFrame frame, List<Npc> npcs) {
         this.frame = frame;
         this.npcs = npcs;
-        this.tamMaxPista = tamMaxPista;
+        this.tamPista = tamPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
 
-        for(int i = 0; i < tamMaxPista * lap; i++) {
-            Line line = new Line();
-            line.z = i * segL;
-            //double elevationAtual = 0;
+        racetrack.setTamPista(getTamPista());
+        racetrack.setLaps(getLaps());
+        setLines(racetrack.getLines());
+        
 
-            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
-                line.curve = 1;
-                line.flagTurn = 1;
-            }
+        // for(int i = 0; i < tamMaxPista * lap; i++) {
+        //     Line line = new Line();
+        //     line.z = i * segL;
+        //     //double elevationAtual = 0;
 
-            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
-                line.curve = -1;
-                line.flagTurn = -1;
-            }
+        //     if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
+        //         line.curve = 1;
+        //         line.flagTurn = 1;
+        //     }
+
+        //     if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+        //         line.curve = -1;
+        //         line.flagTurn = -1;
+        //     }
 
             // // Add hills and valleys
             // if (i > 50 && i < 150) {
@@ -66,18 +72,31 @@ public class DrawPanel extends JPanel {
             //         line.elevation = elevationAtual;
             // }
 
-            lines.add(line);
-            if(i == tamMaxPista * (count + 1))
-                count++;
-        }
+        // Comentado junto com o for de cima do elevation
+        //     lines.add(line);
+        //     if(i == tamMaxPista * (count + 1))
+        //         count++;
+        // }
     }
 
     public List<Line> getLines() {
         return this.lines;
     }
 
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
+    }
+
     public int getSegL() {
         return this.segL;
+    }
+
+    public int getTamPista() {
+        return this.tamPista;
+    }
+
+    public int getLaps() {
+        return this.laps;
     }
 
     public int getLinhaHorizonte() {
