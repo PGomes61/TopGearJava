@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -13,94 +12,34 @@ public class DrawPanel extends JPanel {
     private static final int D_H = 768;
     private List<Line> lines;
     private List<Npc> npcs;
-    private int pos = 0;
     private double playerX = 0;
     private int width = 1024;
     private int segL = 200; // Segment Length
-    private int lap = 100, count = 0;
+    private int lap, count = 0, aux = 0, pos = 0;
     private Player player1;
     private int linhaHorizonte = 300;
     double amplitude = 1000;
     private int tamMaxPista;
     JFrame frame;
-    private int aux = 0;
 
-    public DrawPanel(int tamMaxPista, Player player1, JFrame frame, List<Npc> npcs) {
+    public DrawPanel(Player player1, JFrame frame, List<Npc> npcs, int pista) {
         this.frame = frame;
         this.npcs = npcs;
-        this.tamMaxPista = tamMaxPista;
         this.lines = new ArrayList<>();
         this.player1 = player1;
-        for(int i = 0; i < tamMaxPista * lap; i++) {
-            Line line = new Line();
-            line.z = i * segL;
-            //double elevationAtual = 0;
-
-            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
-                line.curve = 1;
-                line.flagTurn = 1;
-            }
-
-            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
-                line.curve = -1;
-                line.flagTurn = -1;
-            }
-
-            // // Add hills and valleys
-            // if (i > 50 && i < 150) {
-            //     line.elevation = Math.sin(((i % 100) / 50.0) * Math.PI) * amplitude; // Hill
-            //     if(line.elevation != Math.abs(line.elevation))
-            //         line.elevation = elevationAtual;
-            // } 
-            // if (i > 151 && i < 250) 
-            // {
-            //     line.elevation = Math.sin((i % 100) / 50.0 * Math.PI) * -amplitude; // Valley
-            //     if(line.elevation == Math.abs(line.elevation))
-            //         line.elevation = elevationAtual;
-            // }
-            // if (i > 200 && i < 600) 
-            // {
-            //     line.elevation = Math.sin((i % 400) / 200.0 * Math.PI) * -amplitude * 10; // Valley
-            //     if(line.elevation == Math.abs(line.elevation))
-            //         line.elevation = elevationAtual;
-            // }
-
-            lines.add(line);
-            if(i == tamMaxPista * (count + 1))
-                count++;
+        switch(pista){
+            case 1:
+                pista1();
+                break;
+            case 2:
+                pista2();
+                break;
+            case 3:
+                pista3();
+                break;
+            default:
+                break;
         }
-    }
-
-    public List<Line> getLines() {
-        return this.lines;
-    }
-
-    public int getSegL() {
-        return this.segL;
-    }
-
-    public int getLinhaHorizonte() {
-        return this.linhaHorizonte;
-    }
-
-    public void setPosAcrescimo(int pos) {
-        this.pos += pos;
-    }
-
-    public int getPos() {
-        return this.pos;
-    }
-
-    public void setPlayerXDecrescimo(double playerX) {
-        this.playerX -= playerX;
-    }
-
-    public void setPlayerXAcrescimo(double playerX) {
-        this.playerX += playerX;
-    }
-
-    public double getPlayerX() {
-        return this.playerX;
     }
 
     protected void paintComponent(Graphics g) {
@@ -199,5 +138,125 @@ public class DrawPanel extends JPanel {
         return new Dimension(D_W, D_H);
     }
 
+    private void pista1(){
+        this.tamMaxPista = 1600;
+        this.lap = 3;
+        for(int i = 0; i < tamMaxPista * lap; i++) {
+            Line line = new Line();
+            line.z = i * segL;
+            //double elevationAtual = 0;
 
+
+            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
+                line.curve = 1;
+                line.flagTurn = 1;
+            }
+        
+            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+                line.curve = -1;
+                line.flagTurn = -1;
+            }
+        
+            // // Add hills and valleys
+            // if (i > 50 && i < 150) {
+            //     line.elevation = Math.sin(((i % 100) / 50.0) * Math.PI) * amplitude; // Hill
+            //     if(line.elevation != Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // } 
+            // if (i > 151 && i < 250) 
+            // {
+            //     line.elevation = Math.sin((i % 100) / 50.0 * Math.PI) * -amplitude; // Valley
+            //     if(line.elevation == Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // }
+            // if (i > 200 && i < 600) 
+            // {
+            //     line.elevation = Math.sin((i % 400) / 200.0 * Math.PI) * -amplitude * 10; // Valley
+            //     if(line.elevation == Math.abs(line.elevation))
+            //         line.elevation = elevationAtual;
+            // }
+        
+            lines.add(line);
+            if(i == tamMaxPista * (count + 1))
+                count++;
+        }
+    }
+
+    private void pista2(){
+        this.tamMaxPista = 1600;
+        this.lap = 3;
+        for(int i = 0; i < tamMaxPista * lap; i++) {
+            Line line = new Line();
+            line.z = i * segL;
+
+            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
+                line.curve = -1;
+                line.flagTurn = -1;
+            }
+        
+            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+                line.curve = 1;
+                line.flagTurn = 1;
+            }
+        
+            lines.add(line);
+            if(i == tamMaxPista * (count + 1))
+                count++;
+        }
+    }
+
+    private void pista3(){
+        this.tamMaxPista = 1600;
+        this.lap = 3;
+        for(int i = 0; i < tamMaxPista * lap; i++) {
+            Line line = new Line();
+            line.z = i * segL;
+
+            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
+                line.curve = 1;
+                line.flagTurn = 1;
+            }
+        
+            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+                line.curve = -1;
+                line.flagTurn = -1;
+            }
+        
+            lines.add(line);
+            if(i == tamMaxPista * (count + 1))
+                count++;
+        }
+    }
+
+    public List<Line> getLines() {
+        return this.lines;
+    }
+
+    public int getSegL() {
+        return this.segL;
+    }
+
+    public int getLinhaHorizonte() {
+        return this.linhaHorizonte;
+    }
+
+    public void setPosAcrescimo(int pos) {
+        this.pos += pos;
+    }
+
+    public int getPos() {
+        return this.pos;
+    }
+
+    public void setPlayerXDecrescimo(double playerX) {
+        this.playerX -= playerX;
+    }
+
+    public void setPlayerXAcrescimo(double playerX) {
+        this.playerX += playerX;
+    }
+
+    public double getPlayerX() {
+        return this.playerX;
+    }
 }

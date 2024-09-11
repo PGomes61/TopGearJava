@@ -24,6 +24,7 @@ public class GameLoop extends JPanel implements Runnable {
     private Player player1;
     private DrawPanel drawPanel;
     private Random random = new Random();
+    private int pistaEscolhida;
     //private int aux = 0;
     
     public GameLoop() {
@@ -294,8 +295,13 @@ public class GameLoop extends JPanel implements Runnable {
                 break;
         }
         this.addKeyListener(player1);
-        drawPanel = new DrawPanel(1600, player1, frame, npcs);
+        drawPanel = new DrawPanel(player1, frame, npcs, pistaEscolhida);
     }
+    
+    public void setPistaEscolhida(int pistaEscolhida){
+        this.pistaEscolhida = pistaEscolhida;
+    }
+
     private void setNpc(){
         npcs.add(npc1);
         npcs.add(npc2);

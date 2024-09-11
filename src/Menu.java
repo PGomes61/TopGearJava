@@ -40,7 +40,7 @@ public class Menu extends JPanel{
     private JPanel carro6 = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
-    
+
     public Menu(JFrame frame, GameLoop painelCorrida){
         this.frame = frame;
         this.painelCorrida = painelCorrida;
@@ -161,18 +161,13 @@ public class Menu extends JPanel{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     frame.remove(menuPrincipal);
-                        //frame.add(pistas);
-                        //cl.show(pistas, "p1");
+                    frame.add(pistas);
+                    cl.show(pistas, "p1");
                     painelCorrida.setFrame(frame);
-                    painelCorrida.setFrame(frame);
-                    painelCorrida.setCarroEscolhido(1);
-                    frame.add(painelCorrida);
                             //frame.add(carros);
                             //cl.show(carros, "c1");
                             //carro1.requestFocusInWindow();
-                    painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
-                        //pista1.requestFocusInWindow();
+                    pista1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -569,10 +564,10 @@ public class Menu extends JPanel{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     frame.remove(pistas);
-                    frame.add(painelCorrida);
-                    painelCorrida.setFrame(frame);
-                    painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    frame.add(carros);
+                    cl.show(carros, "c1");
+                    carro1.requestFocusInWindow();
+                    painelCorrida.setPistaEscolhida(1);     
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -592,10 +587,10 @@ public class Menu extends JPanel{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     frame.remove(pistas);
-                    frame.add(painelCorrida);
-                    painelCorrida.setFrame(frame);
-                    painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    frame.add(carros);
+                    cl.show(carros, "c1");
+                    painelCorrida.setPistaEscolhida(2);
+                    carro1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -615,10 +610,10 @@ public class Menu extends JPanel{
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     frame.remove(pistas);
-                    frame.add(painelCorrida);
-                    painelCorrida.setFrame(frame);
-                    painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    frame.add(carros);
+                    cl.show(carros, "c1");
+                    painelCorrida.setPistaEscolhida(3);
+                    carro1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -650,7 +645,7 @@ public class Menu extends JPanel{
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    painelCorrida.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -682,7 +677,7 @@ public class Menu extends JPanel{
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    painelCorrida.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -714,7 +709,7 @@ public class Menu extends JPanel{
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    painelCorrida.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -746,7 +741,7 @@ public class Menu extends JPanel{
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    painelCorrida.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -778,7 +773,7 @@ public class Menu extends JPanel{
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    painelCorrida.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -810,7 +805,7 @@ public class Menu extends JPanel{
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
-                    painelCorrida.requestFocus(true);
+                    painelCorrida.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
