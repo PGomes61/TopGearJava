@@ -8,7 +8,6 @@ public class Npc extends Carro{
     private double yTela = 500;
     private double zTela;
 
-
     public Npc(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, double xTela, double yTela){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
         this.xTela = xTela;
@@ -63,8 +62,7 @@ public class Npc extends Carro{
     }
 
     public double getOffset(){
-        //System.out.println(offset);
-        return offset;
+        return this.offset;
     }
 
     public double[] project(double camX, int camY, int camZ, double camD, int width, int height, int roadW) {

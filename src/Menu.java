@@ -40,7 +40,7 @@ public class Menu extends JPanel{
     private JPanel carro6 = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
-
+    
     public Menu(JFrame frame, GameLoop painelCorrida){
         this.frame = frame;
         this.painelCorrida = painelCorrida;
@@ -163,6 +163,7 @@ public class Menu extends JPanel{
                     frame.remove(menuPrincipal);
                         //frame.add(pistas);
                         //cl.show(pistas, "p1");
+                    painelCorrida.setFrame(frame);
                     painelCorrida.setFrame(frame);
                     painelCorrida.setCarroEscolhido(1);
                     frame.add(painelCorrida);

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -12,8 +13,8 @@ public class DrawPanel extends JPanel {
     private static final int D_H = 768;
     private List<Line> lines;
     private List<Npc> npcs;
-    public int pos = 0;
-    public double playerX = 0;
+    private int pos = 0;
+    private double playerX = 0;
     private int width = 1024;
     private int segL = 200; // Segment Length
     private int lap = 100, count = 0;
@@ -23,7 +24,6 @@ public class DrawPanel extends JPanel {
     private int tamMaxPista;
     JFrame frame;
     private int aux = 0;
-    private double curve;
 
     public DrawPanel(int tamMaxPista, Player player1, JFrame frame, List<Npc> npcs) {
         this.frame = frame;
@@ -83,9 +83,34 @@ public class DrawPanel extends JPanel {
         return this.linhaHorizonte;
     }
 
+    public void setPosAcrescimo(int pos) {
+        this.pos += pos;
+    }
+
+    public int getPos() {
+        return this.pos;
+    }
+
+    public void setPlayerXDecrescimo(double playerX) {
+        this.playerX -= playerX;
+    }
+
+    public void setPlayerXAcrescimo(double playerX) {
+        this.playerX += playerX;
+    }
+
+    public double getPlayerX() {
+        return this.playerX;
+    }
+
+    protected void paintComponent(Graphics g) {
+        
+        super.paintComponent(g);
+        drawValues(g);
+    }
+
     public void drawValues(Graphics g) {
         int startPos = pos / segL;
-        double x = 0, dx = 0;
         Graphics2D g2 = (Graphics2D) g;
         for(int n = startPos; n < linhaHorizonte + startPos; n++) {
             Line l = lines.get(n % lines.size());
@@ -118,6 +143,7 @@ public class DrawPanel extends JPanel {
                 g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
             else
                 g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+
             //Desenhando NPCS
             g.setColor(Color.blue);
             g.fillRect(0, 0, D_W, 392);
@@ -127,19 +153,22 @@ public class DrawPanel extends JPanel {
                 int npcIndex = (npc.getPos() / segL) % lines.size();
                 Line npcLine = lines.get(npcIndex);
 
-                //Calcular a posição horizontal do NPC com base na curva da pista
-                double npcX = npcLine.X + (npcLine.W * npc.getOffset()); //getOffset é a posição relativa do NPC na pista (-1 a 1)
+                // Calcular a posição horizontal do NPC com base na curva da pista
+                double npcX = npcLine.X + (npcLine.W * npc.getOffset()); // getOffset é a posição relativa do NPC na pista (-1 a 1)
                 
-                //Calcular a posição vertical do NPC na tela
-                int scale = (npc.getPos()-pos)/550;
-                int npcY = (int) npcLine.Y-(50-scale/2);
+                // Calcular a posição vertical do NPC na tela
+                int scale = (npc.getPos() - pos) / 550;
+                int npcY = (int)npcLine.Y - (50 - scale / 2);
 
                 //calculo scale
-                //Desenhar o NPC na posição correta
+                // Desenhar o NPC na posição correta
                 //System.out.println((npc.getPos()-pos)/500.0);
-
-                if(100-scale > 10)
+                if(100 - scale < 0){
+                    
+                }
+                if(100 - scale > 10)
                     g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, 100-scale, 50-scale/2, null);
+                
             }
         }
 
@@ -156,6 +185,7 @@ public class DrawPanel extends JPanel {
 
                 aux = 0;
             }
+
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
