@@ -118,36 +118,34 @@ public class Player extends Carro implements KeyListener{
     }
 
     public void acelerar(){   
-        if(colision == false){
-            if(tempo2 == 0 && super.velocidadeInicial + 1 <= super.velocidadeMaxima)
-            {   
+        if(colision == true){
+            if(tempo2 == 0 && super.velocidadeInicial + 1 <= 30) {   
                 super.velocidadeInicial += 1;
-                //System.out.println((int)super.velocidadeInicial);
                 super.velocidadeInicial += 1;
-                //System.out.println((int)super.velocidadeInicial);
                 tempo2++;
             }
             tempo2--;
-            if(tempo2 < 0)
+            if(tempo2 < 0) {
                 tempo2 = 0;
+            }
             return;
         }
-        if(super.velocidadeInicial - 2 >= 30){
-            super.velocidadeInicial -= 1;
-            //System.out.println((int)super.velocidadeInicial);
-            super.velocidadeInicial -= 1;
-            //System.out.println((int)super.velocidadeInicial);
-            super.velocidadeInicial -= 1;
-            //System.out.println((int)super.velocidadeInicial);
-            super.velocidadeInicial -= 1;
-            //System.out.println((int)super.velocidadeInicial);
+
+        if(tempo2 == 0 && super.velocidadeInicial + 1 <= super.velocidadeMaxima) {   
+            super.velocidadeInicial += 1;
+            super.velocidadeInicial += 1;
+
+            tempo2++;
+        }
+        tempo2--;
+        if(tempo2 < 0) {
+            tempo2 = 0;
         }
     }
     public void banguela(){
         if (tempo3 == 0 && super.velocidadeInicial-1 >=0)
         {
             super.velocidadeInicial = super.velocidadeInicial - 1;
-            //System.out.println((int)super.velocidadeInicial);
             tempo3 = 3;
         }
         tempo3--;
@@ -158,12 +156,9 @@ public class Player extends Carro implements KeyListener{
     public void freio(){
         if(tempo == 0 && super.velocidadeInicial -3 >= 0)
         {
-            super.velocidadeInicial -= 1;
-            //System.out.println((int) super.velocidadeInicial);
-            velocidadeInicial -= 1;
-            //System.out.println((int) super.velocidadeInicial);
-            super.velocidadeInicial -= 1;
-            //System.out.println((int) super.velocidadeInicial);
+            super.velocidadeInicial -= 1;;
+            velocidadeInicial -= 1;;
+            super.velocidadeInicial -= 1;;
             tempo = 1;
         }
         else
@@ -174,5 +169,14 @@ public class Player extends Carro implements KeyListener{
     }
     public double getVelocidade(){
         return super.velocidadeInicial;
+    }
+
+    public void colidindo(){
+        if(super.velocidadeInicial >= 30){
+            super.velocidadeInicial -= 1;
+            super.velocidadeInicial -= 1;
+            super.velocidadeInicial -= 1;
+            super.velocidadeInicial -= 1;
+        }
     }
 }

@@ -92,6 +92,7 @@ public class GameLoop extends JPanel implements Runnable {
         //     aux = 61;
         // }
         // aux--;
+        System.out.println(player1.velocidadeInicial);
     
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
@@ -176,6 +177,7 @@ public class GameLoop extends JPanel implements Runnable {
                 double roadRightEdge = l.X + l.W + 6000;
                 if(drawPanel.getPlayerX() < roadLeftEdge || drawPanel.getPlayerX() > roadRightEdge) {
                     System.out.println("COLIDINDO");
+                    player1.colidindo();
                     player1.colision = true; 
                 }
                 else {
@@ -189,7 +191,7 @@ public class GameLoop extends JPanel implements Runnable {
         for (Npc npc : npcs) {
             // Fazer algo com cada NPC
             npc.setPos(random.nextInt(300) + npc.getPos());
-            System.out.println(drawPanel.getPos());
+            //System.out.println(drawPanel.getPos());
         }
     }
 
