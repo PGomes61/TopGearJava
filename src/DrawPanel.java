@@ -15,7 +15,7 @@ public class DrawPanel extends JPanel {
     private double playerX = 0;
     private int width = 1024;
     private int segL = 200; // Segment Length
-    private int lap, count = 0, aux = 0, pos = 0;
+    private int lap, count = 0, pos = 0;
     private Player player1;
     private int linhaHorizonte = 300;
     double amplitude = 1000;
@@ -103,7 +103,7 @@ public class DrawPanel extends JPanel {
                 double interpolatedW = npcLine.W + fraction * (nextLine.W - npcLine.W);
         
                 // Calcular a posição horizontal e vertical do NPC
-                double npcX = interpolatedX + (interpolatedW * 1); // Ajuste de offset
+                double npcX = interpolatedX + (interpolatedW * npc.getOffset()); // Ajuste de offset
                 int scale = (npc.getPos() - pos) / 550;
                 int npcY = (int) (interpolatedY - (50 - scale / 2));
         
@@ -113,21 +113,11 @@ public class DrawPanel extends JPanel {
                 }
             }
         }
-
-        aux++;
-
-        if(aux == 60)
-            {
-                System.out.println("Isso executa 1 vez por segundo!");
-                npcs.get(0).npcOffset();
-                npcs.get(1).npcOffset();
-                npcs.get(2).npcOffset();
-                npcs.get(3).npcOffset();
-                npcs.get(4).npcOffset();
-
-                aux = 0;
-            }
-
+            npcs.get(0).npcOffset();
+            npcs.get(1).npcOffset();
+            npcs.get(2).npcOffset();
+            npcs.get(3).npcOffset();
+            npcs.get(4).npcOffset();
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {

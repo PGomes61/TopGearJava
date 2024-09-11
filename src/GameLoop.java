@@ -108,17 +108,16 @@ public class GameLoop extends JPanel implements Runnable {
         if (player1.leftPressed && !player1.rightPressed) {
             // Lógica para movimento à esquerda
             double aux = (player1.getVelocidade() * 0.01);
-            if(player1.getVelocidade() != 0 && !player1.curva) {
+
+            if(player1.getVelocidade() <= 50.0 && player1.getVelocidade() != 0 && !player1.curva) {
+                drawPanel.setPlayerXDecrescimo(10);
+            }
+
+            if(player1.getVelocidade() > 50.0 && !player1.curva) {
                 drawPanel.setPlayerXDecrescimo(60 + aux);
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() + ((60 + aux)/7));
-                }
             }
             if(player1.getVelocidade() != 0 && player1.curva) {
                 drawPanel.setPlayerXDecrescimo(100 + aux);
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() + ((100 + aux)/7));
-                }
             }
 
             if (!player1.upPressed) {
@@ -130,15 +129,9 @@ public class GameLoop extends JPanel implements Runnable {
             double aux = (player1.getVelocidade() * 0.01);
             if (player1.getVelocidade() != 0 && !player1.curva) {
                 drawPanel.setPlayerXAcrescimo(60 + aux);              
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() - ((60 + aux)/7));
-                }  
             }
             if(player1.getVelocidade() != 0 && player1.curva) {
                 drawPanel.setPlayerXAcrescimo(100 + aux);
-                for (Npc npc : npcs) {
-                    npc.setX(npc.getX() - ((100 + aux)/7));
-                }
             }
 
             if(!player1.upPressed) {
@@ -190,7 +183,9 @@ public class GameLoop extends JPanel implements Runnable {
         /////NPCs///////
         for (Npc npc : npcs) {
             // Fazer algo com cada NPC
-            npc.setPos(random.nextInt(300) + npc.getPos());
+            int j = random.nextInt(300);
+            for(int i = 0; i < j; i++)
+                npc.setPos(1 + npc.getPos());
             //System.out.println(drawPanel.getPos());
         }
     }

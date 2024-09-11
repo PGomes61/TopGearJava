@@ -46,19 +46,19 @@ public class Npc extends Carro{
         return 1;
     }
 
-    public double npcOffset() {
-        double aux = -0.1 + (0.2 * random.nextDouble());
-        
+        public void npcOffset() {
+        // Define um valor muito pequeno para controlar o incremento ou decremento
+        double aux = 0.001 * (random.nextDouble() - 0.5);  // Varia entre -0.0005 e 0.0005
+    
         // Verifica se a soma do offset atual com aux está dentro do intervalo permitido
-        if (offset + aux > 1) {
-            offset = 1;
-        } else if (offset + aux < -1) {
-            offset = -1;
-        } else {
-            offset += aux;
-        }
+        offset += aux;
         
-        return offset;
+        // Limita o valor de offset para permanecer no intervalo de -1 a 1
+        if (offset > 1) {
+            offset = 1;
+        } else if (offset < -1) {
+            offset = -1;
+        }
     }
 
     public double getOffset(){
