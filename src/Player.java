@@ -1,8 +1,12 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 public class Player extends Carro implements KeyListener{
+    private EnviromentVariables env = new EnviromentVariables();
     private String path;
     private ImageIcon velocidadeImg;
     public boolean upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
@@ -15,20 +19,40 @@ public class Player extends Carro implements KeyListener{
     public ImageIcon getImagem(int caso){
         switch (caso) {
             case 1:
-                this.path = "src/Velocidade/0km.png";
-                this.velocidadeImg = new ImageIcon(path);
+                this.path = env.VELOCIDADE_0;
+                velocidadeImg = new ImageIcon(path);
+                // try {
+                //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
+                // } catch (IOException e) {
+                //     e.printStackTrace();
+                // }
                 return velocidadeImg;
             case 2:
-                this.path = "src/Velocidade/1km.png";
-                this.velocidadeImg = new ImageIcon(path);
+                this.path = env.VELOCIDADE_1;
+                velocidadeImg = new ImageIcon(path);
+                // try {
+                //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
+                // } catch (IOException e) {
+                //     e.printStackTrace();
+                // }
                 return velocidadeImg;
             case 3:
-                this.path = "src/Velocidade/2km.png";
-                this.velocidadeImg = new ImageIcon(path);
+                this.path = env.VELOCIDADE_2;
+                velocidadeImg = new ImageIcon(path);
+                // try {
+                //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
+                // } catch (IOException e) {
+                //     e.printStackTrace();
+                // }
                 return velocidadeImg;
             case 4:
-                this.path = "src/Velocidade/3km.png";
-                this.velocidadeImg = new ImageIcon(path);
+                this.path = env.VELOCIDADE_3;
+                velocidadeImg = new ImageIcon(path);
+                // try {
+                //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
+                // } catch (IOException e) {
+                //     e.printStackTrace();
+                // }
                 return velocidadeImg;
             default:
                 return super.imagem;
@@ -98,9 +122,9 @@ public class Player extends Carro implements KeyListener{
             if(tempo2 == 0 && super.velocidadeInicial + 1 <= super.velocidadeMaxima)
             {   
                 super.velocidadeInicial += 1;
-                System.out.println((int)super.velocidadeInicial);
+                //System.out.println((int)super.velocidadeInicial);
                 super.velocidadeInicial += 1;
-                System.out.println((int)super.velocidadeInicial);
+                //System.out.println((int)super.velocidadeInicial);
                 tempo2++;
             }
             tempo2--;
@@ -110,20 +134,20 @@ public class Player extends Carro implements KeyListener{
         }
         if(super.velocidadeInicial - 2 >= 30){
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
         }
     }
     public void banguela(){
         if (tempo3 == 0 && super.velocidadeInicial-1 >=0)
         {
             super.velocidadeInicial = super.velocidadeInicial - 1;
-            System.out.println((int)super.velocidadeInicial);
+            //System.out.println((int)super.velocidadeInicial);
             tempo3 = 3;
         }
         tempo3--;
@@ -135,11 +159,11 @@ public class Player extends Carro implements KeyListener{
         if(tempo == 0 && super.velocidadeInicial -3 >= 0)
         {
             super.velocidadeInicial -= 1;
-            System.out.println((int) super.velocidadeInicial);
+            //System.out.println((int) super.velocidadeInicial);
             velocidadeInicial -= 1;
-            System.out.println((int) super.velocidadeInicial);
+            //System.out.println((int) super.velocidadeInicial);
             super.velocidadeInicial -= 1;
-            System.out.println((int) super.velocidadeInicial);
+            //System.out.println((int) super.velocidadeInicial);
             tempo = 1;
         }
         else

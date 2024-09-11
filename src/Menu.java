@@ -3,9 +3,10 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 public class Menu extends JPanel{
+    private EnviromentVariables env = new EnviromentVariables();
     CardLayout cl = new CardLayout();
     private JFrame frame;
-    private PainelCorrida painelCorrida;
+    private GameLoop painelCorrida;
     private JPanel menuPrincipal = new JPanel();
     private JPanel pistas = new JPanel();
     private JPanel options = new JPanel();
@@ -40,7 +41,7 @@ public class Menu extends JPanel{
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
 
-    public Menu(JFrame frame, PainelCorrida painelCorrida){
+    public Menu(JFrame frame, GameLoop painelCorrida){
         this.frame = frame;
         this.painelCorrida = painelCorrida;
         setImages();
@@ -58,32 +59,32 @@ public class Menu extends JPanel{
     
     private void setImages(){
         //Colocado imagens nos JPANELS!!!!
-        menuP1 = createMenuPanel("src/Menus/MenuPrincipal1.png");
-        menuP2 = createMenuPanel("src/Menus/MenuPrincipal2.png");
-        menuP3 = createMenuPanel("src/Menus/MenuPrincipal3.png");
+        menuP1 = createMenuPanel(env.MENU_P1);
+        menuP2 = createMenuPanel(env.MENU_P2);
+        menuP3 = createMenuPanel(env.MENU_P3);
         controles = createMenuPanel("src/Menus/Controles.png");
-        dificuldade1 = createMenuPanel("src/Menus/Dificuldade.png");
-        dificuldade2 = createMenuPanel("src/Menus/Dificuldade2.png");
-        dificuldade3 = createMenuPanel("src/Menus/Dificuldade3.png");
-        opt11 = createMenuPanel("src/Menus/Opt1 1.png");
-        opt12 = createMenuPanel("src/Menus/Opt1 2.png");
-        opt13 = createMenuPanel("src/Menus/Opt1 3.png");
-        opt14 = createMenuPanel("src/Menus/Opt1 4.png");
-        opt15 = createMenuPanel("src/Menus/Opt1 5.png");
-        opt21 = createMenuPanel("src/Menus/Opt2 1.png");
-        opt22 = createMenuPanel("src/Menus/Opt2 2.png");
-        opt23 = createMenuPanel("src/Menus/Opt2 3.png");
-        opt24 = createMenuPanel("src/Menus/Opt2 4.png");
-        opt25 = createMenuPanel("src/Menus/Opt2 5.png");
-        pista1 = createMenuPanel("src/Menus/Pista1.png");
-        pista2 = createMenuPanel("src/Menus/Pista2.png");
-        pista3 = createMenuPanel("src/Menus/Pista3.png");
-        carro1 = createMenuPanel("src/Menus/Carro1.png");
-        carro2 = createMenuPanel("src/Menus/Carro2.png");
-        carro3 = createMenuPanel("src/Menus/Carro3.png");
-        carro4 = createMenuPanel("src/Menus/Carro4.png");
-        carro5 = createMenuPanel("src/Menus/Carro5.png");
-        carro6 = createMenuPanel("src/Menus/Carro6.png");
+        dificuldade1 = createMenuPanel(env.DIFICULDADE_1);
+        dificuldade2 = createMenuPanel(env.DIFICULDADE_2);
+        dificuldade3 = createMenuPanel(env.DIFICULDADE_3);
+        opt11 = createMenuPanel(env.OPT11);
+        opt12 = createMenuPanel(env.OPT12);
+        opt13 = createMenuPanel(env.OPT13);
+        opt14 = createMenuPanel(env.OPT14);
+        opt15 = createMenuPanel(env.OPT15);
+        opt21 = createMenuPanel(env.OPT21);
+        opt22 = createMenuPanel(env.OPT22);
+        opt23 = createMenuPanel(env.OPT23);
+        opt24 = createMenuPanel(env.OPT24);
+        opt25 = createMenuPanel(env.OPT25);
+        pista1 = createMenuPanel(env.PISTA1);
+        pista2 = createMenuPanel(env.PISTA2);
+        pista3 = createMenuPanel(env.PISTA3);
+        carro1 = createMenuPanel(env.CARRO1);
+        carro2 = createMenuPanel(env.CARRO2);
+        carro3 = createMenuPanel(env.CARRO3);
+        carro4 = createMenuPanel(env.CARRO4);
+        carro5 = createMenuPanel(env.CARRO5);
+        carro6 = createMenuPanel(env.CARRO6);
         menuP1.setFocusable(true);
         menuP2.setFocusable(true);
         menuP3.setFocusable(true);
@@ -162,12 +163,12 @@ public class Menu extends JPanel{
                     frame.remove(menuPrincipal);
                         //frame.add(pistas);
                         //cl.show(pistas, "p1");
+                    painelCorrida.setFrame(frame);
                     painelCorrida.setCarroEscolhido(1);
                     frame.add(painelCorrida);
                             //frame.add(carros);
                             //cl.show(carros, "c1");
                             //carro1.requestFocusInWindow();
-                    painelCorrida.setFrame(frame);
                     painelCorrida.startThread();
                     painelCorrida.requestFocus(true);
                         //pista1.requestFocusInWindow();
