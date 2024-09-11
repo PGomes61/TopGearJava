@@ -87,27 +87,30 @@ public class DrawPanel extends JPanel {
             g.setColor(Color.blue);
             g.fillRect(0, 0, D_W, 392);
         }
+
         for (Npc npc : npcs) {
-            if(npc.getPos() > pos) {
+            if (npc.getPos() > pos) {
                 int npcIndex = (npc.getPos() / segL) % lines.size();
                 Line npcLine = lines.get(npcIndex);
-
-                // Calcular a posição horizontal do NPC com base na curva da pista
-                double npcX = npcLine.X + (npcLine.W * npc.getOffset()); // getOffset é a posição relativa do NPC na pista (-1 a 1)
-                
-                // Calcular a posição vertical do NPC na tela
+                Line nextLine = lines.get(npcIndex + 1); // Próxima linha para interpolação
+        
+                // Fração do NPC dentro do segmento atual (aumentando a fração)
+                double fraction = (double) (npc.getPos() % segL) / (segL);
+        
+                // Interpolação mais suave entre a linha atual e a próxima
+                double interpolatedX = npcLine.X + fraction * (nextLine.X - npcLine.X);
+                double interpolatedY = npcLine.Y + fraction * (nextLine.Y - npcLine.Y);
+                double interpolatedW = npcLine.W + fraction * (nextLine.W - npcLine.W);
+        
+                // Calcular a posição horizontal e vertical do NPC
+                double npcX = interpolatedX + (interpolatedW * 1); // Ajuste de offset
                 int scale = (npc.getPos() - pos) / 550;
-                int npcY = (int)npcLine.Y - (50 - scale / 2);
-
-                //calculo scale
-                // Desenhar o NPC na posição correta
-                //System.out.println((npc.getPos()-pos)/500.0);
-                if(100 - scale < 0){
-                    
+                int npcY = (int) (interpolatedY - (50 - scale / 2));
+        
+                // Desenhar o NPC na posição interpolada
+                if (100 - scale > 10) {
+                    g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, 100 - scale, 50 - scale / 2, null);
                 }
-                if(100 - scale > 10)
-                    g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, 100-scale, 50-scale/2, null);
-                
             }
         }
 
@@ -204,7 +207,6 @@ public class DrawPanel extends JPanel {
                 count++;
         }
     }
-
     private void pista3(){
         this.tamMaxPista = 1600;
         this.lap = 3;

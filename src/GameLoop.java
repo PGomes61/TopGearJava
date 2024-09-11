@@ -297,7 +297,7 @@ public class GameLoop extends JPanel implements Runnable {
         this.addKeyListener(player1);
         drawPanel = new DrawPanel(player1, frame, npcs, pistaEscolhida);
     }
-    
+
     public void setPistaEscolhida(int pistaEscolhida){
         this.pistaEscolhida = pistaEscolhida;
     }
