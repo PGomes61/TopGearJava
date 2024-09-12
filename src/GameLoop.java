@@ -93,6 +93,8 @@ public class GameLoop extends JPanel implements Runnable {
         // }
         // aux--;
         System.out.println(player1.velocidadeInicial);
+        if(player1.pause == true)
+            stopThread();
     
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {

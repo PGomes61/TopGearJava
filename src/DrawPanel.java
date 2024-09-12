@@ -71,7 +71,7 @@ public class DrawPanel extends JPanel {
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
             
-            g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 20, frame.getHeight() - player1.getImagem().getIconHeight() - 200, player1.getImagem().getIconWidth() * 2, player1.getImagem().getIconHeight() * 2, null);
+            g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 30, frame.getHeight() - player1.getImagem().getIconHeight() - 300, player1.getImagem().getIconWidth() * 3, player1.getImagem().getIconHeight() * 3, null);
 
             g2.setColor(Color.WHITE);
             if (player1.getVelocidade() < 100)
@@ -113,11 +113,25 @@ public class DrawPanel extends JPanel {
                 }
             }
         }
-            npcs.get(0).npcOffset();
-            npcs.get(1).npcOffset();
-            npcs.get(2).npcOffset();
-            npcs.get(3).npcOffset();
-            npcs.get(4).npcOffset();
+        npcs.get(0).npcOffset();
+        npcs.get(1).npcOffset();
+        npcs.get(2).npcOffset();   
+        npcs.get(3).npcOffset();
+        npcs.get(4).npcOffset();
+
+        int arvoreIndex = (50000 / segL) % lines.size();
+        Line arvoreLine = lines.get(arvoreIndex);
+        double fraction2 = (double) (50000 % segL) / (segL);
+        double interpolatedX = arvoreLine.X + fraction2 * (arvoreLine.X - arvoreLine.X);
+        double interpolatedY = arvoreLine.Y + fraction2 * (arvoreLine.Y - arvoreLine.Y);
+        double interpolatedW = arvoreLine.W + fraction2 * (arvoreLine.W - arvoreLine.W);
+        double arvoreX = interpolatedX + (interpolatedW * 2); // Ajuste de offset
+        int scale = (50000 - pos) / 550;
+        int arvoreY = (int) (interpolatedY - (50 - scale / 2));
+
+        if (100 - scale > 10) {
+            g2.drawImage(npcs.get(1).getImagem().getImage(), (int) arvoreX, arvoreY, 100 - scale, 50 - scale / 2, null);
+        }
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
