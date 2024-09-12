@@ -11,40 +11,230 @@ public class DrawPanel extends JPanel {
     private static final int D_W = 1024;
     private static final int D_H = 768;
     private List<Line> lines;
-    public int pos = 0;
-    public double playerX = 0;
+    private List<Npc> npcs;
+    private double playerX = 0;
     private int width = 1024;
-    private int height = 768;
-    private int roadW = 2000;
     private int segL = 200; // Segment Length
-    private double camD = 0.84; // Camera Depth
-    private int lap = 3, count = 0;
+    private int lap, count = 0, pos = 0;
     private Player player1;
     private int linhaHorizonte = 300;
     double amplitude = 1000;
     private int tamMaxPista;
     JFrame frame;
 
-    public DrawPanel(int tamMaxPista, Player player1, JFrame frame) {
+    public DrawPanel(Player player1, JFrame frame, List<Npc> npcs, int pista) {
         this.frame = frame;
-        this.tamMaxPista = tamMaxPista;
+        this.npcs = npcs;
         this.lines = new ArrayList<>();
         this.player1 = player1;
+        switch(pista){
+            case 1:
+                pista1();
+                break;
+            case 2:
+                pista2();
+                break;
+            case 3:
+                pista3();
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected void paintComponent(Graphics g) {
+        
+        super.paintComponent(g);
+        drawValues(g);
+    }
+
+    public void drawValues(Graphics g) {
+        int startPos = pos / segL;
+        Graphics2D g2 = (Graphics2D) g;
+        for(int n = startPos; n < linhaHorizonte + startPos; n++) {
+            Line l = lines.get(n % lines.size());
+
+            Color grass = ((n / 2) % 2) == 0 ? new Color(163,128,104) : new Color(120,64,8);
+            Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
+            Color road = new Color(71,74,81);
+            Color trace = ((n / 2) % 4) == 0 ? new Color(255,255,255) : new Color(71,74,81);
+
+            Line p = null;
+            if (n == 0) {
+                p = l;
+            } else {
+                p = lines.get((n - 1) % lines.size());
+            }
+
+            drawQuad(g, grass, 0, (int) p.Y, width, 0, (int) l.Y, width);
+            drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
+            drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
+            drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
+            
+            g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 20, frame.getHeight() - player1.getImagem().getIconHeight() - 200, player1.getImagem().getIconWidth() * 2, player1.getImagem().getIconHeight() * 2, null);
+
+            g2.setColor(Color.WHITE);
+            if (player1.getVelocidade() < 100)
+                g2.drawImage(player1.getImagem(1).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else if (player1.getVelocidade() < 200)
+                g2.drawImage(player1.getImagem(2).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else if (player1.getVelocidade() <= 299)
+                g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+            else
+                g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+
+            //Desenhando NPCS
+            g.setColor(Color.blue);
+            g.fillRect(0, 0, D_W, 392);
+        }
+
+        for (Npc npc : npcs) {
+            if (npc.getPos() > pos) {
+                int npcIndex = (npc.getPos() / segL) % lines.size();
+                Line npcLine = lines.get(npcIndex);
+                Line nextLine = lines.get(npcIndex + 1); // Próxima linha para interpolação
+        
+                // Fração do NPC dentro do segmento atual (aumentando a fração)
+                double fraction = (double) (npc.getPos() % segL) / (segL);
+        
+                // Interpolação mais suave entre a linha atual e a próxima
+                double interpolatedX = npcLine.X + fraction * (nextLine.X - npcLine.X);
+                double interpolatedY = npcLine.Y + fraction * (nextLine.Y - npcLine.Y);
+                double interpolatedW = npcLine.W + fraction * (nextLine.W - npcLine.W);
+        
+                // Calcular a posição horizontal e vertical do NPC
+                double npcX = interpolatedX + (interpolatedW * npc.getOffset()); // Ajuste de offset
+                int scale = (npc.getPos() - pos) / 550;
+                int npcY = (int) (interpolatedY - (50 - scale / 2));
+        
+                // Desenhar o NPC na posição interpolada
+                if (100 - scale > 10) {
+                    g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, 100 - scale, 50 - scale / 2, null);
+                }
+            }
+        }
+            npcs.get(0).npcOffset();
+            npcs.get(1).npcOffset();
+            npcs.get(2).npcOffset();
+            npcs.get(3).npcOffset();
+            npcs.get(4).npcOffset();
+    }
+
+    void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
+        int[] xPoints = {x1 - w1, x2 - w2, x2 + w2, x1 + w1};
+        int[] yPoints = {y1, y2, y2, y1};
+        g.setColor(c);
+        g.fillPolygon(xPoints, yPoints, 4);
+    }
+
+    public Dimension getPreferredSize() {
+        return new Dimension(D_W, D_H);
+    }
+
+    private void pista1(){
+        this.tamMaxPista = 8000;
+        this.lap = 3;
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
-            double elevationAtual = 0;
+            //double elevationAtual = 0;
 
-            if (i > 200 + tamMaxPista * count && i < 600 + tamMaxPista * count) {
-                line.curve = 1;
+
+            if (i > 800 + this.tamMaxPista * count && i < 1000 + this.tamMaxPista * count) {
+                line.curve = 1.0;
                 line.flagTurn = 1;
             }
 
-            if (i > 600 + tamMaxPista * count && i < 1200 + tamMaxPista * count) {
-                line.curve = -1;
+            if (i > 1300 + this.tamMaxPista * count && i < 1450 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+
+            if (i > 1450 + this.tamMaxPista * count && i < 1750 + this.tamMaxPista * count) {
+                line.curve = -0.7;
+                line.flagTurn = -1;
+            }
+        
+            if (i > 1750 + this.tamMaxPista * count && i < 2000 + this.tamMaxPista * count) {
+                line.curve = 1.2;
+                line.flagTurn = 1;
+            }
+            
+            if (i > 2300 + this.tamMaxPista * count && i < 2450 + this.tamMaxPista * count) {
+                line.curve = -0.6;
                 line.flagTurn = -1;
             }
 
+            if (i > 2450 + this.tamMaxPista * count && i < 2600 + this.tamMaxPista * count) {
+                line.curve = 0.7;
+                line.flagTurn = 1;
+            }
+
+            if (i > 3000 + this.tamMaxPista * count && i < 3150 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+
+            if (i > 3150 + this.tamMaxPista * count && i < 3300 + this.tamMaxPista * count) {
+                line.curve = -0.9;
+                line.flagTurn = -1;
+            }
+
+            if (i > 3300 + this.tamMaxPista * count && i < 3450 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+
+            if (i > 3600 + this.tamMaxPista * count && i < 3800 + this.tamMaxPista * count) {
+                line.curve = 1.0;
+                line.flagTurn = 1;
+            }
+
+            if (i > 4300 + this.tamMaxPista * count && i < 4750 + this.tamMaxPista * count) {
+                line.curve = -1.2;
+                line.flagTurn = -1;
+            }
+
+            if (i > 4750 + this.tamMaxPista * count && i < 4850 + this.tamMaxPista * count) {
+                line.curve = 0.2;
+                line.flagTurn = 1;
+            }
+
+            if (i > 5250 + this.tamMaxPista * count && i < 5450 + this.tamMaxPista * count) {
+                line.curve = 1.0;
+                line.flagTurn = 1;
+            }
+
+            if (i > 5800 + this.tamMaxPista * count && i < 6000 + this.tamMaxPista * count) {
+                line.curve = 1.0;
+                line.flagTurn = 1;
+            }
+
+            if (i > 6300 + this.tamMaxPista * count && i < 6500 + this.tamMaxPista * count) {
+                line.curve = -0.7;
+                line.flagTurn = -1;
+            }
+
+            if (i > 6750 + this.tamMaxPista * count && i < 6900 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+            
+            if (i > 6900 + this.tamMaxPista * count && i < 7050 + this.tamMaxPista * count) {
+                line.curve = -0.6;
+                line.flagTurn = -1;
+            }
+
+            if (i > 7050 + this.tamMaxPista * count && i < 7200 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+            
+            // if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+            //     line.curve = -1;
+            //     line.flagTurn = -1;
+            // }
+        
             // // Add hills and valleys
             // if (i > 50 && i < 150) {
             //     line.elevation = Math.sin(((i % 100) / 50.0) * Math.PI) * amplitude; // Hill
@@ -63,143 +253,87 @@ public class DrawPanel extends JPanel {
             //     if(line.elevation == Math.abs(line.elevation))
             //         line.elevation = elevationAtual;
             // }
-
+        
             lines.add(line);
             if(i == tamMaxPista * (count + 1))
                 count++;
         }
     }
 
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        drawValues(g);
+    private void pista2(){
+        this.tamMaxPista = 1600;
+        this.lap = 3;
+        for(int i = 0; i < tamMaxPista * lap; i++) {
+            Line line = new Line();
+            line.z = i * segL;
+
+            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
+                line.curve = -1;
+                line.flagTurn = -1;
+            }
+        
+            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+                line.curve = 1;
+                line.flagTurn = 1;
+            }
+        
+            lines.add(line);
+            if(i == tamMaxPista * (count + 1))
+                count++;
+        }
     }
+    private void pista3(){
+        this.tamMaxPista = 1600;
+        this.lap = 3;
+        for(int i = 0; i < tamMaxPista * lap; i++) {
+            Line line = new Line();
+            line.z = i * segL;
 
-    public void drawValues(Graphics g) {
-        int startPos = pos / segL;
-        double x = 0, dx = 0;
-        for(int n = startPos; n < linhaHorizonte + startPos; n++) {
-            Line l = lines.get(n % lines.size());
-            l.project(playerX - (int) x, 1500, pos);
-
-            x += dx;
-            dx += l.curve;
-
-            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == 1)
-            {
-                //System.out.println("Curva Direita!");
-                player1.curva = true;
-                width = 1024;
-                height = 768;
-                if(player1.getVelocidade() > 0)
-                    playerX -= 0.5 * l.curve * (player1.getVelocidade() * 0.01);
+            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
+                line.curve = 1;
+                line.flagTurn = 1;
             }
-
-            if(n > startPos + 1 && n < startPos + 14 && l.flagTurn == -1)
-            {
-                //System.out.println("Curva Esquerda!");
-                width = 1024;
-                height = 768;
-                player1.curva = true;
-                if(player1.getVelocidade() > 0)
-                    playerX += 0.5 * (- l.curve) * (player1.getVelocidade() * 0.01); 
+        
+            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+                line.curve = -1;
+                line.flagTurn = -1;
             }
-
-            // if(n == startPos + 1){
-            //     double roadLeftEdge = (l.X - l.W/2) - 7800;
-            //     double roadRightEdge = (l.X + l.W/2) + 7800;
-            //     if (playerX < roadLeftEdge || playerX > roadRightEdge) {
-            //         player1.colision = true;
-            //     }
-            //     else{
-            //         player1.colision = false;
-            //     }
-            // }
-
-            
-            Color grass = ((n / 2) % 2) == 0 ? new Color(16,200,16) : new Color(0,154,0);
-            Color rumble = ((n / 2) % 2) == 0 ? new Color(255,255,255) : new Color(255,0,0);
-            Color road = Color.black;
-            Color trace = ((n / 2) % 4) == 0 ? new Color(255,255,255) : new Color(0,0,0);
-
-            Line p = null;
-            if (n == 0) {
-                p = l;
-            } else {
-                p = lines.get((n - 1) % lines.size());
-            }
-
-            drawQuad(g, grass, 0, (int) p.Y, width, 0, (int) l.Y, width);
-            drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
-            drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
-            drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
-
-            g.setColor(Color.blue);
-            g.fillRect(0, 0, D_W, 392);
-            Graphics2D g2 = (Graphics2D)g;
-
-            g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth())/2) -10, frame.getHeight() - player1.getImagem().getIconHeight() - 100, player1.getImagem().getIconWidth(), player1.getImagem().getIconHeight(), null);
-            g2.setColor(Color.WHITE);
-            if(player1.getVelocidade() < 100)
-                g2.drawImage(player1.getImagem(1).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-            else if(player1.getVelocidade() < 200)
-                g2.drawImage(player1.getImagem(2).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-            else if(player1.getVelocidade() <=299)
-                g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-            else
-                g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
-            
-                // for (Npc npc : npcs) {
-            //     int npcIndex = (npc.getPos() / segL) % lines.size();
-            //     DrawPanel.Line npcLine = lines.get(npcIndex);
-            
-            //     // Calcula os limites da pista
-            //     int pistaEsquerda = (int) (npcLine.X - npcLine.W / 2);
-            //     int pistaDireita = (int) (npcLine.X + npcLine.W / 2);
-            
-            //     // Projeta o NPC dentro da pista
-            //     int npcX = pistaEsquerda + (int) ((pistaDireita - pistaEsquerda) * npc.getPosicaoRelativaNaPista());
-            
-            //     // Ajusta a projeção Y do NPC
-            //     int npcY = (int) npcLine.Y;
-            
-            //     // Desenha o NPC
-            //     g.drawImage(npc.getImagem().getImage(), npcX, npcY, 25, 25, null);
-            
-            //     // Atualiza a posição do NPC para o próximo quadro
-            //     npc.setPos(npc.getPos() + 1);
-            // }
+        
+            lines.add(line);
+            if(i == tamMaxPista * (count + 1))
+                count++;
         }
     }
 
-    void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
-        int[] xPoints = {x1 - w1, x2 - w2, x2 + w2, x1 + w1};
-        int[] yPoints = {y1, y2, y2, y1};
-        g.setColor(c);
-        g.fillPolygon(xPoints, yPoints, 4);
+    public List<Line> getLines() {
+        return this.lines;
     }
 
-    public Dimension getPreferredSize() {
-        return new Dimension(D_W, D_H);
+    public int getSegL() {
+        return this.segL;
     }
 
-    public class Line {
-        double x, y, z;   // 3D center of line
-        double X, Y, W;   // Screen coordinates
-        double scale, curve, elevation;
-        int flagTurn;
+    public int getLinhaHorizonte() {
+        return this.linhaHorizonte;
+    }
 
-        public Line() {
-            this.curve = x = y = z = 0;
-            this.flagTurn = 0;
-            this.elevation = 0;
-        }
+    public void setPosAcrescimo(int pos) {
+        this.pos += pos;
+    }
 
-        void project(double camX, int camY, int camZ) {
-            scale = camD / (z - camZ);
-            X = (1 + scale * (x - camX)) * width / 2;
-            Y = (1 - scale * (y - camY + elevation)) * height / 2;
-            W = scale * roadW * width/2;
-        }
+    public int getPos() {
+        return this.pos;
+    }
+
+    public void setPlayerXDecrescimo(double playerX) {
+        this.playerX -= playerX;
+    }
+
+    public void setPlayerXAcrescimo(double playerX) {
+        this.playerX += playerX;
+    }
+
+    public double getPlayerX() {
+        return this.playerX;
     }
 }
