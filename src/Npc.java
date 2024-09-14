@@ -65,6 +65,10 @@ public class Npc extends Carro{
         return this.offset;
     }
 
+    public void setOffset(double offset){
+        this.offset = offset;
+    }
+
     public double[] project(double camX, int camY, int camZ, double camD, int width, int height, int roadW) {
         double scale = camD / (zTela - camZ);
         double screenX = (1 + scale * (xTela - camX)) * width / 2;

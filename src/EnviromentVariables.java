@@ -55,6 +55,17 @@ public class EnviromentVariables{
     public String CARRO5="src/Menus/Carro5.png";
     public String CARRO6="src/Menus/Carro6.png";
 
+    public String SPRITE_SETAE="src/Cenario/SetaE.png";
+    public String SPRITE_SETAD="src/Cenario/SetaD.png";
+
+
+
+    //NECESSÁRIO AJUSTAR A FÍSICA DAS CURVAS.
+    //NECESSÁRIO ADICIONAR COLISÃO ENTRE OS CARROS.
+    //NECESSÁRIO ADICIONAR PARALAX.
+    //NECESSÁRIO RESOLVER BUG VISUAL DE ITENS DO CENÁRIO.
+    //NECESSÁRIO ADICIONAR TEMPLATE PARA 2 JOGADORES.
+    //NECESSÁRIO IMPLEMENTAR SISTEMA DE NITRO.
 
     public EnviromentVariables(){
 
