@@ -132,7 +132,7 @@ public class DrawPanel extends JPanel {
     }
 
     private void pista1(){
-        this.tamMaxPista = 1600;
+        this.tamMaxPista = 8000;
         this.lap = 3;
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
@@ -140,15 +140,100 @@ public class DrawPanel extends JPanel {
             //double elevationAtual = 0;
 
 
-            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
-                line.curve = 1;
+            if (i > 800 + this.tamMaxPista * count && i < 1000 + this.tamMaxPista * count) {
+                line.curve = 1.0;
                 line.flagTurn = 1;
             }
-        
-            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
-                line.curve = -1;
+
+            if (i > 1300 + this.tamMaxPista * count && i < 1450 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+
+            if (i > 1450 + this.tamMaxPista * count && i < 1750 + this.tamMaxPista * count) {
+                line.curve = -0.7;
                 line.flagTurn = -1;
             }
+        
+            if (i > 1750 + this.tamMaxPista * count && i < 2000 + this.tamMaxPista * count) {
+                line.curve = 1.2;
+                line.flagTurn = 1;
+            }
+            
+            if (i > 2300 + this.tamMaxPista * count && i < 2450 + this.tamMaxPista * count) {
+                line.curve = -0.6;
+                line.flagTurn = -1;
+            }
+
+            if (i > 2450 + this.tamMaxPista * count && i < 2600 + this.tamMaxPista * count) {
+                line.curve = 0.7;
+                line.flagTurn = 1;
+            }
+
+            if (i > 3000 + this.tamMaxPista * count && i < 3150 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+
+            if (i > 3150 + this.tamMaxPista * count && i < 3300 + this.tamMaxPista * count) {
+                line.curve = -0.9;
+                line.flagTurn = -1;
+            }
+
+            if (i > 3300 + this.tamMaxPista * count && i < 3450 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+
+            if (i > 3600 + this.tamMaxPista * count && i < 3800 + this.tamMaxPista * count) {
+                line.curve = 1.0;
+                line.flagTurn = 1;
+            }
+
+            if (i > 4300 + this.tamMaxPista * count && i < 4750 + this.tamMaxPista * count) {
+                line.curve = -1.2;
+                line.flagTurn = -1;
+            }
+
+            if (i > 4750 + this.tamMaxPista * count && i < 4850 + this.tamMaxPista * count) {
+                line.curve = 0.2;
+                line.flagTurn = 1;
+            }
+
+            if (i > 5250 + this.tamMaxPista * count && i < 5450 + this.tamMaxPista * count) {
+                line.curve = 1.0;
+                line.flagTurn = 1;
+            }
+
+            if (i > 5800 + this.tamMaxPista * count && i < 6000 + this.tamMaxPista * count) {
+                line.curve = 1.0;
+                line.flagTurn = 1;
+            }
+
+            if (i > 6300 + this.tamMaxPista * count && i < 6500 + this.tamMaxPista * count) {
+                line.curve = -0.7;
+                line.flagTurn = -1;
+            }
+
+            if (i > 6750 + this.tamMaxPista * count && i < 6900 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+            
+            if (i > 6900 + this.tamMaxPista * count && i < 7050 + this.tamMaxPista * count) {
+                line.curve = -0.6;
+                line.flagTurn = -1;
+            }
+
+            if (i > 7050 + this.tamMaxPista * count && i < 7200 + this.tamMaxPista * count) {
+                line.curve = 0.5;
+                line.flagTurn = 1;
+            }
+            
+            // if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
+            //     line.curve = -1;
+            //     line.flagTurn = -1;
+            // }
         
             // // Add hills and valleys
             // if (i > 50 && i < 150) {
