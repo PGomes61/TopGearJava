@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 public class EnviromentVariables{
     public static String SPRITE_C1_E="src/Carro/Carro1E.png";
     public static String SPRITE_C1_F="src/Carro/Carro1F.png";
@@ -61,18 +63,25 @@ public class EnviromentVariables{
     public static String SPRITE_SETAD="src/Cenario/SetaD.png";
     public static String SPRITE_LINHACHEGADA="src/Cenario/linha.png";
 
+    public static ImageIcon SPRITE_SEMAFORO= new ImageIcon("src/Cenario/Semaforo.png");
+    public static ImageIcon SPRITE_SEMAFOROR= new ImageIcon("src/Cenario/SemaforoR.png");
+    public static ImageIcon SPRITE_SEMAFOROG= new ImageIcon("src/Cenario/SemaforoG.png");
+    public static ImageIcon SPRITE_SEMAFOROY= new ImageIcon("src/Cenario/SemaforoY.png");
+
 
 
     //NECESSÁRIO AJUSTAR A FÍSICA DAS CURVAS.
+    //NECESSÁRIO AJUSTAR ATRIBUTOS DOS CARROS.
+
     //NECESSÁRIO ADICIONAR COLISÃO ENTRE OS CARROS.
-    //NECESSÁRIO ADICIONAR PARALAX.
+
+    
     //NECESSÁRIO ADICIONAR TEMPLATE PARA 2 JOGADORES.
     //NECESSÁRIO IMPLEMENTAR SISTEMA DE NITRO.
-    //NECESSÁRIO ADICIONAR MENU DE PAUSE E RESUME E OPÇÃO PARA CANCELAR CORRIDA.
     //NECESSÁRIO ADICIONAR SONS.
     //NECESSÁRIO ADICIONAR HUD.
-    //NECESSÁRIO AJUSTAR ATRIBUTOS DOS CARROS.
-    //NECESSÁRIO CRIAR INICIO DA CORRIDA TIPO FORMULA 1.
+    
+    //NECESSÁRIO ADICIONAR PARALAX.
     //NECESSÁRIO CRIAR FIM DA CORRIDA COM TEMPO E RANKING DE CORREDORES.
 
     public EnviromentVariables(){

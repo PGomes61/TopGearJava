@@ -196,6 +196,7 @@ public class DrawPanel extends JPanel {
     private void pista1(){
         this.tamMaxPista = 8000;
         this.lap = 3;
+        setPosInicial();
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
@@ -396,5 +397,22 @@ public class DrawPanel extends JPanel {
 
     public double getPlayerX() {
         return this.playerX;
+    }
+
+    private void setPosInicial(){
+        npcs.get(0).setOffset(-0.5);
+        npcs.get(0).setPos(9000);
+
+        npcs.get(1).setOffset(0.5);
+        npcs.get(1).setPos(7000);
+
+        npcs.get(2).setOffset(-0.5);
+        npcs.get(2).setPos(5000);
+
+        npcs.get(3).setOffset(0.5);
+        npcs.get(3).setPos(3000);
+
+        npcs.get(4).setOffset(-0.5);
+        npcs.get(4).setPos(1000);
     }
 }

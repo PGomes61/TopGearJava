@@ -6,7 +6,7 @@ public class Player extends Carro implements KeyListener{
     private GameLoop game;
     private String path;
     private ImageIcon velocidadeImg;
-    public boolean pause = false, upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
+    public boolean start = false, pause = false, upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
 
     public Player(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, GameLoop game){
@@ -70,14 +70,16 @@ public class Player extends Carro implements KeyListener{
                 if(rightPressed == false && super.velocidadeInicial !=0)
                 {
                     leftPressed = true;
-                    super.imagem = super.sprites.get(1);
+                    if(start == true)
+                        super.imagem = super.sprites.get(1);
                 }
                 break;
             case KeyEvent.VK_RIGHT:
                 if(leftPressed == false && super.velocidadeInicial !=0)
                 {
                     rightPressed = true;
-                    super.imagem = super.sprites.get(2);
+                    if(start == true)
+                        super.imagem = super.sprites.get(2);
                 }
                 break;
             case KeyEvent.VK_DOWN:

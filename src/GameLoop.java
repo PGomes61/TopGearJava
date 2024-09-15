@@ -25,8 +25,7 @@ public class GameLoop extends JPanel implements Runnable {
     private Player player1;
     private DrawPanel drawPanel;
     private Random random = new Random();
-    private int pistaEscolhida;
-    //private int aux = 0;
+    private int pistaEscolhida, count = 0;
     
     public GameLoop() {
         this.setDoubleBuffered(true);
@@ -95,7 +94,6 @@ public class GameLoop extends JPanel implements Runnable {
 
             // Atualize o jogo enquanto houver tempo acumulado suficiente
             while (accumulator >= TIME_PER_UPDATE) {
-                System.out.println("Teste");
                 update();  // Atualiza a lógica do jogo
                 accumulator -= TIME_PER_UPDATE;
             }
@@ -111,19 +109,20 @@ public class GameLoop extends JPanel implements Runnable {
     }
 
     public void update() {
-        // if (aux == 0) {
-        //     int x = ((frame.getWidth() - player1.getImagem().getIconWidth())/2);
-        //     int y = ((frame.getHeight() - player1.getImagem().getIconHeight())/2);
-        //     int sizeY = frame.getHeight();
-        //     int sizeX = frame.getWidth();
-        //     System.out.println(x + " " + y + " " + sizeX + " " + sizeY);
-        //     System.out.println("Jogo rodando a " + TARGET_FPS);
-        //     aux = 61;
-        // }
-        // aux--;
-        System.out.println(player1.velocidadeInicial);
-        
-    
+        if(player1.start == false){
+            count++;
+            if(count > 300){
+                player1.start = true;
+                count = 0;
+            }
+            int startPos = drawPanel.getPos() / drawPanel.getSegL();
+            for(int n = startPos; n < drawPanel.getLinhaHorizonte() + startPos; n++) {
+                Line l = drawPanel.getLines().get(n % drawPanel.getLines().size());   
+                l.project(drawPanel.getPlayerX(), 1500, drawPanel.getPos());
+            }
+            return;
+        }
+
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
             System.out.println("CIMA");
@@ -216,7 +215,6 @@ public class GameLoop extends JPanel implements Runnable {
             int j = random.nextInt(300);
             for(int i = 0; i < j; i++)
                 npc.setPos(1 + npc.getPos());
-            //System.out.println(drawPanel.getPos());
         }
     }
 
@@ -224,12 +222,26 @@ public class GameLoop extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawPanel.drawValues(g);
+        if(player1.start == false){
+            if(count < 300){
+                g.drawImage(EnviromentVariables.SPRITE_SEMAFOROG.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFOROG.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFOROG.getIconHeight()/2, null);
+            }
+            if(count < 280){
+                g.drawImage(EnviromentVariables.SPRITE_SEMAFOROY.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFOROY.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFOROY.getIconHeight()/2, null);
+            }
+            if(count < 230){
+                g.drawImage(EnviromentVariables.SPRITE_SEMAFOROR.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFOROR.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFOROR.getIconHeight()/2, null);
+            }
+            if(count < 120){
+                g.drawImage(EnviromentVariables.SPRITE_SEMAFORO.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFORO.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFORO.getIconHeight()/2, null);
+            }
+        }
     }
 
     public void setCarroEscolhido(int carroEscolhido){
         Iterator<Npc> iterator = npcs.iterator();
         while (iterator.hasNext()) {
-        Npc npc = iterator.next();
+            Npc npc = iterator.next();
             iterator.remove(); // Remove o carro da lista
         }
         switch (carroEscolhido) {
@@ -250,7 +262,7 @@ public class GameLoop extends JPanel implements Runnable {
                 break;
             case 2:
                 carro1 = new Npc(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
-                carro2 = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 25, this);
+                carro2 = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 250, this);
                 carro3 = new Npc(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2, 2, 2, 50, 200, 200);
                 carro4 = new Npc(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
                 carro5 = new Npc(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
