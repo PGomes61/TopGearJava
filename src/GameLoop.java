@@ -2,6 +2,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -43,11 +44,27 @@ public class GameLoop extends JPanel implements Runnable {
 
     public void stopThread() {
         running = false;
-        try {
-            gameThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (gameThread != null) {
+            try {
+                gameThread.interrupt(); // Sinaliza a thread para parar
+                gameThread.join(); // Espera a thread terminar
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                gameThread = null; // Permite criar uma nova thread na próxima vez
+            }
         }
+    }
+
+    public void resumeThread() {
+        player1.pause = false; // Sinaliza que a thread deve continuar
+        synchronized (this) {
+            this.notify(); // Notifica a thread para acordar
+        }
+    }
+
+    public void pauseThread() {
+        player1.pause = true;
     }
 
     public void setFrame(JFrame frame) {
@@ -59,6 +76,17 @@ public class GameLoop extends JPanel implements Runnable {
         lastTime = System.nanoTime();
         
         while (running) {
+            synchronized (this) {
+                while (player1.pause) {
+                    try {
+                        this.wait(); // Coloca a thread em espera enquanto está pausada
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    lastTime = System.nanoTime();
+                }
+            }
+
             long currentTime = System.nanoTime();
             double elapsed = (currentTime - lastTime) / NANOSECONDS_PER_SECOND;
             lastTime = currentTime;
@@ -67,6 +95,7 @@ public class GameLoop extends JPanel implements Runnable {
 
             // Atualize o jogo enquanto houver tempo acumulado suficiente
             while (accumulator >= TIME_PER_UPDATE) {
+                System.out.println("Teste");
                 update();  // Atualiza a lógica do jogo
                 accumulator -= TIME_PER_UPDATE;
             }
@@ -93,8 +122,7 @@ public class GameLoop extends JPanel implements Runnable {
         // }
         // aux--;
         System.out.println(player1.velocidadeInicial);
-        if(player1.pause == true)
-            stopThread();
+        
     
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
@@ -199,14 +227,19 @@ public class GameLoop extends JPanel implements Runnable {
     }
 
     public void setCarroEscolhido(int carroEscolhido){
+        Iterator<Npc> iterator = npcs.iterator();
+        while (iterator.hasNext()) {
+        Npc npc = iterator.next();
+            iterator.remove(); // Remove o carro da lista
+        }
         switch (carroEscolhido) {
             case 1:
-                carro1 = new Player(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300);
-                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 100, 100);
-                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 200, 200);
-                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
-                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
-                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
+                carro1 = new Player(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2, 2, 2, 300, this);
+                carro2 = new Npc(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 25, 100, 100);
+                carro3 = new Npc(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2, 2, 2, 50, 200, 200);
+                carro4 = new Npc(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
+                carro5 = new Npc(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro1;
                 npc1 = (Npc) carro2;
                 npc2 = (Npc) carro3;
@@ -216,12 +249,12 @@ public class GameLoop extends JPanel implements Runnable {
                 setNpc();
                 break;
             case 2:
-                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
-                carro2 = new Player(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25);
-                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 200, 200);
-                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
-                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
-                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150,500, 500);
+                carro1 = new Npc(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 25, this);
+                carro3 = new Npc(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2, 2, 2, 50, 200, 200);
+                carro4 = new Npc(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
+                carro5 = new Npc(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2, 2, 2, 150,500, 500);
                 player1 = (Player) carro2;
                 npc1 = (Npc) carro1;
                 npc2 = (Npc) carro3;
@@ -231,12 +264,12 @@ public class GameLoop extends JPanel implements Runnable {
                 setNpc();
                 break;
             case 3:
-                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
-                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
-                carro3 = new Player(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50);
-                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
-                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
-                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
+                carro1 = new Npc(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
+                carro3 = new Player(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2, 2, 2, 50, this);
+                carro4 = new Npc(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2, 2, 2, 75, 300, 300);
+                carro5 = new Npc(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro3;
                 npc1 = (Npc) carro2;
                 npc2 = (Npc) carro1;
@@ -246,12 +279,12 @@ public class GameLoop extends JPanel implements Runnable {
                 setNpc();
                 break;
             case 4:
-                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
-                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
-                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
-                carro4 = new Player(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75);
-                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
-                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
+                carro1 = new Npc(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
+                carro3 = new Npc(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
+                carro4 = new Player(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2, 2, 2, 75, this);
+                carro5 = new Npc(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2, 2, 2, 100, 400, 400);
+                carro6 = new Npc(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro4;
                 npc1 = (Npc) carro2;
                 npc2 = (Npc) carro3;
@@ -261,12 +294,12 @@ public class GameLoop extends JPanel implements Runnable {
                 setNpc();
                 break;
             case 5:
-                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
-                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
-                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
-                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 400, 400);
-                carro5 = new Player(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100);
-                carro6 = new Npc(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
+                carro1 = new Npc(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
+                carro3 = new Npc(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
+                carro4 = new Npc(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2, 2, 2, 75, 400, 400);
+                carro5 = new Player(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2, 2, 2, 100, this);
+                carro6 = new Npc(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2, 2, 2, 150, 500, 500);
                 player1 = (Player) carro5;
                 npc1 = (Npc) carro2;
                 npc2 = (Npc) carro3;
@@ -276,12 +309,12 @@ public class GameLoop extends JPanel implements Runnable {
                 setNpc();
                 break;
             case 6:
-                carro1 = new Npc(env.SPRITE_C1_F, env.SPRITE_C1_E, env.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
-                carro2 = new Npc(env.SPRITE_C2_F, env.SPRITE_C2_E, env.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
-                carro3 = new Npc(env.SPRITE_C3_F, env.SPRITE_C3_E, env.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
-                carro4 = new Npc(env.SPRITE_C4_F, env.SPRITE_C4_E, env.SPRITE_C4_D, 2, 2, 2, 75, 400, 400);
-                carro5 = new Npc(env.SPRITE_C5_F, env.SPRITE_C5_E, env.SPRITE_C5_D, 2, 2, 2, 100, 500, 500);
-                carro6 = new Player(env.SPRITE_C6_F, env.SPRITE_C6_E, env.SPRITE_C6_D, 2, 2, 2, 150);
+                carro1 = new Npc(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2, 2, 2, 300, 100, 100);
+                carro2 = new Npc(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2, 2, 2, 25, 200, 200);
+                carro3 = new Npc(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2, 2, 2, 50, 300, 300);
+                carro4 = new Npc(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2, 2, 2, 75, 400, 400);
+                carro5 = new Npc(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2, 2, 2, 100, 500, 500);
+                carro6 = new Player(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2, 2, 2, 150, this);
                 player1 = (Player) carro6;
                 npc1 = (Npc) carro2;
                 npc2 = (Npc) carro3;
@@ -308,6 +341,7 @@ public class GameLoop extends JPanel implements Runnable {
         npcs.add(npc4);
         npcs.add(npc5);
     }
+   
 }
 
 

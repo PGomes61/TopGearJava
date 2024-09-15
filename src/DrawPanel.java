@@ -2,11 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -21,7 +18,7 @@ public class DrawPanel extends JPanel {
     private int segL = 200; // Segment Length
     private int lap, count = 0, pos = 0;
     private Player player1;
-    private int linhaHorizonte = 300, aux = 0;
+    private int linhaHorizonte = 300;
     double amplitude = 1000;
     private int tamMaxPista;
     JFrame frame;
@@ -48,16 +45,15 @@ public class DrawPanel extends JPanel {
     }
 
     private void setCenario(){
-        Cenario setaE = new Cenario("src/Cenario/SetaE.png", 5000);
-        Cenario setaE2 = new Cenario("src/Cenario/SetaD.png", 6000);
-        Cenario linha = new Cenario("src/Cenario/linha.png", 20000);
+        Cenario setaE = new Cenario(EnviromentVariables.SPRITE_SETAE, 5000);
+        Cenario setaD = new Cenario(EnviromentVariables.SPRITE_SETAD, 6000);
+        Cenario linha = new Cenario(EnviromentVariables.SPRITE_LINHACHEGADA, 180000);
         cenarios.add(setaE);
-        cenarios.add(setaE2);
+        cenarios.add(setaD);
         cenarios.add(linha);
     }
 
     protected void paintComponent(Graphics g) {
-        
         super.paintComponent(g);
         drawValues(g);
     }
@@ -147,43 +143,40 @@ public class DrawPanel extends JPanel {
         npcs.get(4).npcOffset();
 
         for (Cenario cenario : cenarios) {
-            if (cenario.getPos() - 1800 > pos) {
+            if (cenario.getPos() - 800 > pos) {
                 int cenarioIndex = (cenario.getPos() / segL) % lines.size();
                 Line cenarioLine = lines.get(cenarioIndex);
                 Line cenarioNextLine = lines.get(cenarioIndex + 1); // Próxima linha para interpolação
         
-                // Fração do NPC dentro do segmento atual (aumentando a fração)
-                double fraction = (double) (cenario.getPos() % segL) / (segL);
+                // Fração do cenário dentro do segmento atual (aumentando a fração)
+                double fraction = (double) (cenario.getPos() % segL) / segL;
         
-                // Interpolação mais suave entre a linha atual e a próxima
-                double interpolatedX = cenarioLine.X + fraction * (cenarioNextLine.X - cenarioLine.X);
+                // Interpolação suave apenas para Y
                 double interpolatedY = cenarioLine.Y + fraction * (cenarioNextLine.Y - cenarioLine.Y);
-                double interpolatedW = cenarioLine.W + fraction * (cenarioNextLine.W - cenarioLine.W);
         
-                // Calcular a posição horizontal e vertical do NPC
-                double cenarioX = interpolatedX + (interpolatedW * -1.1); // Ajuste de offset
+                // Mantendo o X estático
+                double cenarioX = cenarioLine.X + (cenarioLine.W * cenario.getOffset()); // Ajuste de offset
         
                 double baseDepth = 1000;  // Valor base para controle da perspectiva
-                double scaleDepth = 300;  // Controla o quão rápido os NPCs diminuem à distância
-
-                // Distância do NPC ao jogador
+                double scaleDepth = 300;  // Controla o quão rápido os objetos diminuem à distância
+        
+                // Distância do cenário ao jogador
                 double distance = cenario.getPos() - pos;
-
+        
                 // Novo fator de escala com base na distância
                 double scaleFactor = baseDepth / (distance + scaleDepth);
-
-                // Ajuste os tamanhos do NPC com o novo fator de escala
-                int cenarioWidth = (int) (3200 * scaleFactor);  // Largura do NPC ajustada pela escala
-                int cenarioHeight = (int) (1400 * scaleFactor);  // Altura do NPC ajustada pela escala
-
-                // Posicionamento na tela
+        
+                // Ajuste os tamanhos do cenário com o novo fator de escala
+                int cenarioWidth = (int) (cenario.getImagem().getIconWidth() * scaleFactor * 9);  // Largura ajustada pela escala
+                int cenarioHeight = (int) (cenario.getImagem().getIconHeight() * scaleFactor * 9);  // Altura ajustada pela escala
+        
+                // Posicionamento na tela (mantém o Y interpolado e ajusta a altura)
                 int cenarioY = (int) (interpolatedY - cenarioHeight);
-
-                // Desenhar o NPC com o novo tamanho
+        
+                // Desenhar o cenário com o novo tamanho
                 if (cenarioHeight > 11 || cenarioWidth > 11) {
                     g2.drawImage(cenario.getImagem().getImage(), (int) cenarioX, cenarioY, cenarioWidth, cenarioHeight, null);
                 }
-                aux+= 1000;
             }
         }
         g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 30, frame.getHeight() - player1.getImagem().getIconHeight() - 300, player1.getImagem().getIconWidth() * 3, player1.getImagem().getIconHeight() * 3, null);

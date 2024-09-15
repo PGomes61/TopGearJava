@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 public class Menu extends JPanel{
-    private EnviromentVariables env = new EnviromentVariables();
     CardLayout cl = new CardLayout();
     private JFrame frame;
     private GameLoop painelCorrida;
@@ -11,6 +10,7 @@ public class Menu extends JPanel{
     private JPanel pistas = new JPanel();
     private JPanel options = new JPanel();
     private JPanel dificuldades = new JPanel();
+    private JPanel pause = new JPanel();
     private JPanel carros = new JPanel();
     private JPanel menuP1 = new JPanel();
     private JPanel menuP2 = new JPanel();
@@ -38,6 +38,8 @@ public class Menu extends JPanel{
     private JPanel carro4 = new JPanel();
     private JPanel carro5 = new JPanel();
     private JPanel carro6 = new JPanel();
+    private JPanel pause1 = new JPanel();
+    private JPanel pause2 = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
 
@@ -59,32 +61,34 @@ public class Menu extends JPanel{
     
     private void setImages(){
         //Colocado imagens nos JPANELS!!!!
-        menuP1 = createMenuPanel(env.MENU_P1);
-        menuP2 = createMenuPanel(env.MENU_P2);
-        menuP3 = createMenuPanel(env.MENU_P3);
+        menuP1 = createMenuPanel(EnviromentVariables.MENU_P1);
+        menuP2 = createMenuPanel(EnviromentVariables.MENU_P2);
+        menuP3 = createMenuPanel(EnviromentVariables.MENU_P3);
         controles = createMenuPanel("src/Menus/Controles.png");
-        dificuldade1 = createMenuPanel(env.DIFICULDADE_1);
-        dificuldade2 = createMenuPanel(env.DIFICULDADE_2);
-        dificuldade3 = createMenuPanel(env.DIFICULDADE_3);
-        opt11 = createMenuPanel(env.OPT11);
-        opt12 = createMenuPanel(env.OPT12);
-        opt13 = createMenuPanel(env.OPT13);
-        opt14 = createMenuPanel(env.OPT14);
-        opt15 = createMenuPanel(env.OPT15);
-        opt21 = createMenuPanel(env.OPT21);
-        opt22 = createMenuPanel(env.OPT22);
-        opt23 = createMenuPanel(env.OPT23);
-        opt24 = createMenuPanel(env.OPT24);
-        opt25 = createMenuPanel(env.OPT25);
-        pista1 = createMenuPanel(env.PISTA1);
-        pista2 = createMenuPanel(env.PISTA2);
-        pista3 = createMenuPanel(env.PISTA3);
-        carro1 = createMenuPanel(env.CARRO1);
-        carro2 = createMenuPanel(env.CARRO2);
-        carro3 = createMenuPanel(env.CARRO3);
-        carro4 = createMenuPanel(env.CARRO4);
-        carro5 = createMenuPanel(env.CARRO5);
-        carro6 = createMenuPanel(env.CARRO6);
+        dificuldade1 = createMenuPanel(EnviromentVariables.DIFICULDADE_1);
+        dificuldade2 = createMenuPanel(EnviromentVariables.DIFICULDADE_2);
+        dificuldade3 = createMenuPanel(EnviromentVariables.DIFICULDADE_3);
+        opt11 = createMenuPanel(EnviromentVariables.OPT11);
+        opt12 = createMenuPanel(EnviromentVariables.OPT12);
+        opt13 = createMenuPanel(EnviromentVariables.OPT13);
+        opt14 = createMenuPanel(EnviromentVariables.OPT14);
+        opt15 = createMenuPanel(EnviromentVariables.OPT15);
+        opt21 = createMenuPanel(EnviromentVariables.OPT21);
+        opt22 = createMenuPanel(EnviromentVariables.OPT22);
+        opt23 = createMenuPanel(EnviromentVariables.OPT23);
+        opt24 = createMenuPanel(EnviromentVariables.OPT24);
+        opt25 = createMenuPanel(EnviromentVariables.OPT25);
+        pista1 = createMenuPanel(EnviromentVariables.PISTA1);
+        pista2 = createMenuPanel(EnviromentVariables.PISTA2);
+        pista3 = createMenuPanel(EnviromentVariables.PISTA3);
+        carro1 = createMenuPanel(EnviromentVariables.CARRO1);
+        carro2 = createMenuPanel(EnviromentVariables.CARRO2);
+        carro3 = createMenuPanel(EnviromentVariables.CARRO3);
+        carro4 = createMenuPanel(EnviromentVariables.CARRO4);
+        carro5 = createMenuPanel(EnviromentVariables.CARRO5);
+        carro6 = createMenuPanel(EnviromentVariables.CARRO6);
+        pause1 = createMenuPanel(EnviromentVariables.PAUSE1);
+        pause2 = createMenuPanel(EnviromentVariables.PAUSE2);
         menuP1.setFocusable(true);
         menuP2.setFocusable(true);
         menuP3.setFocusable(true);
@@ -105,6 +109,8 @@ public class Menu extends JPanel{
         pista1.setFocusable(true);
         pista2.setFocusable(true);
         pista3.setFocusable(true);
+        pause1.setFocusable(true);
+        pause2.setFocusable(true);
     }
     
     public void setContainers(){
@@ -113,6 +119,7 @@ public class Menu extends JPanel{
         dificuldades.setLayout(cl);
         pistas.setLayout(cl);
         carros.setLayout(cl);
+        pause.setLayout(cl);
         menuPrincipal.add(menuP1, "1");
         menuPrincipal.add(menuP2, "2");
         menuPrincipal.add(menuP3, "3");
@@ -138,6 +145,9 @@ public class Menu extends JPanel{
         carros.add(carro4, "c4");
         carros.add(carro5, "c5");
         carros.add(carro6, "c6");
+        pause.add(pause1, "pa1");
+        pause.add(pause2, "pa2");
+
     }
     
     private JPanel createMenuPanel(String imagePath) {
@@ -808,6 +818,82 @@ public class Menu extends JPanel{
                     painelCorrida.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
+                }
+            }
+        });
+
+        painelCorrida.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(painelCorrida);
+                    frame.add(pause);
+                    cl.show(pause, "pa1");
+                    pause1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            }
+        });
+
+        pause1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(pause);
+                    frame.add(painelCorrida);
+                    painelCorrida.resumeThread();
+                    painelCorrida.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    frame.remove(pause);
+                    frame.add(painelCorrida);
+                    painelCorrida.resumeThread();
+                    painelCorrida.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(pause, "pa2");
+                    pause2.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(pause, "pa2");
+                    pause2.requestFocusInWindow();
+                }
+            }
+        });
+
+        pause2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(pause);
+                    frame.add(painelCorrida);
+                    painelCorrida.resumeThread();
+                    painelCorrida.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    frame.remove(pause);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "p1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                    painelCorrida.resumeThread();
+                    painelCorrida.stopThread();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    cl.show(pause, "pa1");
+                    pause1.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    cl.show(pause, "pa1");
+                    pause1.requestFocusInWindow();
                 }
             }
         });

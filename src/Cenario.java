@@ -3,9 +3,16 @@ import javax.swing.ImageIcon;
 public class Cenario {
     ImageIcon imagem;
     int pos;
+    double offset;
+    EnviromentVariables env = new EnviromentVariables();
+
 
     public Cenario(String path, int pos){
         this.imagem = new ImageIcon(path);
+        if(path == EnviromentVariables.SPRITE_SETAE)
+            this.offset = 1.3;
+        if(path == EnviromentVariables.SPRITE_SETAD)
+            this.offset = -1.5;
         this.pos = pos;
     }
     
@@ -25,4 +32,11 @@ public class Cenario {
         return pos;
     }
 
+    public double getOffset() {
+        return offset;
+    }
+
+    public void setOffset(double offset) {
+        this.offset = offset;
+    }
 }

@@ -3,20 +3,21 @@ import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 
 public class Player extends Carro implements KeyListener{
-    private EnviromentVariables env = new EnviromentVariables();
+    private GameLoop game;
     private String path;
     private ImageIcon velocidadeImg;
     public boolean pause = false, upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
 
-    public Player(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade){
+    public Player(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, GameLoop game){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
+        this.game = game;
     }
 
     public ImageIcon getImagem(int caso){
         switch (caso) {
             case 1:
-                this.path = env.VELOCIDADE_0;
+                this.path = EnviromentVariables.VELOCIDADE_0;
                 velocidadeImg = new ImageIcon(path);
                 // try {
                 //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
@@ -25,7 +26,7 @@ public class Player extends Carro implements KeyListener{
                 // }
                 return velocidadeImg;
             case 2:
-                this.path = env.VELOCIDADE_1;
+                this.path = EnviromentVariables.VELOCIDADE_1;
                 velocidadeImg = new ImageIcon(path);
                 // try {
                 //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
@@ -34,7 +35,7 @@ public class Player extends Carro implements KeyListener{
                 // }
                 return velocidadeImg;
             case 3:
-                this.path = env.VELOCIDADE_2;
+                this.path = EnviromentVariables.VELOCIDADE_2;
                 velocidadeImg = new ImageIcon(path);
                 // try {
                 //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
@@ -43,7 +44,7 @@ public class Player extends Carro implements KeyListener{
                 // }
                 return velocidadeImg;
             case 4:
-                this.path = env.VELOCIDADE_3;
+                this.path = EnviromentVariables.VELOCIDADE_3;
                 velocidadeImg = new ImageIcon(path);
                 // try {
                 //     this.velocidadeImg = ImageIO.read(getClass().getResource(path));
@@ -87,11 +88,11 @@ public class Player extends Carro implements KeyListener{
                 break;
             case KeyEvent.VK_ESCAPE:
                 if(this.pause == false)
-                    this.pause = true;
+                    game.pauseThread();
                 break;
             case KeyEvent.VK_ENTER:
                 if(this.pause == true)
-                    this.pause = false;
+                    game.resumeThread();
                 break;
         }
     }
