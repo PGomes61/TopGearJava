@@ -240,105 +240,49 @@ public class DrawPanel extends JPanel {
         return new Dimension(D_W, D_H);
     }
 
+    private void makeTurn(int pos1, int pos2, double curve, Line line, int i) {
+        if (i > pos1 + this.tamMaxPista * this.count && i < pos2 + this.tamMaxPista * this.count) {
+            line.curve = curve;
+            
+            if (line.curve > 0) {
+                line.flagTurn = 1;
+            } else if (line.curve < 0) {
+                line.flagTurn = -1;
+            }
+
+            if (i == pos2 + this.tamMaxPista * this.count - 1) {
+                line.flagTurn = 0;
+                line.curve = 0;
+            }
+        }
+    }
+
     private void pista1(){
         this.tamMaxPista = 8000;
         this.lap = 3;
         setPosInicial();
-        for(int i = 0; i < tamMaxPista * lap; i++) {
+        for(int i = 0; i < this.tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
             //double elevationAtual = 0;
 
-
-            if (i > 800 + this.tamMaxPista * count && i < 1000 + this.tamMaxPista * count) {
-                line.curve = 1.0;
-                line.flagTurn = 1;
-            }
-
-            if (i > 1300 + this.tamMaxPista * count && i < 1450 + this.tamMaxPista * count) {
-                line.curve = 0.5;
-                line.flagTurn = 1;
-            }
-
-            if (i > 1450 + this.tamMaxPista * count && i < 1750 + this.tamMaxPista * count) {
-                line.curve = -0.7;
-                line.flagTurn = -1;
-            }
-        
-            if (i > 1750 + this.tamMaxPista * count && i < 2000 + this.tamMaxPista * count) {
-                line.curve = 1.2;
-                line.flagTurn = 1;
-            }
-            
-            if (i > 2300 + this.tamMaxPista * count && i < 2450 + this.tamMaxPista * count) {
-                line.curve = -0.6;
-                line.flagTurn = -1;
-            }
-
-            if (i > 2450 + this.tamMaxPista * count && i < 2600 + this.tamMaxPista * count) {
-                line.curve = 0.7;
-                line.flagTurn = 1;
-            }
-
-            if (i > 3000 + this.tamMaxPista * count && i < 3150 + this.tamMaxPista * count) {
-                line.curve = 0.5;
-                line.flagTurn = 1;
-            }
-
-            if (i > 3150 + this.tamMaxPista * count && i < 3300 + this.tamMaxPista * count) {
-                line.curve = -0.9;
-                line.flagTurn = -1;
-            }
-
-            if (i > 3300 + this.tamMaxPista * count && i < 3450 + this.tamMaxPista * count) {
-                line.curve = 0.5;
-                line.flagTurn = 1;
-            }
-
-            if (i > 3600 + this.tamMaxPista * count && i < 3800 + this.tamMaxPista * count) {
-                line.curve = 1.0;
-                line.flagTurn = 1;
-            }
-
-            if (i > 4300 + this.tamMaxPista * count && i < 4750 + this.tamMaxPista * count) {
-                line.curve = -1.2;
-                line.flagTurn = -1;
-            }
-
-            if (i > 4750 + this.tamMaxPista * count && i < 4850 + this.tamMaxPista * count) {
-                line.curve = 0.2;
-                line.flagTurn = 1;
-            }
-
-            if (i > 5250 + this.tamMaxPista * count && i < 5450 + this.tamMaxPista * count) {
-                line.curve = 1.0;
-                line.flagTurn = 1;
-            }
-
-            if (i > 5800 + this.tamMaxPista * count && i < 6000 + this.tamMaxPista * count) {
-                line.curve = 1.0;
-                line.flagTurn = 1;
-            }
-
-            if (i > 6300 + this.tamMaxPista * count && i < 6500 + this.tamMaxPista * count) {
-                line.curve = -0.7;
-                line.flagTurn = -1;
-            }
-
-            if (i > 6750 + this.tamMaxPista * count && i < 6900 + this.tamMaxPista * count) {
-                line.curve = 0.5;
-                line.flagTurn = 1;
-            }
-            
-            if (i > 6900 + this.tamMaxPista * count && i < 7050 + this.tamMaxPista * count) {
-                line.curve = -0.6;
-                line.flagTurn = -1;
-            }
-
-            if (i > 7050 + this.tamMaxPista * count && i < 7200 + this.tamMaxPista * count) {
-                line.curve = 0.5;
-                line.flagTurn = 1;
-            }
+            makeTurn(800, 1000, 1.0, line, i);
+            makeTurn(1300, 1450, 0.5, line, i);
+            makeTurn(1450, 1750, -0.7, line, i);
+            makeTurn(1750, 2000, 1.2, line, i);
+            makeTurn(2300, 2450, -0.6, line, i);
+            makeTurn(3000, 3150, 0.5, line, i);
+            makeTurn(3150, 3300, -0.9, line, i);
+            makeTurn(3300, 3450, 0.5, line, i);
+            makeTurn(3600, 3800, 1.0, line, i);
+            makeTurn(4300, 4750, -1.2, line, i);
+            makeTurn(4750, 4850, 0.2, line, i);
+            makeTurn(5250, 5450, 1.0, line, i);            
+            makeTurn(5800, 6000, 1.0, line, i);
+            makeTurn(6300, 6500, -0.7, line, i);
+            makeTurn(6750, 6900, 0.5, line, i);
+            makeTurn(6900, 7050, -0.6, line, i);
+            makeTurn(7050, 7200, 0.5, line, i);
             
             // if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
             //     line.curve = -1;
@@ -365,8 +309,9 @@ public class DrawPanel extends JPanel {
             // }
         
             lines.add(line);
-            if(i == tamMaxPista * (count + 1))
+            if(i == tamMaxPista * (count + 1)) {
                 count++;
+            }
         }
     }
     private void pista2(){
