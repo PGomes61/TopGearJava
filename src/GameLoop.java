@@ -1,10 +1,10 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class GameLoop extends JPanel implements Runnable {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
@@ -141,9 +141,9 @@ public class GameLoop extends JPanel implements Runnable {
             if(n > startPos + 1 && n < startPos + 14 && (p.flagTurn == 1 || p.flagTurn == -1)) {
                 double auxCurva = 0.5 * p.curve * (player1.getVelocidade() * 0.05);
                 player1.curva = true;
-                drawPanel.bgOffset -= l.curve * 0.3; // Camada de fundo se move mais devagar
-                drawPanel.mgOffset -= l.curve * 0.4;  // Camada de meio se move com velocidade intermediária
-                drawPanel.fgOffset -= l.curve * 0.5;  // Camada de primeiro plano se move mais rápido
+                drawPanel.bgOffset -= p.curve * 0.3; // Camada de fundo se move mais devagar
+                drawPanel.mgOffset -= p.curve * 0.4;  // Camada de meio se move com velocidade intermediária
+                drawPanel.fgOffset -= p.curve * 0.5;  // Camada de primeiro plano se move mais rápido
                 if (drawPanel.bgOffset >= 0 || drawPanel.bgOffset <= -512) {
                     drawPanel.bgOffset = -512;  // Resetar o offset para criar um looping contínuo
                 }

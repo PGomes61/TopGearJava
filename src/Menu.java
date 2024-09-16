@@ -1,7 +1,9 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.*;
+import javax.sound.sampled.*;
+
 public class Menu extends JPanel{
     CardLayout cl = new CardLayout();
     private JFrame frame;
@@ -42,10 +44,20 @@ public class Menu extends JPanel{
     private JPanel pause2 = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
+    private Sounds mainSong;
+    private Sounds menuArrows1;
+    private Sounds menuArrows2;
+    private Sounds menuArrows3;
+    private Sounds menuConfirm;
 
-    public Menu(JFrame frame, GameLoop painelCorrida){
+    public Menu(JFrame frame, GameLoop painelCorrida, Sounds mainSong, Sounds menuArrows1, Sounds menuArrows2, Sounds menuArrows3, Sounds menuConfirm){
         this.frame = frame;
         this.painelCorrida = painelCorrida;
+        this.mainSong = mainSong;
+        this.menuArrows1 = menuArrows1;
+        this.menuArrows2 = menuArrows2;
+        this.menuArrows3 = menuArrows3;
+        this.menuConfirm = menuConfirm;
         setImages();
         setContainers();
         setKey();
@@ -161,15 +173,42 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(menuPrincipal, "2");
                     menuP2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     System.out.println("3");
                     cl.show(menuPrincipal, "3");
                     menuP3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.remove(menuPrincipal);
                     frame.add(pistas);
                     cl.show(pistas, "p1");
@@ -188,15 +227,42 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(menuPrincipal, "1");
                     menuP1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(menuPrincipal, "3");
                     menuP3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER)
                 {
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     if(multiplayer){
                         frame.add(options);
                         cl.show(options, "op6");
@@ -215,16 +281,43 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     System.out.println("1");
                     cl.show(menuPrincipal, "1");
                     menuP1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     System.out.println("2");
                     cl.show(menuPrincipal, "2");
                     menuP2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     System.out.println("Encerrando processo!");
                     System.exit(0);
                 }
@@ -236,14 +329,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op5");
                     opt15.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op2");
                     opt12.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op6");
                     opt21.requestFocusInWindow();
                     multiplayerAux = true;
@@ -256,14 +376,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op1");
                     opt11.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op3");
                     opt13.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.add(dificuldades);
                     cl.show(dificuldades, "dif1");
                     dificuldades.revalidate();
@@ -277,14 +424,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op2");
                     opt12.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op4");
                     opt14.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.add(controles);
                     controles.revalidate();
                     controles.repaint();
@@ -297,14 +471,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op3");
                     opt13.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op5");
                     opt15.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     multiplayer = false;
                     multiplayerAux = false;
                     frame.add(menuPrincipal);
@@ -322,14 +523,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op4");
                     opt14.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op1");
                     opt11.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     multiplayerAux = multiplayer;
                     frame.add(menuPrincipal);
                     cl.show(menuPrincipal, "1");
@@ -346,14 +574,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op10");
                     opt25.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op7");
                     opt22.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op1");
                     opt11.requestFocusInWindow();
                     multiplayerAux = false;
@@ -365,14 +620,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op6");
                     opt21.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op8");
                     opt23.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.add(dificuldades);
                     dificuldades.revalidate();
                     dificuldades.repaint();
@@ -386,14 +668,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op7");
                     opt22.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op9");
                     opt24.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.add(controles);
                     controles.revalidate();
                     controles.repaint();
@@ -406,14 +715,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op8");
                     opt23.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op10");
                     opt25.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     multiplayer = true;
                     multiplayerAux = true;
                     frame.add(menuPrincipal);
@@ -431,14 +767,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(options, "op9");
                     opt24.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                    
                     cl.show(options, "op6");
                     opt21.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     multiplayerAux = multiplayer;
                     frame.add(menuPrincipal);
                     cl.show(menuPrincipal, "1");
@@ -455,14 +818,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e){
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(dificuldades, "dif3");
                     dificuldade3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(dificuldades, "dif2");
                     dificuldade2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     if(multiplayerAux){
                         cl.show(options, "op7");
                         frame.remove(dificuldades);
@@ -485,14 +875,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(dificuldades, "dif1");
                     dificuldade1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(dificuldades, "dif3");
                     dificuldade3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     if(multiplayerAux){
                         cl.show(options, "op7");
                         frame.remove(dificuldades);
@@ -515,14 +932,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e){
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(dificuldades, "dif2");
                     dificuldade2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(dificuldades, "dif1");
                     dificuldade1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     if(multiplayerAux){
                         cl.show(options, "op7");
                         frame.remove(dificuldades);
@@ -565,14 +1009,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(pistas, "p3");
                     pista3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(pistas, "p2");
                     pista2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.remove(pistas);
                     frame.add(carros);
                     cl.show(carros, "c1");
@@ -588,14 +1059,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(pistas, "p1");
                     pista1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(pistas, "p3");
                     pista3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.remove(pistas);
                     frame.add(carros);
                     cl.show(carros, "c1");
@@ -611,14 +1109,41 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(pistas, "p2");
                     pista2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(pistas, "p1");
                     pista1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     frame.remove(pistas);
                     frame.add(carros);
                     cl.show(carros, "c1");
@@ -634,22 +1159,70 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
                 }
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    
+                    new Thread(() -> {
+                        try {
+                            mainSong.pause();
+                            mainSong.reset();
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                
                     painelCorrida.setCarroEscolhido(1);
                     frame.remove(carros);
                     frame.add(painelCorrida);
@@ -659,6 +1232,8 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                
+
             }
         });
 
@@ -666,23 +1241,70 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
                 }
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    painelCorrida.setCarroEscolhido(2);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    new Thread(() -> {
+                        try {
+                            mainSong.pause();
+                            mainSong.reset();
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                
+                    painelCorrida.setCarroEscolhido(1);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -691,6 +1313,7 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                
             }
         });
 
@@ -698,23 +1321,70 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows2.reset();
+                            menuArrows2.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
                 }
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    painelCorrida.setCarroEscolhido(3);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    new Thread(() -> {
+                        try {
+                            mainSong.pause();
+                            mainSong.reset();
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                
+                    painelCorrida.setCarroEscolhido(1);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -723,6 +1393,7 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                
             }
         });
 
@@ -730,23 +1401,70 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                    
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
                 }
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    painelCorrida.setCarroEscolhido(4);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    new Thread(() -> {
+                        try {
+                            mainSong.pause();
+                            mainSong.reset();
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                
+                    painelCorrida.setCarroEscolhido(1);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -755,6 +1473,7 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                
             }
         });
 
@@ -762,23 +1481,70 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows3.reset();
+                            menuArrows3.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
                 }
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    painelCorrida.setCarroEscolhido(5);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    new Thread(() -> {
+                        try {
+                            mainSong.pause();
+                            mainSong.reset();
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                
+                    painelCorrida.setCarroEscolhido(1);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -787,6 +1553,7 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                
             }
         });
 
@@ -794,23 +1561,70 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                    
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    new Thread(() -> {
+                        try {
+                            menuArrows1.reset();
+                            menuArrows1.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
                 }
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    painelCorrida.setCarroEscolhido(6);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    new Thread(() -> {
+                        try {
+                            mainSong.pause();
+                            mainSong.reset();
+                            menuConfirm.reset();
+                            menuConfirm.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                
+                    painelCorrida.setCarroEscolhido(1);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -819,6 +1633,7 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                
             }
         });
 

@@ -8,6 +8,7 @@ public class Player extends Carro implements KeyListener{
     private ImageIcon velocidadeImg;
     public boolean start = false, pause = false, upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
+    private Sounds reprodutor;
 
     public Player(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, GameLoop game){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
