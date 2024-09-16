@@ -1,18 +1,33 @@
 import javax.swing.ImageIcon;
+import java.util.Random;
 
 public class Cenario {
     ImageIcon imagem;
     int pos;
     double offset;
     EnviromentVariables env = new EnviromentVariables();
+    Random random = new Random();
 
 
     public Cenario(String path, int pos){
+        boolean isNegative = random.nextBoolean();
+        double number;
+        if (isNegative) {
+            // Gera número entre [-2, -1)
+            number = -2 - random.nextDouble();
+        } else {
+            // Gera número entre (1, 2]
+            number = 1 + random.nextDouble();
+        }
         this.imagem = new ImageIcon(path);
         if(path == EnviromentVariables.SPRITE_SETAE)
             this.offset = 1.3;
         if(path == EnviromentVariables.SPRITE_SETAD)
             this.offset = -1.5;
+        if(path == EnviromentVariables.SPRITE_ARVORE)
+            this.offset = number;
+        if(path == EnviromentVariables.SPRITE_LINHACHEGADA)
+            this.offset = -1.2;
         this.pos = pos;
     }
     

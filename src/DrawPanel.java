@@ -3,11 +3,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class DrawPanel extends JPanel {
+    public double bgOffset = 0;
+    public double mgOffset = 0;
+    public double fgOffset = 0;
     private static final int D_W = 1024;
     private static final int D_H = 768;
     private List<Line> lines;
@@ -29,6 +34,8 @@ public class DrawPanel extends JPanel {
         this.lines = new ArrayList<>();
         this.player1 = player1;
         setCenario();
+        sortCenario(cenarios);
+
         switch(pista){
             case 1:
                 pista1();
@@ -44,10 +51,23 @@ public class DrawPanel extends JPanel {
         }
     }
 
+    private void sortCenario(List<Cenario> cenarios){
+        Collections.sort(cenarios, new Comparator<Cenario>() {
+            @Override
+            public int compare(Cenario c1, Cenario c2) {
+                return Double.compare(c2.getPos(), c1.getPos()); // Ordena em ordem decrescente
+            }
+        });
+    }
+
     private void setCenario(){
         Cenario setaE = new Cenario(EnviromentVariables.SPRITE_SETAE, 5000);
         Cenario setaD = new Cenario(EnviromentVariables.SPRITE_SETAD, 6000);
         Cenario linha = new Cenario(EnviromentVariables.SPRITE_LINHACHEGADA, 180000);
+        for(int i = 0; i < 10000; i++){
+            Cenario arvores = new Cenario(EnviromentVariables.SPRITE_ARVORE, 9000 + i * 250);
+            cenarios.add(arvores);
+        }
         cenarios.add(setaE);
         cenarios.add(setaD);
         cenarios.add(linha);
@@ -80,7 +100,22 @@ public class DrawPanel extends JPanel {
             drawQuad(g, rumble, (int) p.X, (int) p.Y, (int) (p.W * 1.2), (int) l.X, (int) l.Y, (int) (l.W * 1.2));
             drawQuad(g, road, (int) p.X, (int) p.Y, (int) p.W, (int) l.X, (int) l.Y, (int) l.W);
             drawQuad(g, trace, (int) p.X, (int) p.Y, (int) (p.W * 0.05), (int) l.X, (int) l.Y, (int) (l.W * 0.05));
+
+            g.setColor(Color.blue);
+            g.fillRect(0, 0, D_W, 392);
             
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_L.getImage(), (int) bgOffset, 257, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_L.getImage(), (int) bgOffset + getWidth(), 257, this);
+
+            //Desenha a camada de meio (velocidade intermediária)
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_M.getImage(), (int) mgOffset, 294, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_M.getImage(), (int) mgOffset + getWidth(), 294, this);
+
+            // Desenha a camada de primeiro plano (move mais rápido)
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_P.getImage(), (int) fgOffset, 367, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_P.getImage(), (int) fgOffset + getWidth(), 367, this);
+
             g2.setColor(Color.WHITE);
             if (player1.getVelocidade() < 100)
                 g2.drawImage(player1.getImagem(1).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
@@ -90,9 +125,45 @@ public class DrawPanel extends JPanel {
                 g2.drawImage(player1.getImagem(3).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
             else
                 g2.drawImage(player1.getImagem(4).getImage(), frame.getWidth() - 100, frame.getHeight() - 100, null);
+        }
 
-            g.setColor(Color.blue);
-            g.fillRect(0, 0, D_W, 392);
+        //Desenhando Cenario
+        for (Cenario cenario : cenarios) {
+            if (cenario.getPos() - 1000 > pos) {
+                int cenarioIndex = (cenario.getPos() / segL) % lines.size();
+                Line cenarioLine = lines.get(cenarioIndex);
+                Line cenarioNextLine = lines.get(cenarioIndex + 1); // Próxima linha para interpolação
+        
+                // Fração do cenário dentro do segmento atual (aumentando a fração)
+                double fraction = (double) (cenario.getPos() % segL) / segL;
+        
+                // Interpolação suave apenas para Y
+                double interpolatedY = cenarioLine.Y + fraction * (cenarioNextLine.Y - cenarioLine.Y);
+        
+                // Mantendo o X estático
+                double cenarioX = cenarioLine.X + (cenarioLine.W * cenario.getOffset()); // Ajuste de offset
+        
+                double baseDepth = 1000;  // Valor base para controle da perspectiva
+                double scaleDepth = 300;  // Controla o quão rápido os objetos diminuem à distância
+        
+                // Distância do cenário ao jogador
+                double distance = cenario.getPos() - pos;
+        
+                // Novo fator de escala com base na distância
+                double scaleFactor = baseDepth / (distance + scaleDepth);
+        
+                // Ajuste os tamanhos do cenário com o novo fator de escala
+                int cenarioWidth = (int) (cenario.getImagem().getIconWidth() * scaleFactor * 9);  // Largura ajustada pela escala
+                int cenarioHeight = (int) (cenario.getImagem().getIconHeight() * scaleFactor * 9);  // Altura ajustada pela escala
+        
+                // Posicionamento na tela (mantém o Y interpolado e ajusta a altura)
+                int cenarioY = (int) (interpolatedY - cenarioHeight);
+        
+                // Desenhar o cenário com o novo tamanho
+                if (cenarioHeight > 11 || cenarioWidth > 11) {
+                    g2.drawImage(cenario.getImagem().getImage(), (int) cenarioX, cenarioY, cenarioWidth, cenarioHeight, null);
+                }
+            }
         }
 
         //Desenhando NPCS
@@ -142,43 +213,6 @@ public class DrawPanel extends JPanel {
         npcs.get(3).npcOffset();
         npcs.get(4).npcOffset();
 
-        for (Cenario cenario : cenarios) {
-            if (cenario.getPos() - 800 > pos) {
-                int cenarioIndex = (cenario.getPos() / segL) % lines.size();
-                Line cenarioLine = lines.get(cenarioIndex);
-                Line cenarioNextLine = lines.get(cenarioIndex + 1); // Próxima linha para interpolação
-        
-                // Fração do cenário dentro do segmento atual (aumentando a fração)
-                double fraction = (double) (cenario.getPos() % segL) / segL;
-        
-                // Interpolação suave apenas para Y
-                double interpolatedY = cenarioLine.Y + fraction * (cenarioNextLine.Y - cenarioLine.Y);
-        
-                // Mantendo o X estático
-                double cenarioX = cenarioLine.X + (cenarioLine.W * cenario.getOffset()); // Ajuste de offset
-        
-                double baseDepth = 1000;  // Valor base para controle da perspectiva
-                double scaleDepth = 300;  // Controla o quão rápido os objetos diminuem à distância
-        
-                // Distância do cenário ao jogador
-                double distance = cenario.getPos() - pos;
-        
-                // Novo fator de escala com base na distância
-                double scaleFactor = baseDepth / (distance + scaleDepth);
-        
-                // Ajuste os tamanhos do cenário com o novo fator de escala
-                int cenarioWidth = (int) (cenario.getImagem().getIconWidth() * scaleFactor * 9);  // Largura ajustada pela escala
-                int cenarioHeight = (int) (cenario.getImagem().getIconHeight() * scaleFactor * 9);  // Altura ajustada pela escala
-        
-                // Posicionamento na tela (mantém o Y interpolado e ajusta a altura)
-                int cenarioY = (int) (interpolatedY - cenarioHeight);
-        
-                // Desenhar o cenário com o novo tamanho
-                if (cenarioHeight > 11 || cenarioWidth > 11) {
-                    g2.drawImage(cenario.getImagem().getImage(), (int) cenarioX, cenarioY, cenarioWidth, cenarioHeight, null);
-                }
-            }
-        }
         g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 30, frame.getHeight() - player1.getImagem().getIconHeight() - 300, player1.getImagem().getIconWidth() * 3, player1.getImagem().getIconHeight() * 3, null);
     }
 
