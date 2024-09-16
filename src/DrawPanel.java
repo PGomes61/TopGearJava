@@ -205,6 +205,7 @@ public class DrawPanel extends JPanel {
 
             if (i == pos2 + this.tamMaxPista * this.count - 1) {
                 line.flagTurn = 0;
+                line.curve = 0;
             }
         }
     }

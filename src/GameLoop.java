@@ -19,6 +19,7 @@ public class GameLoop extends JPanel implements Runnable {
     // Outras variáveis já existentes
     EnviromentVariables env = new EnviromentVariables();
     List<Npc> npcs = new ArrayList<>();
+    List<Line> line = new ArrayList<>();
     private JFrame frame;
     private Carro carro1, carro2, carro3, carro4, carro5, carro6;
     private Npc npc1, npc2, npc3, npc4, npc5;
@@ -124,30 +125,32 @@ public class GameLoop extends JPanel implements Runnable {
         }
 
         /////// IMPLEMENTAÇÃO DA CURVA ///////
-
+        line = drawPanel.getLines();
         int startPos = drawPanel.getPos() / drawPanel.getSegL();
-        double x = 0, dx = 0, ddx = 0;
+        double x = 0, dx = 0;
         for(int n = startPos; n < drawPanel.getLinhaHorizonte() + startPos; n++) {
 
             Line l = drawPanel.getLines().get(n % drawPanel.getLines().size());
+            Line p = line.get(startPos);
             
             l.project(drawPanel.getPlayerX() - (int) x, 1500, drawPanel.getPos());
 
-            x += ddx;
-            ddx = dx;
+            x += 1.5 * dx;
             dx += l.curve;
 
-            if (n > startPos + 1 && n < startPos + 14 && (l.flagTurn == 1 || l.flagTurn == -1)) {
-                double auxCurva = 0.5 * l.curve * (player1.getVelocidade() * 0.05);
-                player1.curva = true;
+            if (n > startPos + 1 && n < startPos + 14 && (p.flagTurn == 1 || p.flagTurn == -1)) {
+                double auxCurva = 0.5 * p.curve * (player1.getVelocidade() * 0.05);
+                // player1.curva = true;
                 //System.out.println(player1.curva);
                 if(player1.getVelocidade() > 0) {
                     drawPanel.setPlayerXDecrescimo(auxCurva);
                 }
             }
 
-            if(l.curve == 0.0) {
+            if(p.curve == 0.0) {
                 player1.curva = false;
+            } else {
+                player1.curva = true;
             }
 
             // COLISÃO DA GRAMA
