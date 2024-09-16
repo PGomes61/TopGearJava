@@ -214,7 +214,7 @@ public class DrawPanel extends JPanel {
                 int npcY = (int) (interpolatedY - npcHeight);
 
                 // Desenhar o NPC com o novo tamanho
-                if (npcHeight > 11 || npcWidth > 11) {
+                if ((npcHeight > 11 || npcWidth > 11) && (npcHeight < 200 || npcWidth < 200)) {
                     g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, npcWidth, npcHeight, null);
                 }
             }
@@ -226,7 +226,7 @@ public class DrawPanel extends JPanel {
         npcs.get(3).npcOffset();
         npcs.get(4).npcOffset();
 
-        g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 30, frame.getHeight() - player1.getImagem().getIconHeight() - 300, player1.getImagem().getIconWidth() * 3, player1.getImagem().getIconHeight() * 3, null);
+        g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 25, frame.getHeight() - player1.getImagem().getIconHeight() - 200, (int) (player1.getImagem().getIconWidth() * 4), (int) (player1.getImagem().getIconHeight() * 2.5), null);
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {

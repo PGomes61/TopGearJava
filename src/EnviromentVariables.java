@@ -65,8 +65,8 @@ public class EnviromentVariables{
     public static String SPRITE_ARVORE=("src/Cenario/Arvorea.png");
 
     public static ImageIcon SPRITE_PARALAX_L= new ImageIcon("src/Cenario/ParalaxLa.png");
-    public static ImageIcon SPRITE_PARALAX_M= new ImageIcon("src/Cenario/ParalaxM.png");
-    public static ImageIcon SPRITE_PARALAX_P= new ImageIcon("src/Cenario/ParalaxP.png");
+    public static ImageIcon SPRITE_PARALAX_M= new ImageIcon("src/Cenario/ParalaxMa.png");
+    public static ImageIcon SPRITE_PARALAX_P= new ImageIcon("src/Cenario/ParalaxPe.png");
     public static ImageIcon SPRITE_SEMAFOROR= new ImageIcon("src/Cenario/SemaforoR.png");
     public static ImageIcon SPRITE_SEMAFOROG= new ImageIcon("src/Cenario/SemaforoG.png");
     public static ImageIcon SPRITE_SEMAFOROY= new ImageIcon("src/Cenario/SemaforoY.png");

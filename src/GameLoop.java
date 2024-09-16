@@ -188,18 +188,17 @@ public class GameLoop extends JPanel implements Runnable {
             if(n > startPos + 1 && n < startPos + 14 && (l.flagTurn == 1 || l.flagTurn == -1)) {
                 double auxCurva = 0.5 * l.curve * (player1.getVelocidade() * 0.05);
                 player1.curva = true;
-                int width = getWidth();
-                drawPanel.bgOffset -= l.curve * 0.2; // Camada de fundo se move mais devagar
+                drawPanel.bgOffset -= l.curve * 0.3; // Camada de fundo se move mais devagar
                 drawPanel.mgOffset -= l.curve * 0.4;  // Camada de meio se move com velocidade intermediária
-                drawPanel.fgOffset -= l.curve * 0.6;  // Camada de primeiro plano se move mais rápido
-                // if (drawPanel.bgOffset <= -width/3) {
-                //     drawPanel.bgOffset += width/3;  // Resetar o offset para criar um looping contínuo
-                // }
-                if (drawPanel.mgOffset <= -width/3) {
-                    drawPanel.mgOffset += width/3;  // Resetar o offset para criar um looping contínuo
+                drawPanel.fgOffset -= l.curve * 0.5;  // Camada de primeiro plano se move mais rápido
+                if (drawPanel.bgOffset >= 0 || drawPanel.bgOffset <= -512) {
+                    drawPanel.bgOffset = -512;  // Resetar o offset para criar um looping contínuo
                 }
-                if (drawPanel.fgOffset <= -width/3) {
-                    drawPanel.fgOffset += width/3;  // Resetar o offset para criar um looping contínuo
+                if (drawPanel.mgOffset >= 0 || drawPanel.mgOffset <= -512) {
+                    drawPanel.mgOffset = -512;  // Resetar o offset para criar um looping contínuo\
+                }
+                if (drawPanel.fgOffset >= 0 || drawPanel.fgOffset <= -512) {
+                    drawPanel.fgOffset = -512;  // Resetar o offset para criar um looping contínuo
                 }
                 if(player1.getVelocidade() > 0) {
                     drawPanel.setPlayerXDecrescimo(auxCurva);
