@@ -111,7 +111,7 @@ public class GameLoop extends JPanel implements Runnable {
     public void update() {
         if(player1.start == false){
             count++;
-            if(count > 300){
+            if(count > 1){
                 player1.start = true;
                 count = 0;
             }
@@ -123,74 +123,31 @@ public class GameLoop extends JPanel implements Runnable {
             return;
         }
 
-        // Lógica do movimento do jogador (como já está implementado)
-        if (player1.upPressed && !player1.downPressed) {
-            System.out.println("CIMA");
-            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
-            player1.acelerar();
-        }
-        if (player1.downPressed && !player1.upPressed) {
-            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
-            player1.freio();
-        }
-
-        if (player1.leftPressed && !player1.rightPressed) {
-            // Lógica para movimento à esquerda
-            double aux = (player1.getVelocidade() * 0.01);
-
-            if(player1.getVelocidade() <= 50.0 && player1.getVelocidade() != 0 && !player1.curva) {
-                drawPanel.setPlayerXDecrescimo(10);
-            }
-
-            if(player1.getVelocidade() > 50.0 && !player1.curva) {
-                drawPanel.setPlayerXDecrescimo(60 + aux);
-            }
-            if(player1.getVelocidade() != 0 && player1.curva) {
-                drawPanel.setPlayerXDecrescimo(100 + aux);
-            }
-
-            if (!player1.upPressed) {
-                player1.banguela();
-            }
-        }
-        if(player1.rightPressed && !player1.leftPressed) {
-            // Lógica para movimento à direita
-            double aux = (player1.getVelocidade() * 0.01);
-            if (player1.getVelocidade() != 0 && !player1.curva) {
-                drawPanel.setPlayerXAcrescimo(60 + aux);              
-            }
-            if(player1.getVelocidade() != 0 && player1.curva) {
-                drawPanel.setPlayerXAcrescimo(100 + aux);
-            }
-
-            if(!player1.upPressed) {
-                player1.banguela();
-            }
-        }
-        if(!player1.upPressed && !player1.downPressed) {
-            player1.banguela();
-            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
-        }
-
         /////// IMPLEMENTAÇÃO DA CURVA ///////
 
         int startPos = drawPanel.getPos() / drawPanel.getSegL();
-        double x = 0, dx = 0;
+        double x = 0, dx = 0, ddx = 0;
         for(int n = startPos; n < drawPanel.getLinhaHorizonte() + startPos; n++) {
 
             Line l = drawPanel.getLines().get(n % drawPanel.getLines().size());
             
             l.project(drawPanel.getPlayerX() - (int) x, 1500, drawPanel.getPos());
 
-            x += dx;
+            x += ddx;
+            ddx = dx;
             dx += l.curve;
 
-            if(n > startPos + 1 && n < startPos + 14 && (l.flagTurn == 1 || l.flagTurn == -1)) {
+            if (n > startPos + 1 && n < startPos + 14 && (l.flagTurn == 1 || l.flagTurn == -1)) {
                 double auxCurva = 0.5 * l.curve * (player1.getVelocidade() * 0.05);
                 player1.curva = true;
+                //System.out.println(player1.curva);
                 if(player1.getVelocidade() > 0) {
                     drawPanel.setPlayerXDecrescimo(auxCurva);
                 }
+            }
+
+            if(l.curve == 0.0) {
+                player1.curva = false;
             }
 
             // COLISÃO DA GRAMA
@@ -206,8 +163,73 @@ public class GameLoop extends JPanel implements Runnable {
                     player1.colision = false;
                 }
             }
+
+            // if(l.flagTurn == 0) {
+            //     System.out.println("l.flagTurn == 0!");
+            // }
         }
         ///////////////////////////////////////
+
+        ////////  MOVIMENTAÇÃO DO CARRO  ///////
+        // Lógica do movimento do jogador (como já está implementado)
+        if (player1.upPressed && !player1.downPressed) {
+            System.out.println("CIMA");
+            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
+            player1.acelerar();
+        }
+        if (player1.downPressed && !player1.upPressed) {
+            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
+            player1.freio();
+        }
+    
+        if (player1.leftPressed && !player1.rightPressed) {
+            // Lógica para movimento à esquerda
+            double aux = (player1.getVelocidade() * 0.01);
+    
+            // if(player1.getVelocidade() <= 50.0 && player1.getVelocidade() != 0.0 && !player1.curva) {
+            //     drawPanel.setPlayerXDecrescimo(10 + (player1.getVelocidade() / 10.0));
+            // }
+    
+            if(player1.getVelocidade() != 0.0 && player1.curva == false) {
+                System.out.println("player1.curva == false");
+                drawPanel.setPlayerXDecrescimo(100 + aux);
+            }
+    
+            if(player1.getVelocidade() != 0.0 && player1.curva == true) {
+                System.out.println("player1.curva == true");
+                drawPanel.setPlayerXDecrescimo(100 + aux);
+            }
+    
+            if (!player1.upPressed) {
+                player1.banguela();
+            }
+        }
+
+        if(player1.rightPressed && !player1.leftPressed) {
+            // Lógica para movimento à direita
+            double aux = (player1.getVelocidade() * 0.01);
+            
+            if (player1.getVelocidade() != 0 && player1.curva == false) {
+                System.out.println("player1.curva == false");
+                drawPanel.setPlayerXAcrescimo(100 + aux);              
+            }
+
+            if(player1.getVelocidade() > 0 && player1.curva == true) {
+                System.out.println("player1.curva == true");
+                drawPanel.setPlayerXAcrescimo(100 + aux);
+            }
+    
+            if(!player1.upPressed) {
+                player1.banguela();
+            }
+        }
+
+        if(!player1.upPressed && !player1.downPressed) {
+            player1.banguela();
+            drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
+        }
+
+        ////////////////////////////////////////////////
 
         /////NPCs///////
         for (Npc npc : npcs) {
