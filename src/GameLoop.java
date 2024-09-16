@@ -153,9 +153,7 @@ public class GameLoop extends JPanel implements Runnable {
                 if (drawPanel.fgOffset >= 0 || drawPanel.fgOffset <= -512) {
                     drawPanel.fgOffset = -512;  // Resetar o offset para criar um looping contínuo
                 }
-                
-                // player1.curva = true;
-                //System.out.println(player1.curva);
+
                 if(player1.getVelocidade() > 0) {
                     drawPanel.setPlayerXDecrescimo(auxCurva);
                 }
