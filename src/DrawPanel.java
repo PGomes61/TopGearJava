@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class DrawPanel extends JPanel {
-    public double bgOffset = 0;
-    public double mgOffset = 0;
-    public double fgOffset = 0;
+    public double bgOffset = -512;
+    public double mgOffset = -512;
+    public double fgOffset = -512;
     private static final int D_W = 1024;
     private static final int D_H = 768;
     private List<Line> lines;
@@ -60,14 +62,23 @@ public class DrawPanel extends JPanel {
         });
     }
 
+    private void sortNpc(List<Npc> npcs){
+        Collections.sort(npcs, new Comparator<Npc>() {
+            @Override
+            public int compare(Npc n1, Npc n2) {
+                return Double.compare(n2.getPos(), n1.getPos()); // Ordena em ordem decrescente
+            }
+        });
+    }
+
     private void setCenario(){
         Cenario setaE = new Cenario(EnviromentVariables.SPRITE_SETAE, 5000);
         Cenario setaD = new Cenario(EnviromentVariables.SPRITE_SETAD, 6000);
         Cenario linha = new Cenario(EnviromentVariables.SPRITE_LINHACHEGADA, 180000);
-        for(int i = 0; i < 10000; i++){
-            Cenario arvores = new Cenario(EnviromentVariables.SPRITE_ARVORE, 9000 + i * 250);
-            cenarios.add(arvores);
-        }
+        // for(int i = 0; i < 10000; i++){
+        //     Cenario arvores = new Cenario(EnviromentVariables.SPRITE_ARVORE, 9000 + i * 250);
+        //     cenarios.add(arvores);
+        // }
         cenarios.add(setaE);
         cenarios.add(setaD);
         cenarios.add(linha);
@@ -129,7 +140,8 @@ public class DrawPanel extends JPanel {
 
         //Desenhando Cenario
         for (Cenario cenario : cenarios) {
-            if (cenario.getPos() - 1000 > pos) {
+            if (cenario.getPos() - 1500 > pos) {
+                ImageIcon cenarioImage = cenario.getImagem();
                 int cenarioIndex = (cenario.getPos() / segL) % lines.size();
                 Line cenarioLine = lines.get(cenarioIndex);
                 Line cenarioNextLine = lines.get(cenarioIndex + 1); // Próxima linha para interpolação
@@ -153,20 +165,21 @@ public class DrawPanel extends JPanel {
                 double scaleFactor = baseDepth / (distance + scaleDepth);
         
                 // Ajuste os tamanhos do cenário com o novo fator de escala
-                int cenarioWidth = (int) (cenario.getImagem().getIconWidth() * scaleFactor * 9);  // Largura ajustada pela escala
-                int cenarioHeight = (int) (cenario.getImagem().getIconHeight() * scaleFactor * 9);  // Altura ajustada pela escala
-        
+                int cenarioWidth = (int) (cenarioImage.getIconWidth() * scaleFactor * 9);  // Largura ajustada pela escala
+                int cenarioHeight = (int) (cenarioImage.getIconHeight() * scaleFactor * 9);  // Altura ajustada pela escala
+                
                 // Posicionamento na tela (mantém o Y interpolado e ajusta a altura)
                 int cenarioY = (int) (interpolatedY - cenarioHeight);
         
                 // Desenhar o cenário com o novo tamanho
-                if (cenarioHeight > 11 || cenarioWidth > 11) {
-                    g2.drawImage(cenario.getImagem().getImage(), (int) cenarioX, cenarioY, cenarioWidth, cenarioHeight, null);
+                if (cenarioHeight > 26 || cenarioWidth > 26) {
+                    g2.drawImage(cenarioImage.getImage(), (int) cenarioX, cenarioY, cenarioWidth, cenarioHeight, null);
                 }
             }
         }
 
         //Desenhando NPCS
+        //sortNpc(npcs);
         for (Npc npc : npcs) {
             if (npc.getPos() > pos) {
                 int npcIndex = (npc.getPos() / segL) % lines.size();
@@ -201,7 +214,7 @@ public class DrawPanel extends JPanel {
                 int npcY = (int) (interpolatedY - npcHeight);
 
                 // Desenhar o NPC com o novo tamanho
-                if ((npcHeight > 11 || npcWidth > 11) && (npcHeight < 400 || npcWidth < 400)) {
+                if (npcHeight > 11 || npcWidth > 11) {
                     g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, npcWidth, npcHeight, null);
                 }
             }

@@ -83,10 +83,11 @@ public class Player extends Carro implements KeyListener{
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                downPressed = true;
+                if(upPressed == false)
+                    downPressed = true;
                 break;
             case KeyEvent.VK_UP:
-                upPressed = true;    
+                upPressed = true;
                 break;
             case KeyEvent.VK_ESCAPE:
                 if(this.pause == false)
