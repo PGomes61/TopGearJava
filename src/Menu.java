@@ -1,8 +1,9 @@
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.*;
+import java.io.IOException;
 import javax.sound.sampled.*;
+import javax.swing.*;
 
 public class Menu extends JPanel{
     CardLayout cl = new CardLayout();
@@ -50,14 +51,28 @@ public class Menu extends JPanel{
     private Sounds menuArrows3;
     private Sounds menuConfirm;
 
-    public Menu(JFrame frame, GameLoop painelCorrida, Sounds mainSong, Sounds menuArrows1, Sounds menuArrows2, Sounds menuArrows3, Sounds menuConfirm){
+    public Menu(JFrame frame, GameLoop painelCorrida){
         this.frame = frame;
         this.painelCorrida = painelCorrida;
-        this.mainSong = mainSong;
-        this.menuArrows1 = menuArrows1;
-        this.menuArrows2 = menuArrows2;
-        this.menuArrows3 = menuArrows3;
-        this.menuConfirm = menuConfirm;
+        this.mainSong = new Sounds();
+        this.menuArrows1 = new Sounds();
+        this.menuArrows2 = new Sounds();
+        this.menuArrows3 = new Sounds();
+        this.menuConfirm = new Sounds();
+
+        new Thread(() -> {
+                        try {
+                            menuArrows1.setClip("menu_change_option");
+                            menuArrows2.setClip("menu_change_option");
+                            menuArrows3.setClip("menu_change_option");
+                            menuConfirm.setClip("menu_select_option");
+                            mainSong.setClip("car_nitro");
+                            mainSong.play();
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
         setImages();
         setContainers();
         setKey();
