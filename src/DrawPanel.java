@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.awt.BasicStroke;
+
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -87,6 +89,7 @@ public class DrawPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawValues(g);
+        drawMiniMap(g);
     }
 
     public void drawValues(Graphics g) {
@@ -225,7 +228,9 @@ public class DrawPanel extends JPanel {
         npcs.get(2).npcOffset();   
         npcs.get(3).npcOffset();
         npcs.get(4).npcOffset();
-
+        drawMiniMap(g2);
+        System.out.println(pos);
+        drawParabola(g2);
         g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 25, frame.getHeight() - player1.getImagem().getIconHeight() - 200, (int) (player1.getImagem().getIconWidth() * 4), (int) (player1.getImagem().getIconHeight() * 2.5), null);
     }
 
@@ -240,6 +245,68 @@ public class DrawPanel extends JPanel {
         return new Dimension(D_W, D_H);
     }
 
+    private void drawParabola(Graphics2D g2d) {
+        // Defina a cor e a espessura da linha
+        g2d.setColor(Color.RED);
+        g2d.setStroke(new BasicStroke(6));
+    
+        // Defina a escala e o deslocamento
+        int scale = 5; // Ajuste a escala para adequar à sua tela
+        int offsetX = width / 2; // Deslocamento no eixo X para centralizar
+        int offsetY = 100 / 2; // Deslocamento no eixo Y para centralizar
+    
+        // Itera sobre a largura da tela para desenhar a parabola
+        for (int x = -width / 2; x < width / 2; x++) {
+            int x1 = x + offsetX;
+            int y1 = (int) (Math.pow(x / scale, 2) * scale) + offsetY;
+            int x2 = x + 1 + offsetX;
+            int y2 = (int) (Math.pow((x + 1) / scale, 2) * scale) + offsetY;
+    
+            g2d.drawLine(x1, y1, x2, y2);
+        }
+    }
+    
+    public void drawMiniMap(Graphics g) {
+        // Definir o tamanho do minimapa e sua posição
+        int miniMapWidth = 200;
+        int miniMapHeight = 200;
+        int miniMapX = 10;  // Posição no canto superior esquerdo
+        int miniMapY = 10;  // Posição no canto superior esquerdo
+        
+        int posicaoYDeAcordoComFuncao = miniMapY;
+
+        // Desenhar fundo do minimapa
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(miniMapX, miniMapY, miniMapWidth, miniMapHeight);
+    
+        // Definir dimensões reais da pista
+        double roadWidth = 1.0; // Largura da pista (ajuste conforme necessário)
+        double trackLength = tamMaxPista * lap * segL; // Comprimento total da pista
+    
+        // Escalas para o minimapa
+        double scaleX = miniMapWidth / (2 * roadWidth);  
+        double scaleY = miniMapHeight / trackLength; 
+    
+        // Desenhar o jogador no minimapa
+        g.setColor(Color.GREEN);  // Cor do jogador
+        int playerMiniMapX = miniMapX + (int) ((pos / roadWidth + 1) * (miniMapWidth / 2));
+        g.fillOval(playerMiniMapX/100000 - 2, posicaoYDeAcordoComFuncao, 4, 4);  // Tamanho do ponto do jogador
+    
+        // Desenhar os NPCs no minimapa
+        g.setColor(Color.RED);  // Cor dos NPCs
+        for (Npc npc : npcs) {
+            double npcOffset = npc.getOffset(); // Deslocamento lateral do NPC
+            int npcPos = npc.getPos(); // Posição ao longo da pista
+            int npcMiniMapX = miniMapX + (int) ((npcPos / roadWidth + 1) * (miniMapWidth / 2));
+            int npcMiniMapY = miniMapY + (int) ((npcPos / trackLength) * miniMapHeight);
+            g.fillOval(npcMiniMapX/100000 - 2, posicaoYDeAcordoComFuncao - 2, 4, 4);  // Tamanho do ponto dos NPCs
+        }
+        System.out.println(lap);
+    }
+
+    
+    
+    
     private void makeTurn(int pos1, int pos2, double curve, Line line, int i) {
         if (i > pos1 + this.tamMaxPista * this.count && i < pos2 + this.tamMaxPista * this.count) {
             line.curve = curve;
@@ -320,7 +387,7 @@ public class DrawPanel extends JPanel {
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
-
+            
             makeTurn(400, 600, 0.6, line, i);
             makeTurn(600, 750, -0.5, line, i);
             makeTurn(750, 900, 0.5, line, i);
