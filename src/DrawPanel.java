@@ -259,7 +259,7 @@ public class DrawPanel extends JPanel {
 
     private void pista1(){
         this.tamMaxPista = 8000;
-        this.lap = 3;
+        this.lap = 4;
         setPosInicial();
         for(int i = 0; i < this.tamMaxPista * lap; i++) {
             Line line = new Line();
@@ -315,44 +315,78 @@ public class DrawPanel extends JPanel {
         }
     }
     private void pista2(){
-        this.tamMaxPista = 1600;
-        this.lap = 3;
+        this.tamMaxPista = 8050;
+        this.lap = 4;
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
 
-            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
-                line.curve = -1;
-                line.flagTurn = -1;
-            }
-        
-            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
-                line.curve = 1;
-                line.flagTurn = 1;
-            }
-        
+            makeTurn(400, 600, 0.6, line, i);
+            makeTurn(600, 750, -0.5, line, i);
+            makeTurn(750, 900, 0.5, line, i);
+            makeTurn(1200, 1350, 0.5, line, i);
+            makeTurn(1750, 1850, -0.3, line, i);
+            makeTurn(1950, 2100, 0.6, line, i);
+            makeTurn(2300, 2450, 0.6, line, i);
+            makeTurn(2650, 2800, 0.8, line, i);
+            makeTurn(3550, 3950, -1.2, line, i);
+            makeTurn(4350, 4950, 0.6, line, i);
+            makeTurn(5150, 5300, 1.0, line, i);
+            makeTurn(5800, 5900, 0.4, line, i);
+            makeTurn(5900, 6000, -0.5, line, i);
+            makeTurn(6200, 6300, -0.4, line, i);
+            makeTurn(6300, 6400, 0.4, line, i);
+            makeTurn(6600, 6750, 1.0, line, i);
+            makeTurn(6850, 6950, 0.5, line, i);
+            makeTurn(7100, 7200, -0.5, line, i);
+            makeTurn(7350, 7500, -0.8, line, i);
+            makeTurn(7700, 7850, 0.7, line, i);
+            
             lines.add(line);
             if(i == tamMaxPista * (count + 1))
                 count++;
         }
     }
     private void pista3(){
-        this.tamMaxPista = 1600;
+        this.tamMaxPista = 12100;
         this.lap = 3;
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
 
-            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
-                line.curve = 1;
-                line.flagTurn = 1;
-            }
-        
-            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
-                line.curve = -1;
-                line.flagTurn = -1;
-            }
-        
+            //0 a 700 Reta
+            makeTurn(800, 1100, -0.8, line, i);
+            //1100 a 1700 Reta
+            makeTurn(1700, 2300, -0.1, line, i);
+            makeTurn(2300, 2700, -0.3, line, i);
+            //reta 2700 a 2800
+            makeTurn(2800, 3100, -1.0, line, i);
+            //3100 a 3500 Reta
+            makeTurn(3500, 3800, -0.8, line, i);
+            //3800 a 4200 Reta
+            makeTurn(4200, 4600, 0.9, line, i);
+            //4600 a 5200 Reta
+            makeTurn(5200, 5600, 1.0, line, i);
+            //5600 a 6200 Reta
+            makeTurn(6200, 6400, 1.0, line, i);
+            makeTurn(6400, 6800, 0.3, line, i);
+            makeTurn(6800, 7100, 1.1, line, i);
+            makeTurn(7100, 7200, -0.2, line, i);
+            //7200 a 7600 Reta
+            makeTurn(7600, 8100, -1.1, line, i);
+            //8100 a 8400 Reta
+            makeTurn(8400, 8550, 0.5, line, i);
+            makeTurn(8550, 8850, -0.5, line, i);
+            makeTurn(8850, 9000, 0.5, line, i);
+            //9000 a 9300 Reta
+            makeTurn(9300, 9600, -0.9, line, i);
+            //9600 a 10500 Reta
+            makeTurn(10500, 10600, -0.2, line, i);
+            makeTurn(10600, 10900, 0.7, line, i);
+            //10900 a 11000 Reta
+            makeTurn(11000, 11400, -1.1, line, i);
+            //Reta 11400 a 12100
+            
             lines.add(line);
             if(i == tamMaxPista * (count + 1))
                 count++;
