@@ -258,10 +258,44 @@ public class DrawPanel extends JPanel {
         int miniMapHeight = 200;
         int miniMapX = 10;  // Posição no canto superior esquerdo
         int miniMapY = 10;  // Posição no canto superior esquerdo
+        int indexInicio = 450;
+
+        int startIndex = 450;
+
+        // Criar um novo vetor para armazenar o resultado
+        int[] resultado = new int[cx.length];
+
+        // Preencher o novo vetor com os elementos a partir do startIndex
+        int j = 0;
+        for (int i = startIndex; i < cx.length; i++) {
+            resultado[j++] = cx[i];
+        }
         
-        int posicaoPlayerX = cx[(int)pos/1000];
-        int posicaoPlayerY = cy[(int)pos/1000];
+        // Preencher o restante do vetor com os elementos anteriores ao startIndex
+        for (int i = 0; i < startIndex; i++) {
+            resultado[j++] = cx[i];
+        }
+        int[] resultado2 = new int[cx.length];
+
+        // Preencher o novo vetor com os elementos a partir do startIndex
+        int j2 = 0;
+        for (int i = startIndex; i < cx.length; i++) {
+            resultado2[j2++] = cy[i];
+        }
         
+        // Preencher o restante do vetor com os elementos anteriores ao startIndex
+        for (int i = 0; i < startIndex; i++) {
+            resultado2[j2++] = cy[i];
+        }
+        
+        int playerIndex = (int)(pos / 100) + indexInicio;
+        playerIndex = (playerIndex - indexInicio) % cx.length;
+        
+        
+
+        int posicaoPlayerX = resultado[playerIndex];  
+        int posicaoPlayerY = resultado2[playerIndex];
+
 
         // Desenhar fundo do minimapa
         g.setColor(Color.DARK_GRAY);
@@ -278,9 +312,6 @@ public class DrawPanel extends JPanel {
         // Desenhar o jogador no minimapa
         g.setColor(Color.GREEN);  // Cor do jogador
         int playerMiniMapX = miniMapX + (int) ((pos / roadWidth + 1) * (miniMapWidth / 2));
-        double y = Math.cos(playerMiniMapX/100000);
-        System.out.println("oi"+playerMiniMapX/100000);
-        System.out.println(y);
         for(int i=0 ; i<cx.length; i++){
             g.fillOval((int)cx[i]+20, (int)cy[i]+20, 4, 4);  // Tamanho do ponto do jogador
 
@@ -296,7 +327,7 @@ public class DrawPanel extends JPanel {
             int npcPos = npc.getPos(); // Posição ao longo da pista
             int npcMiniMapX = miniMapX + (int) ((npcPos / roadWidth + 1) * (miniMapWidth / 2));
             int npcMiniMapY = miniMapY + (int) ((npcPos / trackLength) * miniMapHeight);
-            g.fillOval(cx[(int)npcPos/100]+20 - 2, cy[(int)npcPos/100]+20 - 2, 4, 4);  // Tamanho do ponto dos NPCs
+            g.fillOval(cx[(int)npcPos/100  % cx.length]+20 - 2, cy[(int)npcPos/100  % cy.length]+20 - 2, 4, 4);  // Tamanho do ponto dos NPCs
         }
     }
 
