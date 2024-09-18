@@ -85,7 +85,7 @@ public class GameLoop extends JPanel implements Runnable {
                     }
                     lastTime = System.nanoTime();
                 }
-            }
+            }	
 
             long currentTime = System.nanoTime();
             double elapsed = (currentTime - lastTime) / NANOSECONDS_PER_SECOND;
@@ -102,7 +102,7 @@ public class GameLoop extends JPanel implements Runnable {
             repaint();  // Renderiza o jogo
 
             try {
-                Thread.sleep(1); // Pequena pausa para evitar busy-waiting
+                Thread.sleep((long) (1000 / TARGET_FPS));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
