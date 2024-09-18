@@ -2,27 +2,43 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
 
-public class Sounds{
-    
+public class Sounds {
+
     private Clip clip;
+    private FloatControl volumeControl; // Controle de volume
 
-    public void play() throws LineUnavailableException{
+    public void play() throws LineUnavailableException {
         this.clip.start();
-    } 
+    }
 
-    public void pause() throws LineUnavailableException{
+    public void pause() throws LineUnavailableException {
         this.clip.stop();
     }
 
-    public void reset() throws LineUnavailableException{
-
+    public void reset() throws LineUnavailableException {
         this.clip.setMicrosecondPosition(0);
     }
 
-    public void setClip(String nomeDoAudio) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+    public void setClip(String nomeDoAudio) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File("src/Game_sounds/" + nomeDoAudio + ".wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         this.clip = AudioSystem.getClip();
         this.clip.open(audioStream);
+
+        // Obtendo controle de volume
+        if (this.clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+            this.volumeControl = (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
+        }
+        this.setVolume(0.65f);
+    }
+
+    // Método para ajustar o volume (entre 0.0 e 1.0)
+    public void setVolume(float volume) {
+        if (volumeControl != null) {
+            float min = volumeControl.getMinimum(); // Valor mínimo de volume em dB
+            float max = volumeControl.getMaximum(); // Valor máximo de volume em dB
+            float volumeDB = (max - min) * volume + min; // Converte volume (0.0 - 1.0) para dB
+            volumeControl.setValue(volumeDB);
+        }
     }
 }

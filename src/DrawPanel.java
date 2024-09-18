@@ -75,10 +75,10 @@ public class DrawPanel extends JPanel {
         Cenario setaE = new Cenario(EnviromentVariables.SPRITE_SETAE, 5000);
         Cenario setaD = new Cenario(EnviromentVariables.SPRITE_SETAD, 6000);
         Cenario linha = new Cenario(EnviromentVariables.SPRITE_LINHACHEGADA, 180000);
-        // for(int i = 0; i < 10000; i++){
-        //     Cenario arvores = new Cenario(EnviromentVariables.SPRITE_ARVORE, 9000 + i * 250);
-        //     cenarios.add(arvores);
-        // }
+        for(int i = 0; i < 10000; i++){
+            Cenario arvores = new Cenario(EnviromentVariables.SPRITE_ARVORE, 9000 + i * 6000);
+            cenarios.add(arvores);
+        }
         cenarios.add(setaE);
         cenarios.add(setaD);
         cenarios.add(linha);
@@ -140,7 +140,7 @@ public class DrawPanel extends JPanel {
 
         //Desenhando Cenario
         for (Cenario cenario : cenarios) {
-            if (cenario.getPos() - 1500 > pos) {
+            if (cenario.getPos() - 1800 > pos) {
                 ImageIcon cenarioImage = cenario.getImagem();
                 int cenarioIndex = (cenario.getPos() / segL) % lines.size();
                 Line cenarioLine = lines.get(cenarioIndex);
@@ -172,7 +172,7 @@ public class DrawPanel extends JPanel {
                 int cenarioY = (int) (interpolatedY - cenarioHeight);
         
                 // Desenhar o cenário com o novo tamanho
-                if (cenarioHeight > 26 || cenarioWidth > 26) {
+                if ((cenarioHeight > 26 || cenarioWidth > 26) && (cenarioHeight > 27 || cenarioWidth > 27)) {
                     g2.drawImage(cenarioImage.getImage(), (int) cenarioX, cenarioY, cenarioWidth, cenarioHeight, null);
                 }
             }
