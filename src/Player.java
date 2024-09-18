@@ -1,5 +1,8 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 
 public class Player extends Carro implements KeyListener{
@@ -8,11 +11,24 @@ public class Player extends Carro implements KeyListener{
     private ImageIcon velocidadeImg;
     public boolean start = false, pause = false, upPressed = false, leftPressed = false, downPressed = false, rightPressed = false, curva = false, colision = false;
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
-    private Sounds reprodutor;
+    private Sounds acelerando;
+    private Sounds freando;
 
     public Player(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, GameLoop game){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
         this.game = game;
+        this.acelerando = new Sounds();
+        this.freando = new Sounds();
+        
+        new Thread(() -> {
+                        try {
+                            this.acelerando.setClip("car_accelerate");
+                            this.freando.setClip("car_break");
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+        
     }
 
     public ImageIcon getImagem(int caso){
@@ -86,9 +102,27 @@ public class Player extends Carro implements KeyListener{
             case KeyEvent.VK_DOWN:
                 if(upPressed == false)
                     downPressed = true;
+
+                    new Thread(() -> {
+                        try {
+                            freando.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+
                 break;
             case KeyEvent.VK_UP:
                 upPressed = true;
+                
+                new Thread(() -> {
+                    try {
+                        acelerando.play();
+                    } catch (LineUnavailableException ex) {
+                        ex.printStackTrace();
+                    }
+                }).start();
+
                 break;
             case KeyEvent.VK_ESCAPE:
                 if(this.pause == false)
@@ -120,9 +154,29 @@ public class Player extends Carro implements KeyListener{
                 break;
             case KeyEvent.VK_DOWN:
                 downPressed = false;
+
+                new Thread(() -> {
+                    try {
+                        freando.pause();
+                        freando.reset();
+                    } catch (LineUnavailableException ex) {
+                        ex.printStackTrace();
+                    }
+                }).start();
+
                 break;
             case KeyEvent.VK_UP:
                 upPressed = false; 
+
+                new Thread(() -> {
+                    try {
+                        acelerando.pause();
+                        acelerando.reset();
+                    } catch (LineUnavailableException ex) {
+                        ex.printStackTrace();
+                    }
+                }).start();
+
                 break;
         }
     }
