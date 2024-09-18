@@ -1304,7 +1304,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(2);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1384,7 +1384,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(3);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1464,7 +1464,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(4);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1544,7 +1544,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(5);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1624,7 +1624,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(6);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);

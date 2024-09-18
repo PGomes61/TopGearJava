@@ -29,7 +29,7 @@ public class Main{
                             menuArrows2.setClip("menu_change_option");
                             menuArrows3.setClip("menu_change_option");
                             menuConfirm.setClip("menu_select_option");
-                            mainSong.setClip("car_nitro");
+                            mainSong.setClip("outracoisa");
                             mainSong.play();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                             ex.printStackTrace();
