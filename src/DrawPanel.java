@@ -229,9 +229,31 @@ public class DrawPanel extends JPanel {
         npcs.get(3).npcOffset();
         npcs.get(4).npcOffset();
         drawMiniMap(g2);
-        System.out.println(pos);
         drawParabola(g2);
+        drawpista(g2);
+        drawTrack(g2);
+        desenharPista(g2);
         g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 25, frame.getHeight() - player1.getImagem().getIconHeight() - 200, (int) (player1.getImagem().getIconWidth() * 4), (int) (player1.getImagem().getIconHeight() * 2.5), null);
+    }
+
+    private void desenharPista(Graphics2D g2d) {
+        // Define as propriedades da pista
+        int larguraPista = 20;
+        int xInicial = 50;
+        int yInicial = 50;
+        int comprimentoSegmento = 5;
+
+        // Desenha a pista segmentada
+        for (int i = 0; i < 800; i += comprimentoSegmento) {
+            int x1 = xInicial + i;
+            int y1 = yInicial + (int) (Math.sin(i * 0.01) * 50); // Efeito de onda
+
+            int x2 = x1 + comprimentoSegmento;
+            int y2 = y1 + (int) (Math.sin((i + comprimentoSegmento) * 0.01) * 50); // Efeito de onda
+
+            // Desenha um segmento da pista
+            g2d.fillRect(x1, y1, comprimentoSegmento, larguraPista);
+        }
     }
 
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
@@ -265,6 +287,92 @@ public class DrawPanel extends JPanel {
             g2d.drawLine(x1, y1, x2, y2);
         }
     }
+
+    private void drawTrack(Graphics2D g2d) {
+        // Defina a cor e a espessura da linha
+        g2d.setColor(Color.RED);
+        g2d.setStroke(new BasicStroke(6));
+    
+        // Defina a escala e o deslocamento
+        int scale = 10; // Ajuste a escala para adequar à sua tela
+        int offsetX = 20; // Deslocamento no eixo X para centralizar
+        int offsetY = 15; // Deslocamento no eixo Y para centralizar
+    
+        // Array de pontos que definem a pista (baseado na imagem fornecida)
+        int[] xPoints = {
+            50,  100, 150,  200,  250,  300,  350,  370,  350,  300, 250, 200, 150, 100,  50,  30
+        };
+        int[] yPoints = {
+            200, 180, 160,  150,  160,  180,  200,  220,  240,  260, 280, 260, 240, 220,  210, 190
+        };
+    
+        // Aplicando escala e deslocamento nos pontos
+        for (int i = 0; i < xPoints.length; i++) {
+            xPoints[i] = xPoints[i] * scale + offsetX;
+            yPoints[i] = yPoints[i] * scale + offsetY;
+        }
+    
+        // Desenhar a pista conectando os pontos
+        for (int i = 0; i < xPoints.length - 1; i++) {
+            g2d.drawLine(xPoints[i], yPoints[i], xPoints[i + 1], yPoints[i + 1]);
+        }
+    
+        // Fechar o loop da pista conectando o último ponto ao primeiro
+        g2d.drawLine(10, yPoints[yPoints.length - 1], xPoints[0], yPoints[0]);
+    }
+    
+
+    private void drawpista(Graphics g) {
+        g.setColor(Color.RED);
+        
+        // Coordenadas iniciais (ponto de partida)
+        int x = 100; // Posição inicial em X
+        int y = 100; // Posição inicial em Y
+        int segL = 10; // Tamanho de cada segmento
+    
+        int[] xPoints = new int[tamMaxPista * lap];
+        int[] yPoints = new int[tamMaxPista * lap];
+        
+        double angle = 0; // Ângulo inicial da pista
+    
+        // Loop para calcular os pontos da pista com base em pista1()
+        for (int i = 0; i < this.tamMaxPista * lap; i++) {
+            Line line = new Line();
+            line.z = i * segL;
+            
+            // Adiciona a curva da pista
+            makeTurn(800, 1000, 1.0, line, i);
+            makeTurn(1300, 1450, 0.5, line, i);
+            makeTurn(1450, 1750, -0.7, line, i);
+            makeTurn(1750, 2000, 1.2, line, i);
+            makeTurn(2300, 2450, -0.6, line, i);
+            makeTurn(3000, 3150, 0.5, line, i);
+            makeTurn(3150, 3300, -0.9, line, i);
+            makeTurn(3300, 3450, 0.5, line, i);
+            makeTurn(3600, 3800, 1.0, line, i);
+            makeTurn(4300, 4750, -1.2, line, i);
+            makeTurn(4750, 4850, 0.2, line, i);
+            makeTurn(5250, 5450, 1.0, line, i);
+            makeTurn(5800, 6000, 1.0, line, i);
+            makeTurn(6300, 6500, -0.7, line, i);
+            makeTurn(6750, 6900, 0.5, line, i);
+            makeTurn(6900, 7050, -0.6, line, i);
+            makeTurn(7050, 7200, 0.5, line, i);
+            
+            // Calcula as novas coordenadas com base no ângulo
+            angle += line.curve * 0.05; // Ajustar intensidade da curva
+            x += (int) (Math.cos(angle) * segL);
+            y += (int) (Math.sin(angle) * segL);
+    
+            // Armazena os pontos para desenhar
+            xPoints[i] = x;
+            yPoints[i] = y;
+        }
+    
+        // Desenhar o contorno da pista
+        g.drawPolyline(xPoints, yPoints, 10 * lap);
+    }
+    
     
     public void drawMiniMap(Graphics g) {
         // Definir o tamanho do minimapa e sua posição
@@ -290,8 +398,10 @@ public class DrawPanel extends JPanel {
         // Desenhar o jogador no minimapa
         g.setColor(Color.GREEN);  // Cor do jogador
         int playerMiniMapX = miniMapX + (int) ((pos / roadWidth + 1) * (miniMapWidth / 2));
-        g.fillOval(playerMiniMapX/100000 - 2, posicaoYDeAcordoComFuncao, 4, 4);  // Tamanho do ponto do jogador
-    
+        double y = Math.cos(playerMiniMapX/100000);
+        System.out.println("oi"+playerMiniMapX/100000);
+        System.out.println(y);
+        g.fillOval(playerMiniMapX/100000 - 2, (int)(y*2)+20, 4, 4);  // Tamanho do ponto do jogador
         // Desenhar os NPCs no minimapa
         g.setColor(Color.RED);  // Cor dos NPCs
         for (Npc npc : npcs) {
@@ -301,7 +411,6 @@ public class DrawPanel extends JPanel {
             int npcMiniMapY = miniMapY + (int) ((npcPos / trackLength) * miniMapHeight);
             g.fillOval(npcMiniMapX/100000 - 2, posicaoYDeAcordoComFuncao - 2, 4, 4);  // Tamanho do ponto dos NPCs
         }
-        System.out.println(lap);
     }
 
     
