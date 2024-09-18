@@ -259,7 +259,7 @@ public class DrawPanel extends JPanel {
 
     private void pista1(){
         this.tamMaxPista = 8000;
-        this.lap = 3;
+        this.lap = 4;
         setPosInicial();
         for(int i = 0; i < this.tamMaxPista * lap; i++) {
             Line line = new Line();
@@ -315,22 +315,33 @@ public class DrawPanel extends JPanel {
         }
     }
     private void pista2(){
-        this.tamMaxPista = 1600;
-        this.lap = 3;
+        this.tamMaxPista = 8050;
+        this.lap = 4;
         for(int i = 0; i < tamMaxPista * lap; i++) {
             Line line = new Line();
             line.z = i * segL;
 
-            if (i > 200 + this.tamMaxPista * count && i < 600 + this.tamMaxPista * count) {
-                line.curve = -1;
-                line.flagTurn = -1;
-            }
-        
-            if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
-                line.curve = 1;
-                line.flagTurn = 1;
-            }
-        
+            makeTurn(400, 600, 0.6, line, i);
+            makeTurn(600, 750, -0.5, line, i);
+            makeTurn(750, 900, 0.5, line, i);
+            makeTurn(1200, 1350, 0.5, line, i);
+            makeTurn(1750, 1850, -0.3, line, i);
+            makeTurn(1950, 2100, 0.6, line, i);
+            makeTurn(2300, 2450, 0.6, line, i);
+            makeTurn(2650, 2800, 0.8, line, i);
+            makeTurn(3550, 3950, -1.2, line, i);
+            makeTurn(4350, 4950, 0.6, line, i);
+            makeTurn(5150, 5300, 1.0, line, i);
+            makeTurn(5800, 5900, 0.4, line, i);
+            makeTurn(5900, 6000, -0.5, line, i);
+            makeTurn(6200, 6300, -0.4, line, i);
+            makeTurn(6300, 6400, 0.4, line, i);
+            makeTurn(6600, 6750, 1.0, line, i);
+            makeTurn(6850, 6950, 0.5, line, i);
+            makeTurn(7100, 7200, -0.5, line, i);
+            makeTurn(7350, 7500, -0.8, line, i);
+            makeTurn(7700, 7850, 0.7, line, i);
+            
             lines.add(line);
             if(i == tamMaxPista * (count + 1))
                 count++;
