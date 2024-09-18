@@ -1,8 +1,5 @@
 import javax.swing.SwingUtilities;
 import java.awt.*;
-import java.io.IOException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Main{
     public static void main(String[] args) {

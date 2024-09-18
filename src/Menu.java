@@ -66,7 +66,8 @@ public class Menu extends JPanel{
                             menuArrows2.setClip("menu_change_option");
                             menuArrows3.setClip("menu_change_option");
                             menuConfirm.setClip("menu_select_option");
-                            mainSong.setClip("car_nitro");
+                            mainSong.setClip("game_soundtrack");
+                            mainSong.setVolume(0.55f);
                             mainSong.play();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                             ex.printStackTrace();
@@ -1319,7 +1320,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(2);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1399,7 +1400,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(3);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1479,7 +1480,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(4);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1559,7 +1560,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(5);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1639,7 +1640,7 @@ public class Menu extends JPanel{
                         }
                     }).start();
                 
-                    painelCorrida.setCarroEscolhido(1);
+                    painelCorrida.setCarroEscolhido(6);
                     frame.remove(carros);
                     frame.add(painelCorrida);
                     painelCorrida.setFrame(frame);
@@ -1708,6 +1709,14 @@ public class Menu extends JPanel{
                     frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    new Thread(() -> {
+                        try {
+                            mainSong.reset();
+                            mainSong.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
                     frame.remove(pause);
                     frame.add(menuPrincipal);
                     cl.show(menuPrincipal, "p1");
