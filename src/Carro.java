@@ -6,9 +6,9 @@ public class Carro {
     protected ImageIcon imagem;
     protected ArrayList<ImageIcon> sprites = new ArrayList<ImageIcon>(); 
     protected double velocidadeInicial = 2;
-    private double aceleracao;
-    private double peso;
-    private double tracao; 
+    protected double aceleracao;
+    protected double peso;
+    protected double tracao; 
     protected double velocidadeMaxima = 300;
 
     public Carro(String defaultImagePath1,String defaultImagePath2, 

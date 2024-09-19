@@ -112,7 +112,7 @@ public class GameLoop extends JPanel implements Runnable {
     public void update() {
         if(player1.start == false){
             count++;
-            if(count > 300){
+            if(count > 0){
                 player1.start = true;
                 count = 0;
             }
@@ -188,8 +188,8 @@ public class GameLoop extends JPanel implements Runnable {
         ////////  MOVIMENTAÇÃO DO CARRO  ///////
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
-            System.out.println("CIMA");
             drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
+            System.out.println(player1.getVelocidade());
             player1.acelerar();
         }
         if (player1.downPressed && !player1.upPressed) {
@@ -206,12 +206,10 @@ public class GameLoop extends JPanel implements Runnable {
             // }
     
             if(player1.getVelocidade() != 0.0 && player1.curva == false) {
-                System.out.println("player1.curva == false");
                 drawPanel.setPlayerXDecrescimo(100 + aux);
             }
     
             if(player1.getVelocidade() != 0.0 && player1.curva == true) {
-                System.out.println("player1.curva == true");
                 drawPanel.setPlayerXDecrescimo(100 + aux);
             }
     
@@ -225,12 +223,10 @@ public class GameLoop extends JPanel implements Runnable {
             double aux = (player1.getVelocidade() * 0.01);
             
             if (player1.getVelocidade() != 0 && player1.curva == false) {
-                System.out.println("player1.curva == false");
                 drawPanel.setPlayerXAcrescimo(100 + aux);              
             }
 
             if(player1.getVelocidade() > 0 && player1.curva == true) {
-                System.out.println("player1.curva == true");
                 drawPanel.setPlayerXAcrescimo(100 + aux);
             }
     
@@ -283,7 +279,7 @@ public class GameLoop extends JPanel implements Runnable {
         }
         
         Carro carro1Player = new Player(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2.0, 2.0, 2.0, 300.0, this);
-        Carro carro2Player = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2.8, 1.4, 1.5, 290.0, this);
+        Carro carro2Player = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2.4, 1.4, 1.5, 290.0, this);
         Carro carro3Player = new Player(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2.0, 1.8, 2.0, 300.0, this);
         Carro carro4Player = new Player(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2.0, 2.2, 2.0, 290.0, this);
         Carro carro5Player = new Player(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2.0, 2.0, 2.5, 300.0, this);
