@@ -196,8 +196,8 @@ public class Player extends Carro implements KeyListener{
         }
 
         if(tempo2 == 0 && super.velocidadeInicial + 1 <= super.velocidadeMaxima) {   
-        	super.velocidadeInicial += super.aceleracao / super.peso ;
-
+        	super.velocidadeInicial += super.aceleracao / super.peso;
+        	super.velocidadeInicial += super.aceleracao / super.peso;
 
             tempo2++;
         }
@@ -221,9 +221,8 @@ public class Player extends Carro implements KeyListener{
     public void freio(){
         if(tempo == 0 && super.velocidadeInicial -3 >= 0)
         {
-            super.velocidadeInicial -= 1;;
-            velocidadeInicial -= 1;;
-            super.velocidadeInicial -= 1;;
+        	super.velocidadeInicial -= super.peso;
+
             tempo = 1;
         }
         else
@@ -232,8 +231,13 @@ public class Player extends Carro implements KeyListener{
         if(tempo < 0)
             tempo = 0;
     }
+    
     public double getVelocidade(){
         return super.velocidadeInicial;
+    }
+    
+    public double getTracao() {
+    	return super.tracao;
     }
 
     public void colidindo(){

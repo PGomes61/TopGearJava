@@ -199,18 +199,14 @@ public class GameLoop extends JPanel implements Runnable {
     
         if (player1.leftPressed && !player1.rightPressed) {
             // Lógica para movimento à esquerda
-            double aux = (player1.getVelocidade() * 0.01);
+            double aux = (player1.getTracao());
     
-            // if(player1.getVelocidade() <= 50.0 && player1.getVelocidade() != 0.0 && !player1.curva) {
-            //     drawPanel.setPlayerXDecrescimo(10 + (player1.getVelocidade() / 10.0));
-            // }
-    
-            if(player1.getVelocidade() != 0.0 && player1.curva == false) {
-                drawPanel.setPlayerXDecrescimo(100 + aux);
+            if(player1.getVelocidade() <= player1.getTracao() && player1.getVelocidade() != 0.0 && player1.curva == false) {
+                drawPanel.setPlayerXDecrescimo(player1.getVelocidade());
             }
     
-            if(player1.getVelocidade() != 0.0 && player1.curva == true) {
-                drawPanel.setPlayerXDecrescimo(100 + aux);
+            if(player1.getVelocidade() >= player1.getTracao() || player1.curva == true) {
+                drawPanel.setPlayerXDecrescimo(aux);
             }
     
             if (!player1.upPressed) {
@@ -220,14 +216,14 @@ public class GameLoop extends JPanel implements Runnable {
 
         if(player1.rightPressed && !player1.leftPressed) {
             // Lógica para movimento à direita
-            double aux = (player1.getVelocidade() * 0.01);
+            double aux = (player1.getTracao());
             
-            if (player1.getVelocidade() != 0 && player1.curva == false) {
-                drawPanel.setPlayerXAcrescimo(100 + aux);              
+            if(player1.getVelocidade() <= player1.getTracao() && player1.getVelocidade() != 0.0 && player1.curva == false) {
+                drawPanel.setPlayerXAcrescimo(player1.getVelocidade());
             }
 
-            if(player1.getVelocidade() > 0 && player1.curva == true) {
-                drawPanel.setPlayerXAcrescimo(100 + aux);
+            if(player1.getVelocidade() >= player1.getTracao() || player1.curva == true) {
+                drawPanel.setPlayerXAcrescimo(aux);
             }
     
             if(!player1.upPressed) {
@@ -278,12 +274,12 @@ public class GameLoop extends JPanel implements Runnable {
             iterator.remove(); // Remove o carro da lista
         }
         
-        Carro carro1Player = new Player(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2.0, 2.0, 2.0, 300.0, this);
-        Carro carro2Player = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2.4, 1.4, 1.5, 290.0, this);
-        Carro carro3Player = new Player(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2.0, 1.8, 2.0, 300.0, this);
-        Carro carro4Player = new Player(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2.0, 2.2, 2.0, 290.0, this);
-        Carro carro5Player = new Player(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2.0, 2.0, 2.5, 300.0, this);
-        Carro carro6Player = new Player(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2.2, 1.8, 2.0, 290.0, this);
+        Carro carro1Player = new Player(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2.0, 2.0, 80.0, 300.0, this);
+        Carro carro2Player = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2.4, 1.4, 60.0, 290.0, this);
+        Carro carro3Player = new Player(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2.0, 1.8, 80.0, 300.0, this);
+        Carro carro4Player = new Player(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2.0, 2.2, 80.0, 290.0, this);
+        Carro carro5Player = new Player(EnviromentVariables.SPRITE_C5_F, EnviromentVariables.SPRITE_C5_E, EnviromentVariables.SPRITE_C5_D, 2.0, 2.0, 100.0, 300.0, this);
+        Carro carro6Player = new Player(EnviromentVariables.SPRITE_C6_F, EnviromentVariables.SPRITE_C6_E, EnviromentVariables.SPRITE_C6_D, 2.2, 1.8, 80.0, 290.0, this);
         
         Carro carro1Npc = new Npc(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2.0, 2.0, 2.0, 300.0);
         Carro carro2Npc = new Npc(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2.8, 1.4, 1.5, 290.0);
