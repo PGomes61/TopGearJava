@@ -61,29 +61,30 @@ public class EnviromentVariables{
 
     public static String SPRITE_SETAE="src/Cenario/SetaE.png";
     public static String SPRITE_SETAD="src/Cenario/SetaD.png";
-    public static String SPRITE_LINHACHEGADA="src/Cenario/linha.png";
-    public static String SPRITE_ARVORE=("src/Cenario/Arvorea.png");
+    public static String SPRITE_ARVORE="src/Cenario/Arvorea.png";
 
-    public static ImageIcon SPRITE_PARALAX_L= new ImageIcon("src/Cenario/ParalaxLa.png");
-    public static ImageIcon SPRITE_PARALAX_M= new ImageIcon("src/Cenario/ParalaxMa.png");
-    public static ImageIcon SPRITE_PARALAX_P= new ImageIcon("src/Cenario/ParalaxPe.png");
-    public static ImageIcon SPRITE_SEMAFOROR= new ImageIcon("src/Cenario/SemaforoR.png");
-    public static ImageIcon SPRITE_SEMAFOROG= new ImageIcon("src/Cenario/SemaforoG.png");
-    public static ImageIcon SPRITE_SEMAFOROY= new ImageIcon("src/Cenario/SemaforoY.png");
-    public static ImageIcon SPRITE_SEMAFORO= new ImageIcon("src/Cenario/Semaforo.png");
+    public static ImageIcon SPRITE_PARALAX_L= new ImageIcon("src/Cenario/ParalaxL.png");
+    public static ImageIcon SPRITE_PARALAX_M= new ImageIcon("src/Cenario/ParalaxM.png");
+    public static ImageIcon SPRITE_PARALAX_P= new ImageIcon("src/Cenario/ParalaxP.png");
+
+    public static String SPRITE_SEMAFORO0="src/Cenario/Sinal 1.png";
+    public static String SPRITE_SEMAFORO1="src/Cenario/Sinal 2.png";
+    public static String SPRITE_SEMAFORO2="src/Cenario/Sinal 3.png";
+    public static String SPRITE_SEMAFORO3="src/Cenario/Sinal 4.png";
+    public static String SPRITE_SEMAFORO4="src/Cenario/Sinal 5.png";
+    public static String SPRITE_SEMAFORO5="src/Cenario/Sinal 6.png";
+    public static String SPRITE_SEMAFORO6="src/Cenario/Sinal 7.png";
+    public static String SPRITE_SEMAFORO7="src/Cenario/Sinal 8.png";
 
     //NECESSÁRIO AJUSTAR A FÍSICA DAS CURVAS.
     //NECESSÁRIO AJUSTAR ATRIBUTOS DOS CARROS.
 
     //NECESSÁRIO ADICIONAR COLISÃO ENTRE OS CARROS.
-
     
     //NECESSÁRIO ADICIONAR TEMPLATE PARA 2 JOGADORES.
-    //NECESSÁRIO IMPLEMENTAR SISTEMA DE NITRO.
-    //NECESSÁRIO ADICIONAR SONS.
+    //NECESSÁRIO IMPLEMENTAR SISTEMA DE NITRO. (NÃO É PREFERÊNCIA)
     //NECESSÁRIO ADICIONAR HUD.
     
-    //NECESSÁRIO ADICIONAR PARALAX.
     //NECESSÁRIO CRIAR FIM DA CORRIDA COM TEMPO E RANKING DE CORREDORES.
 
     public EnviromentVariables(){

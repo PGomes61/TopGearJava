@@ -19,6 +19,7 @@ public class DrawPanel extends JPanel {
     private static final int D_H = 768;
     private List<Line> lines;
     private List<Npc> npcs;
+    public Cenario linha = new Cenario(EnviromentVariables.SPRITE_SEMAFORO0, 5000);
     private List<Cenario> cenarios = new ArrayList<>();
     private double playerX = 0;
     private int width = 1024;
@@ -74,7 +75,6 @@ public class DrawPanel extends JPanel {
     private void setCenario(){
         Cenario setaE = new Cenario(EnviromentVariables.SPRITE_SETAE, 5000);
         Cenario setaD = new Cenario(EnviromentVariables.SPRITE_SETAD, 6000);
-        Cenario linha = new Cenario(EnviromentVariables.SPRITE_LINHACHEGADA, 180000);
         for(int i = 0; i < 10000; i++){
             Cenario arvores = new Cenario(EnviromentVariables.SPRITE_ARVORE, 9000 + i * 6000);
             cenarios.add(arvores);
@@ -116,16 +116,16 @@ public class DrawPanel extends JPanel {
             g.fillRect(0, 0, D_W, 392);
             
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_L.getImage(), (int) bgOffset, 257, this);
-            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_L.getImage(), (int) bgOffset + getWidth(), 257, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_L.getImage(), (int) bgOffset, 367, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_L.getImage(), (int) bgOffset + getWidth(), 367, this);
 
             //Desenha a camada de meio (velocidade intermediária)
-            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_M.getImage(), (int) mgOffset, 294, this);
-            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_M.getImage(), (int) mgOffset + getWidth(), 294, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_M.getImage(), (int) mgOffset, 377, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_M.getImage(), (int) mgOffset + getWidth(), 377, this);
 
             // Desenha a camada de primeiro plano (move mais rápido)
-            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_P.getImage(), (int) fgOffset, 367, this);
-            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_P.getImage(), (int) fgOffset + getWidth(), 367, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_P.getImage(), (int) fgOffset, 382, this);
+            g2d.drawImage(EnviromentVariables.SPRITE_PARALAX_P.getImage(), (int) fgOffset + getWidth(), 382, this);
 
             g2.setColor(Color.WHITE);
             if (player1.getVelocidade() < 100)
@@ -212,6 +212,10 @@ public class DrawPanel extends JPanel {
 
                 // Posicionamento na tela
                 int npcY = (int) (interpolatedY - npcHeight);
+                npc.setHeight(npcHeight);
+                npc.setWidth(npcWidth);
+                npc.setX(npcX);
+                npc.setY(npcY);
 
                 // Desenhar o NPC com o novo tamanho
                 if ((npcHeight > 11 || npcWidth > 11) && (npcHeight < 200 || npcWidth < 200)) {
@@ -228,7 +232,7 @@ public class DrawPanel extends JPanel {
 
         g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 25, frame.getHeight() - player1.getImagem().getIconHeight() - 200, (int) (player1.getImagem().getIconWidth() * 4), (int) (player1.getImagem().getIconHeight() * 2.5), null);
     }
-
+    
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
         int[] xPoints = {x1 - w1, x2 - w2, x2 + w2, x1 + w1};
         int[] yPoints = {y1, y2, y2, y1};
