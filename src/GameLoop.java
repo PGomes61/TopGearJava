@@ -1,10 +1,10 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class GameLoop extends JPanel implements Runnable {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;

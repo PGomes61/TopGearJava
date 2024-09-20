@@ -13,6 +13,7 @@ public class Player extends Carro implements KeyListener{
     private double tempo3 = 0, tempo2 = 0, tempo = 0;
     private Sounds acelerando;
     private Sounds freando;
+    private boolean somIniciado = false;
 
     public Player(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, GameLoop game){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
@@ -117,8 +118,13 @@ public class Player extends Carro implements KeyListener{
                 
                 new Thread(() -> {
                     try {
+                        if (!somIniciado) {
+                            Thread.sleep(4500);
+                            somIniciado = true;
+                        }
+
                         acelerando.play();
-                    } catch (LineUnavailableException ex) {
+                    } catch (InterruptedException | LineUnavailableException ex) {
                         ex.printStackTrace();
                     }
                 }).start();

@@ -5,7 +5,7 @@ import javax.sound.sampled.*;
 public class Sounds {
 
     private Clip clip;
-    private FloatControl volumeControl; // Controle de volume
+    private FloatControl volumeControl;
 
     public void play() throws LineUnavailableException {
         this.clip.start();
@@ -17,6 +17,10 @@ public class Sounds {
 
     public void reset() throws LineUnavailableException {
         this.clip.setMicrosecondPosition(0);
+    }
+    
+    public void setTo(int x) throws LineUnavailableException {
+        this.clip.setMicrosecondPosition(x);
     }
 
     public void setClip(String nomeDoAudio) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -32,7 +36,6 @@ public class Sounds {
         this.setVolume(0.65f);
     }
 
-    // Método para ajustar o volume (entre 0.0 e 1.0)
     public void setVolume(float volume) {
         if (volumeControl != null) {
             float min = volumeControl.getMinimum(); // Valor mínimo de volume em dB
