@@ -448,7 +448,7 @@ public class GameLoop extends JPanel implements Runnable {
     
         // Calcular metade da área do retângulo do jogador
         int playerArea = playerWidth * playerHeight;
-        int halfPlayerArea = playerArea / 3;
+        int halfPlayerArea = playerArea / 2;
     
         // Retornar true se a área da interseção for maior ou igual a metade da área do retângulo do jogador
         return intersectionArea >= halfPlayerArea;
