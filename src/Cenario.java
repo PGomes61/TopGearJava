@@ -26,13 +26,13 @@ public class Cenario {
             this.offset = -1.5;
         if(path == EnviromentVariables.SPRITE_ARVORE)
             this.offset = number;
-        if(path == EnviromentVariables.SPRITE_LINHACHEGADA)
+        if(path == EnviromentVariables.SPRITE_SEMAFORO0)
             this.offset = -1.2;
         this.pos = pos;
     }
     
-    public void setImagem(ImageIcon imagem) {
-        this.imagem = imagem;
+    public void setImagem(String path) {
+        this.imagem = new ImageIcon(path);
     }
 
     public ImageIcon getImagem() {

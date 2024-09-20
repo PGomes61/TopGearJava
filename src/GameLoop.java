@@ -141,9 +141,9 @@ public class GameLoop extends JPanel implements Runnable {
             if(n > startPos + 1 && n < startPos + 14 && (p.flagTurn == 1 || p.flagTurn == -1)) {
                 double auxCurva = 0.5 * p.curve * (player1.getVelocidade() * 0.05);
                 player1.curva = true;
-                drawPanel.bgOffset -= p.curve * 0.3; // Camada de fundo se move mais devagar
-                drawPanel.mgOffset -= p.curve * 0.4;  // Camada de meio se move com velocidade intermediária
-                drawPanel.fgOffset -= p.curve * 0.5;  // Camada de primeiro plano se move mais rápido
+                drawPanel.bgOffset -= p.curve * 0.1 * 0.01 * player1.getVelocidade(); // Camada de fundo se move mais devagar
+                drawPanel.mgOffset -= p.curve * 0.5 * 0.01 * player1.getVelocidade();  // Camada de meio se move com velocidade intermediária
+                drawPanel.fgOffset -= p.curve * 0.9 * 0.01 * player1.getVelocidade();  // Camada de primeiro plano se move mais rápido
                 if (drawPanel.bgOffset >= 0 || drawPanel.bgOffset <= -512) {
                     drawPanel.bgOffset = -512;  // Resetar o offset para criar um looping contínuo
                 }
@@ -178,10 +178,6 @@ public class GameLoop extends JPanel implements Runnable {
                     player1.colision = false;
                 }
             }
-
-            // if(l.flagTurn == 0) {
-            //     System.out.println("l.flagTurn == 0!");
-            // }
         }
         ///////////////////////////////////////
 
@@ -248,7 +244,19 @@ public class GameLoop extends JPanel implements Runnable {
 
         /////NPCs///////
         for (Npc npc : npcs) {
+            double npcX = npc.getX();
+            double npcY = npc.getY();
+            int npcWidth = npc.getWidth();
+            int npcHeight = npc.getHeight();
+            int npcPos = npc.getPos();
+            int playerPos = drawPanel.getPos();
             // Fazer algo com cada NPC
+            if(npcPos > playerPos){
+                if(checkRectCollision(npcX, npcY, npcWidth, npcHeight, player1)){
+                    System.out.println("BATEU");
+                }
+            }
+            
             int j = random.nextInt(300);
             for(int i = 0; i < j; i++)
                 npc.setPos(1 + npc.getPos());
@@ -261,16 +269,28 @@ public class GameLoop extends JPanel implements Runnable {
         drawPanel.drawValues(g);
         if(player1.start == false){
             if(count < 300){
-                g.drawImage(EnviromentVariables.SPRITE_SEMAFOROG.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFOROG.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFOROG.getIconHeight()/2, null);
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO7);
             }
-            if(count < 280){
-                g.drawImage(EnviromentVariables.SPRITE_SEMAFOROY.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFOROY.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFOROY.getIconHeight()/2, null);
+            if(count < 285){
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO6);
             }
-            if(count < 230){
-                g.drawImage(EnviromentVariables.SPRITE_SEMAFOROR.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFOROR.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFOROR.getIconHeight()/2, null);
+            if(count < 228){
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO5);
             }
-            if(count < 120){
-                g.drawImage(EnviromentVariables.SPRITE_SEMAFORO.getImage(), 483, 213, EnviromentVariables.SPRITE_SEMAFORO.getIconWidth()/2, EnviromentVariables.SPRITE_SEMAFORO.getIconHeight()/2, null);
+            if(count < 190){
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO4);
+            }
+            if(count < 152){
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO3);
+            }
+            if(count < 114){
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO2);
+            }
+            if(count < 76){
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO1);
+            }
+            if(count < 38){
+                drawPanel.linha.setImagem(EnviromentVariables.SPRITE_SEMAFORO0);
             }
         }
     }
@@ -389,6 +409,16 @@ public class GameLoop extends JPanel implements Runnable {
         npcs.add(npc3);
         npcs.add(npc4);
         npcs.add(npc5);
+    }
+
+    public boolean checkRectCollision(double x1, double y1, int width1, int height1, Player player) {
+        int playerX = (frame.getWidth() - player.getImagem().getIconWidth()) / 2 - 25;
+        int playerY = frame.getHeight() - player.getImagem().getIconHeight() - 200;
+        int playerWidth = (int) (player.getImagem().getIconWidth() * 4);
+        int playerHeight = (int) (player.getImagem().getIconHeight() * 2.5);
+    
+        return (x1 < playerX + playerWidth && x1 + width1 > playerX &&
+                y1 < playerY + playerHeight && y1 + height1 > playerY);
     }
    
 }

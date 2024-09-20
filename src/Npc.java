@@ -7,11 +7,28 @@ public class Npc extends Carro{
     private double xTela = 500;
     private double yTela = 500;
     private double zTela;
+    private int width, height;
 
     public Npc(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, double xTela, double yTela){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
         this.xTela = xTela;
         this.yTela = yTela;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public int getPos(){
