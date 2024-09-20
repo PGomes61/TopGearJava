@@ -112,7 +112,7 @@ public class GameLoop extends JPanel implements Runnable {
     public void update() {
         if(player1.start == false){
             count++;
-            if(count > 0){
+            if(count > 300){
                 player1.start = true;
                 count = 0;
             }
