@@ -77,7 +77,15 @@ public class DrawPanel extends JPanel {
         Cenario setaD = new Cenario(EnviromentVariables.SPRITE_SETAD, 6000);
         for(int i = 0; i < 10000; i++){
             Cenario arvores = new Cenario(EnviromentVariables.SPRITE_ARVORE, 9000 + i * 6000);
+            Cenario arvores2 = new Cenario(EnviromentVariables.SPRITE_ARVORE2, 9000 + i * 6000);
+            Cenario arvores3 = new Cenario(EnviromentVariables.SPRITE_ARVORE3, 9000 + i * 6000);
+            Cenario arvores5 = new Cenario(EnviromentVariables.SPRITE_ARVORE5, 9000 + i * 6000);
+            Cenario arvores6 = new Cenario(EnviromentVariables.SPRITE_ARVORE6, 9000 + i * 6000);
             cenarios.add(arvores);
+            cenarios.add(arvores2);
+            cenarios.add(arvores3);
+            cenarios.add(arvores5);
+            cenarios.add(arvores6);
         }
         cenarios.add(setaE);
         cenarios.add(setaD);
@@ -218,7 +226,7 @@ public class DrawPanel extends JPanel {
                 npc.setY(npcY);
 
                 // Desenhar o NPC com o novo tamanho
-                if ((npcHeight > 11 || npcWidth > 11) && (npcHeight < 200 || npcWidth < 200)) {
+                if ((npcHeight > 15 || npcWidth > 15) && (npcHeight < 200 || npcWidth < 200)) {
                     g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, npcWidth, npcHeight, null);
                 }
             }
