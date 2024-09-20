@@ -4,7 +4,7 @@ public class Janela extends JFrame{
     private int altura = 768;
 
     public Janela(){
-        setTitle("JOGO");
+        setTitle("ULTIMATE FLINSTONS RACE");
         setSize(largura, altura);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
