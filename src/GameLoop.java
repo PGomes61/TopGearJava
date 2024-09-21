@@ -21,6 +21,7 @@ public class GameLoop extends JPanel implements Runnable {
     List<Npc> npcs = new ArrayList<>();
     List<Line> line = new ArrayList<>();
     private JFrame frame;
+    private Menu menu;
     private Carro carro1, carro2, carro3, carro4, carro5, carro6;
     private Npc npc1, npc2, npc3, npc4, npc5;
     private Player player1;
@@ -112,7 +113,7 @@ public class GameLoop extends JPanel implements Runnable {
     public void update() {
         if(player1.start == false){
             count++;
-            if(count > 0){
+            if(count > 300){
                 player1.start = true;
                 count = 0;
             }
@@ -122,6 +123,11 @@ public class GameLoop extends JPanel implements Runnable {
                 l.project(drawPanel.getPlayerX(), 1500, drawPanel.getPos());
             }
             return;
+        }
+        drawPanel.sortNpc(npcs);
+        if(drawPanel.getPos() >= drawPanel.getPosFinal()){
+            stopThread();
+            menu.endTrack();
         }
 
         /////// IMPLEMENTAÇÃO DA CURVA ///////
@@ -243,12 +249,16 @@ public class GameLoop extends JPanel implements Runnable {
             int npcPos = npc.getPos();
             int playerPos = drawPanel.getPos();
             // Fazer algo com cada NPC
-            if(npcPos > playerPos){
-                if(checkRectCollision(npcX, npcY, npcWidth, npcHeight, player1)){
-                    System.out.println("BATEU");
+            if(checkRectCollision(npcX, npcY, npcWidth, npcHeight, player1)){
+                System.out.println(npcPos + " " + playerPos);
+                if(npcPos > playerPos){
+                    npc.setPos((int) (npc.getPos() + 850 * player1.velocidadeInicial / 150) );
+                    player1.velocidadeInicial -= (int) (3 * player1.velocidadeInicial / 4);
+                    System.out.println("AAAA");
+                    
                 }
             }
-            
+
             int j = random.nextInt(300);
             for(int i = 0; i < j; i++)
                 npc.setPos(1 + npc.getPos());
@@ -423,11 +433,32 @@ public class GameLoop extends JPanel implements Runnable {
         int playerY = frame.getHeight() - player.getImagem().getIconHeight() - 200;
         int playerWidth = (int) (player.getImagem().getIconWidth() * 4);
         int playerHeight = (int) (player.getImagem().getIconHeight() * 2.5);
+        
+        // Calcular os limites da interseção
+        int intersectX = (int) Math.max(x1, playerX);
+        int intersectY = (int) Math.max(y1, playerY);
+        int intersectWidth = (int) Math.min(x1 + width1, playerX + playerWidth) - intersectX;
+        int intersectHeight = (int) Math.min(y1 + height1, playerY + playerHeight) - intersectY;
+        
+        // Se os retângulos não se tocam, a interseção não existe
+        if (intersectWidth <= 0 || intersectHeight <= 0) {
+            return false;
+        }
     
-        return (x1 < playerX + playerWidth && x1 + width1 > playerX &&
-                y1 < playerY + playerHeight && y1 + height1 > playerY);
+        // Calcular a área da interseção
+        int intersectionArea = intersectWidth * intersectHeight;
+    
+        // Calcular metade da área do retângulo do jogador
+        int playerArea = playerWidth * playerHeight;
+        int halfPlayerArea = playerArea / 2;
+    
+        // Retornar true se a área da interseção for maior ou igual a metade da área do retângulo do jogador
+        return intersectionArea >= halfPlayerArea;
     }
-   
+
+    public void setMenu(Menu menu) {
+       this.menu = menu;
+    }
 }
 
 

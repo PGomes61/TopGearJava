@@ -58,10 +58,16 @@ public class EnviromentVariables{
     public static String CARRO6="src/Menus/Carro6.png";
     public static String PAUSE1="src/Menus/Pause1.png";
     public static String PAUSE2="src/Menus/Pause2.png";
+    public static String FIM="src/Menus/Fim.png";
 
     public static String SPRITE_SETAE="src/Cenario/SetaE.png";
     public static String SPRITE_SETAD="src/Cenario/SetaD.png";
-    public static String SPRITE_ARVORE="src/Cenario/Arvorea.png";
+
+    public static String SPRITE_ARVORE="src/Cenario/Arvore.png";
+    public static String SPRITE_ARVORE2="src/Cenario/Arvore2.png";
+    public static String SPRITE_ARVORE3="src/Cenario/Arvore3.png";
+    public static String SPRITE_ARVORE5="src/Cenario/Arvore5.png";
+    public static String SPRITE_ARVORE6="src/Cenario/Arvore6.png";
 
     public static ImageIcon SPRITE_PARALAX_L= new ImageIcon("src/Cenario/ParalaxL.png");
     public static ImageIcon SPRITE_PARALAX_M= new ImageIcon("src/Cenario/ParalaxM.png");
