@@ -131,8 +131,14 @@ public class Player extends Carro implements KeyListener{
 
                 break;
             case KeyEvent.VK_ESCAPE:
-                if(this.pause == false)
+                if(this.pause == false){
                     game.pauseThread();
+                    upPressed = false;
+                    leftPressed = false;
+                    rightPressed = false;
+                    downPressed = false;
+                    super.imagem = super.sprites.get(0);
+                }
                 break;
             case KeyEvent.VK_ENTER:
                 if(this.pause == true)

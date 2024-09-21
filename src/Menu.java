@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import javax.print.attribute.standard.JobKOctets;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
@@ -47,6 +46,7 @@ public class Menu extends JPanel{
     private JPanel fim = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
+    private int pistaEscolhida;
     private Sounds mainSong;
     private Sounds menuArrows1;
     private Sounds menuArrows2;
@@ -214,6 +214,8 @@ public class Menu extends JPanel{
 
                     cl.show(menuPrincipal, "2");
                     menuP2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     new Thread(() -> {
@@ -227,7 +229,9 @@ public class Menu extends JPanel{
 
                     System.out.println("3");
                     cl.show(menuPrincipal, "3");
-                    menuP3.requestFocusInWindow();
+                    menuP3.requestFocusInWindow();           
+                    frame.revalidate();
+                    frame.repaint();     
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     new Thread(() -> {
@@ -238,14 +242,10 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
                     frame.remove(menuPrincipal);
-                    frame.add(pistas);
-                    cl.show(pistas, "p1");
+                    frame.add(pista1);
+                    pista1.setVisible(true);
                     painelCorrida.setFrame(frame);
-                            //frame.add(carros);
-                            //cl.show(carros, "c1");
-                            //carro1.requestFocusInWindow();
                     pista1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
@@ -294,14 +294,21 @@ public class Menu extends JPanel{
                     }).start();
 
                     if(multiplayer){
+                        frame.remove(menuPrincipal);
                         frame.add(options);
                         cl.show(options, "op6");
                         opt21.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                        
                     }
                     else{
                         frame.add(options);
+                        frame.remove(menuPrincipal);
                         cl.show(options, "op1");
                         opt11.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
                     }
                 }
             }
@@ -1172,6 +1179,12 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    frame.remove(pista1);
+                    frame.add(pista3);
+                    pista3.setVisible(true);
+                    pista3.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                     new Thread(() -> {
                         try {
                             menuArrows1.reset();
@@ -1180,11 +1193,14 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    cl.show(pistas, "p3");
-                    pista3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    frame.remove(pista1);
+                    frame.add(pista2);
+                    pista2.setVisible(true);
+                    pista2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                     new Thread(() -> {
                         try {
                             menuArrows1.reset();
@@ -1193,9 +1209,6 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    cl.show(pistas, "p2");
-                    pista2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     new Thread(() -> {
@@ -1206,17 +1219,17 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    frame.remove(pistas);
+                    frame.remove(pista1);
                     frame.add(carros);
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
+                    pistaEscolhida = 1;
                     painelCorrida.setPistaEscolhida(1);     
                     frame.revalidate();
                     frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    frame.remove(pistas);
+                    frame.remove(pista1);
                     frame.add(menuPrincipal);
                     cl.show(menuPrincipal, "1");
                     menuP1.requestFocusInWindow();
@@ -1230,6 +1243,12 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    frame.remove(pista2);
+                    frame.add(pista1);
+                    pista1.setVisible(true);
+                    pista1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                     new Thread(() -> {
                         try {
                             menuArrows2.reset();
@@ -1238,11 +1257,14 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    cl.show(pistas, "p1");
-                    pista1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    frame.remove(pista2);
+                    frame.add(pista3);
+                    pista3.setVisible(true);
+                    pista3.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                     new Thread(() -> {
                         try {
                             menuArrows2.reset();
@@ -1251,11 +1273,16 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    cl.show(pistas, "p3");
-                    pista3.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    frame.remove(pista2);
+                    frame.add(carros);
+                    cl.show(carros, "c1");
+                    pistaEscolhida = 2;
+                    painelCorrida.setPistaEscolhida(2);
+                    carro1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                     new Thread(() -> {
                         try {
                             menuConfirm.reset();
@@ -1264,17 +1291,10 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    frame.remove(pistas);
-                    frame.add(carros);
-                    cl.show(carros, "c1");
-                    painelCorrida.setPistaEscolhida(2);
-                    carro1.requestFocusInWindow();
-                    frame.revalidate();
-                    frame.repaint();
+                    
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    frame.remove(pistas);
+                    frame.remove(pista2);
                     frame.add(menuPrincipal);
                     cl.show(menuPrincipal, "1");
                     menuP1.requestFocusInWindow();
@@ -1288,6 +1308,13 @@ public class Menu extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    frame.remove(pista3);
+                    frame.add(pista2);
+                    pista2.setVisible(true);
+                    pista2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                    System.out.println("bbb");
                     new Thread(() -> {
                         try {
                             menuArrows3.reset();
@@ -1296,11 +1323,14 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    cl.show(pistas, "p2");
-                    pista2.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    frame.remove(pista3);
+                    frame.add(pista1);
+                    pista1.setVisible(true);
+                    pista1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                     new Thread(() -> {
                         try {
                             menuArrows1.reset();
@@ -1309,9 +1339,6 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    cl.show(pistas, "p1");
-                    pista1.requestFocusInWindow();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     new Thread(() -> {
@@ -1322,17 +1349,17 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
-                    frame.remove(pistas);
+                    frame.remove(pista3);
                     frame.add(carros);
                     cl.show(carros, "c1");
+                    pistaEscolhida = 3;
                     painelCorrida.setPistaEscolhida(3);
                     carro1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    frame.remove(pistas);
+                    frame.remove(pista3);
                     frame.add(menuPrincipal);
                     cl.show(menuPrincipal, "1");
                     menuP1.requestFocusInWindow();
@@ -1357,6 +1384,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     new Thread(() -> {
@@ -1370,6 +1399,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     new Thread(() -> {
@@ -1383,6 +1414,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     new Thread(() -> {
@@ -1396,6 +1429,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     
@@ -1419,6 +1454,32 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if(pistaEscolhida == 1){
+                        frame.remove(carros);
+                        frame.add(pista1);
+                        pista1.setVisible(true);
+                        pista1.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else if(pistaEscolhida == 2){
+                        frame.remove(carros);
+                        frame.add(pista2);
+                        pista2.setVisible(true);
+                        pista2.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else{
+                        frame.remove(carros);
+                        frame.add(pista3);
+                        pista3.setVisible(true);
+                        pista3.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                }
             }
         });
 
@@ -1437,6 +1498,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     new Thread(() -> {
@@ -1450,6 +1513,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     new Thread(() -> {
@@ -1463,6 +1528,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     new Thread(() -> {
@@ -1476,6 +1543,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
@@ -1498,7 +1567,32 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
-                
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if(pistaEscolhida == 1){
+                        frame.remove(carros);
+                        frame.add(pista1);
+                        pista1.setVisible(true);
+                        pista1.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else if(pistaEscolhida == 2){
+                        frame.remove(carros);
+                        frame.add(pista2);
+                        pista2.setVisible(true);
+                        pista2.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else{
+                        frame.remove(carros);
+                        frame.add(pista3);
+                        pista3.setVisible(true);
+                        pista3.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                }
             }
         });
 
@@ -1517,6 +1611,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     new Thread(() -> {
@@ -1527,9 +1623,10 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     new Thread(() -> {
@@ -1540,9 +1637,10 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     new Thread(() -> {
@@ -1553,9 +1651,10 @@ public class Menu extends JPanel{
                             ex.printStackTrace();
                         }
                     }).start();
-
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
@@ -1578,7 +1677,32 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
-                
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if(pistaEscolhida == 1){
+                        frame.remove(carros);
+                        frame.add(pista1);
+                        pista1.setVisible(true);
+                        pista1.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else if(pistaEscolhida == 2){
+                        frame.remove(carros);
+                        frame.add(pista2);
+                        pista2.setVisible(true);
+                        pista2.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else{
+                        frame.remove(carros);
+                        frame.add(pista3);
+                        pista3.setVisible(true);
+                        pista3.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                }
             }
         });
 
@@ -1597,6 +1721,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     new Thread(() -> {
@@ -1610,6 +1736,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     new Thread(() -> {
@@ -1623,6 +1751,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     new Thread(() -> {
@@ -1636,6 +1766,8 @@ public class Menu extends JPanel{
                     
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
@@ -1658,7 +1790,32 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
-                
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if(pistaEscolhida == 1){
+                        frame.remove(carros);
+                        frame.add(pista1);
+                        pista1.setVisible(true);
+                        pista1.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else if(pistaEscolhida == 2){
+                        frame.remove(carros);
+                        frame.add(pista2);
+                        pista2.setVisible(true);
+                        pista2.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else{
+                        frame.remove(carros);
+                        frame.add(pista3);
+                        pista3.setVisible(true);
+                        pista3.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                }
             }
         });
 
@@ -1677,6 +1834,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     new Thread(() -> {
@@ -1690,6 +1849,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c6");
                     carro6.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     new Thread(() -> {
@@ -1703,6 +1864,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     new Thread(() -> {
@@ -1716,6 +1879,8 @@ public class Menu extends JPanel{
                 
                     cl.show(carros, "c3");
                     carro3.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
@@ -1738,7 +1903,32 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
-                
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if(pistaEscolhida == 1){
+                        frame.remove(carros);
+                        frame.add(pista1);
+                        pista1.setVisible(true);
+                        pista1.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else if(pistaEscolhida == 2){
+                        frame.remove(carros);
+                        frame.add(pista2);
+                        pista2.setVisible(true);
+                        pista2.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else{
+                        frame.remove(carros);
+                        frame.add(pista3);
+                        pista3.setVisible(true);
+                        pista3.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                }
             }
         });
 
@@ -1757,6 +1947,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     new Thread(() -> {
@@ -1770,6 +1962,8 @@ public class Menu extends JPanel{
                     
                     cl.show(carros, "c5");
                     carro5.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     new Thread(() -> {
@@ -1783,6 +1977,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c2");
                     carro2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     new Thread(() -> {
@@ -1796,6 +1992,8 @@ public class Menu extends JPanel{
 
                     cl.show(carros, "c4");
                     carro4.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
@@ -1818,7 +2016,32 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
-                
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if(pistaEscolhida == 1){
+                        frame.remove(carros);
+                        frame.add(pista1);
+                        pista1.setVisible(true);
+                        pista1.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else if(pistaEscolhida == 2){
+                        frame.remove(carros);
+                        frame.add(pista2);
+                        pista2.setVisible(true);
+                        pista2.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                    else{
+                        frame.remove(carros);
+                        frame.add(pista3);
+                        pista3.setVisible(true);
+                        pista3.requestFocusInWindow();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                }
             }
         });
 
@@ -1858,10 +2081,14 @@ public class Menu extends JPanel{
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     cl.show(pause, "pa2");
                     pause2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     cl.show(pause, "pa2");
                     pause2.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
             }
         });
@@ -1898,10 +2125,14 @@ public class Menu extends JPanel{
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     cl.show(pause, "pa1");
                     pause1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     cl.show(pause, "pa1");
                     pause1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
             }
         });
