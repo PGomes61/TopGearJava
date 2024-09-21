@@ -19,12 +19,12 @@ public class DrawPanel extends JPanel {
     private static final int D_H = 768;
     private List<Line> lines;
     private List<Npc> npcs;
-    public Cenario linha = new Cenario(EnviromentVariables.SPRITE_SEMAFORO0, 5000);
+    public Cenario linha = new Cenario(EnviromentVariables.SPRITE_SEMAFORO0, 12000);
     private List<Cenario> cenarios = new ArrayList<>();
     private double playerX = 0;
     private int width = 1024;
     private int segL = 200; // Segment Length
-    private int lap, count = 0, pos = 0;
+    private int lap, count = 0, pos = 0, posFinal;
     private Player player1;
     private int linhaHorizonte = 300;
     double amplitude = 1000;
@@ -63,7 +63,7 @@ public class DrawPanel extends JPanel {
         });
     }
 
-    private void sortNpc(List<Npc> npcs){
+    public void sortNpc(List<Npc> npcs){
         Collections.sort(npcs, new Comparator<Npc>() {
             @Override
             public int compare(Npc n1, Npc n2) {
@@ -272,8 +272,18 @@ public class DrawPanel extends JPanel {
     private void pista1(){
         this.tamMaxPista = 8000;
         this.lap = 4;
+        int segurança = 1000;
         setPosInicial();
-        for(int i = 0; i < this.tamMaxPista * lap; i++) {
+        Cenario linhaa = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 1612000);
+        Cenario linhab = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 3212000);
+        Cenario linhac = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 4812000);
+        Cenario linhad = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 6412000);
+        cenarios.add(linhaa);
+        cenarios.add(linhab);
+        cenarios.add(linhac);
+        cenarios.add(linhad);
+        posFinal = 6412200;
+        for(int i = 0; i < (this.tamMaxPista * lap) + segurança; i++) {
             Line line = new Line();
             line.z = i * segL;
             //double elevationAtual = 0;
@@ -289,7 +299,7 @@ public class DrawPanel extends JPanel {
             makeTurn(3600, 3800, 1.0, line, i);
             makeTurn(4300, 4750, -1.2, line, i);
             makeTurn(4750, 4850, 0.2, line, i);
-            makeTurn(5250, 5450, 1.0, line, i);            
+            makeTurn(5250, 5450, 1.0, line, i);      
             makeTurn(5800, 6000, 1.0, line, i);
             makeTurn(6300, 6500, -0.7, line, i);
             makeTurn(6750, 6900, 0.5, line, i);
@@ -329,10 +339,20 @@ public class DrawPanel extends JPanel {
     private void pista2(){
         this.tamMaxPista = 8050;
         this.lap = 4;
-        for(int i = 0; i < tamMaxPista * lap; i++) {
+        int segurança = 1000;
+        Cenario linhaa = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 1622000);
+        Cenario linhab = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 3232000);
+        Cenario linhac = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 4842000);
+        Cenario linhad = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 6452000);
+        cenarios.add(linhaa);
+        cenarios.add(linhab);
+        cenarios.add(linhac);
+        cenarios.add(linhad);
+        posFinal = 6452200;
+        setPosInicial();
+        for(int i = 0; i < (tamMaxPista * lap) + segurança; i++) {
             Line line = new Line();
             line.z = i * segL;
-
             makeTurn(400, 600, 0.6, line, i);
             makeTurn(600, 750, -0.5, line, i);
             makeTurn(750, 900, 0.5, line, i);
@@ -362,10 +382,18 @@ public class DrawPanel extends JPanel {
     private void pista3(){
         this.tamMaxPista = 12100;
         this.lap = 3;
-        for(int i = 0; i < tamMaxPista * lap; i++) {
+        int segurança = 1000;
+        Cenario linhaa = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 2432000);
+        Cenario linhab = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 4852000);
+        Cenario linhac = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 7272000);
+        cenarios.add(linhaa);
+        cenarios.add(linhab);
+        cenarios.add(linhac);
+        posFinal = 7272200;
+        setPosInicial();
+        for(int i = 0; i < (tamMaxPista * lap) + segurança; i++) {
             Line line = new Line();
             line.z = i * segL;
-
             //0 a 700 Reta
             makeTurn(800, 1100, -0.8, line, i);
             //1100 a 1700 Reta
@@ -423,6 +451,10 @@ public class DrawPanel extends JPanel {
 
     public int getPos() {
         return this.pos;
+    }
+
+    public int getPosFinal() {
+        return this.posFinal;
     }
 
     public void setPlayerXDecrescimo(double playerX) {

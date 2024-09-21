@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+
+import javax.print.attribute.standard.JobKOctets;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
@@ -43,6 +45,7 @@ public class Menu extends JPanel{
     private JPanel carro6 = new JPanel();
     private JPanel pause1 = new JPanel();
     private JPanel pause2 = new JPanel();
+    private JPanel fim = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
     private Sounds mainSong;
@@ -117,6 +120,8 @@ public class Menu extends JPanel{
         carro6 = createMenuPanel(EnviromentVariables.CARRO6);
         pause1 = createMenuPanel(EnviromentVariables.PAUSE1);
         pause2 = createMenuPanel(EnviromentVariables.PAUSE2);
+        fim = createMenuPanel(EnviromentVariables.FIM);
+        fim.setFocusable(true);
         menuP1.setFocusable(true);
         menuP2.setFocusable(true);
         menuP3.setFocusable(true);
@@ -175,6 +180,7 @@ public class Menu extends JPanel{
         carros.add(carro6, "c6");
         pause.add(pause1, "pa1");
         pause.add(pause2, "pa2");
+        pause.add(fim, "fim");
 
     }
     
@@ -1734,6 +1740,18 @@ public class Menu extends JPanel{
                     cl.show(pause, "pa1");
                     pause1.requestFocusInWindow();
                 }
+            }
+        });
+
+        fim.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                frame.remove(pause);
+                frame.add(menuPrincipal);
+                cl.show(menuPrincipal, "1");
+                menuP1.requestFocusInWindow();
+                frame.revalidate();
+                frame.repaint();
             }
         });
     }

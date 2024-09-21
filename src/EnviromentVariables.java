@@ -58,6 +58,7 @@ public class EnviromentVariables{
     public static String CARRO6="src/Menus/Carro6.png";
     public static String PAUSE1="src/Menus/Pause1.png";
     public static String PAUSE2="src/Menus/Pause2.png";
+    public static String FIM="src/Menus/Fim.png";
 
     public static String SPRITE_SETAE="src/Cenario/SetaE.png";
     public static String SPRITE_SETAD="src/Cenario/SetaD.png";

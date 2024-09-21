@@ -34,7 +34,7 @@ public class Cenario {
             this.offset = number;
         if(path == EnviromentVariables.SPRITE_ARVORE6)
             this.offset = number;           
-        if(path == EnviromentVariables.SPRITE_SEMAFORO0)
+        if(path == EnviromentVariables.SPRITE_SEMAFORO0 || path == EnviromentVariables.SPRITE_SEMAFORO7)
             this.offset = -1.2;
         this.pos = pos;
     }
