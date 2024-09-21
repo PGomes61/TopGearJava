@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-
 import javax.print.attribute.standard.JobKOctets;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -188,6 +187,15 @@ public class Menu extends JPanel{
         Resize panel = new Resize(imagePath);
         panel.setLayout(new BorderLayout());
         return panel;
+    }
+
+    public void endTrack(){
+        frame.remove(painelCorrida);
+        frame.add(pause);
+        cl.show(pause, "fim");
+        fim.requestFocusInWindow();
+        frame.revalidate();
+        frame.repaint();
     }
     
     private void setKey(){
@@ -389,7 +397,14 @@ public class Menu extends JPanel{
                     cl.show(options, "op6");
                     opt21.requestFocusInWindow();
                     multiplayerAux = true;
-
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
             }
         });
@@ -439,6 +454,14 @@ public class Menu extends JPanel{
                     dificuldades.repaint();
                     dificuldade1.requestFocusInWindow();
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
 
@@ -485,6 +508,14 @@ public class Menu extends JPanel{
                     controles.revalidate();
                     controles.repaint();
                     controles.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
             }
         });
@@ -538,6 +569,14 @@ public class Menu extends JPanel{
                     frame.repaint();
                     System.out.println("Salvando");
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
 
@@ -589,6 +628,14 @@ public class Menu extends JPanel{
                     frame.repaint();
                     System.out.println("Cancelando");
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
 
@@ -634,6 +681,14 @@ public class Menu extends JPanel{
                     cl.show(options, "op1");
                     opt11.requestFocusInWindow();
                     multiplayerAux = false;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
             }
         });
@@ -683,6 +738,14 @@ public class Menu extends JPanel{
                     cl.show(dificuldades, "dif1");
                     dificuldade1.requestFocusInWindow();
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
 
@@ -729,6 +792,14 @@ public class Menu extends JPanel{
                     controles.revalidate();
                     controles.repaint();
                     controles.requestFocusInWindow();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
                 }
             }
         });
@@ -782,6 +853,14 @@ public class Menu extends JPanel{
                     frame.repaint();
                     System.out.println("Salvando");
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
 
@@ -833,6 +912,14 @@ public class Menu extends JPanel{
                     frame.repaint();
                     System.out.println("Cancelando");
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(options);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
 
@@ -875,6 +962,24 @@ public class Menu extends JPanel{
                         }
                     }).start();
 
+                    if(multiplayerAux){
+                        cl.show(options, "op7");
+                        frame.remove(dificuldades);
+                        options.revalidate();
+                        options.repaint();
+                        opt22.requestFocusInWindow();
+                    }  
+                    else{
+                        cl.show(options, "op2");
+                        frame.remove(dificuldades);
+                        options.revalidate();
+                        options.repaint();
+                        opt12.requestFocusInWindow();
+                    }
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(dificuldades);
+                    frame.add(options);
                     if(multiplayerAux){
                         cl.show(options, "op7");
                         frame.remove(dificuldades);
@@ -947,6 +1052,24 @@ public class Menu extends JPanel{
                         opt12.requestFocusInWindow();
                     }
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(dificuldades);
+                    frame.add(options);
+                    if(multiplayerAux){
+                        cl.show(options, "op7");
+                        frame.remove(dificuldades);
+                        options.revalidate();
+                        options.repaint();
+                        opt22.requestFocusInWindow();
+                    }  
+                    else{
+                        cl.show(options, "op2");
+                        frame.remove(dificuldades);
+                        options.revalidate();
+                        options.repaint();
+                        opt12.requestFocusInWindow();
+                    }
+                }
             }
         });
 
@@ -1004,26 +1127,44 @@ public class Menu extends JPanel{
                         opt12.requestFocusInWindow();
                     }
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(dificuldades);
+                    frame.add(options);
+                    if(multiplayerAux){
+                        cl.show(options, "op7");
+                        frame.remove(dificuldades);
+                        options.revalidate();
+                        options.repaint();
+                        opt22.requestFocusInWindow();
+                    }  
+                    else{
+                        cl.show(options, "op2");
+                        frame.remove(dificuldades);
+                        options.revalidate();
+                        options.repaint();
+                        opt12.requestFocusInWindow();
+                    }
+                }
             }
         });
 
         controles.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e){
-                    if(multiplayerAux){
-                        cl.show(options, "op8");
-                        options.revalidate();
-                        options.repaint();
-                        opt23.requestFocusInWindow();
-                        frame.remove(controles);
-                    }
-                    else{
-                        cl.show(options, "op3");
-                        options.revalidate();
-                        options.repaint();
-                        opt13.requestFocusInWindow();
-                        frame.remove(controles);
-                    }
+                if(multiplayerAux){
+                    cl.show(options, "op8");
+                    options.revalidate();
+                    options.repaint();
+                    opt23.requestFocusInWindow();
+                    frame.remove(controles);
+                }
+                else{
+                    cl.show(options, "op3");
+                    options.revalidate();
+                    options.repaint();
+                    opt13.requestFocusInWindow();
+                    frame.remove(controles);
+                }
             }
         });
 
@@ -1071,6 +1212,14 @@ public class Menu extends JPanel{
                     cl.show(carros, "c1");
                     carro1.requestFocusInWindow();
                     painelCorrida.setPistaEscolhida(1);     
+                    frame.revalidate();
+                    frame.repaint();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(pistas);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -1124,6 +1273,14 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(pistas);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
 
@@ -1171,6 +1328,14 @@ public class Menu extends JPanel{
                     cl.show(carros, "c1");
                     painelCorrida.setPistaEscolhida(3);
                     carro1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    frame.remove(pistas);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -1254,8 +1419,6 @@ public class Menu extends JPanel{
                     frame.revalidate();
                     frame.repaint();
                 }
-                
-
             }
         });
 
@@ -1746,12 +1909,14 @@ public class Menu extends JPanel{
         fim.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                frame.remove(pause);
-                frame.add(menuPrincipal);
-                cl.show(menuPrincipal, "1");
-                menuP1.requestFocusInWindow();
-                frame.revalidate();
-                frame.repaint();
+                if(e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_LEFT && e.getKeyCode() != KeyEvent.VK_RIGHT && e.getKeyCode() != KeyEvent.VK_DOWN){
+                    frame.remove(pause);
+                    frame.add(menuPrincipal);
+                    cl.show(menuPrincipal, "1");
+                    menuP1.requestFocusInWindow();
+                    frame.revalidate();
+                    frame.repaint();
+                }
             }
         });
     }

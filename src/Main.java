@@ -10,6 +10,7 @@ public class Main{
                     GameLoop pista1 = new GameLoop();
                     Janela janela = new Janela();
                     Menu menu = new Menu(janela, pista1);
+                    pista1.setMenu(menu);
                     janela.add(menu.getCont(), BorderLayout.CENTER);
                     menu.getMenu().requestFocusInWindow();
                     janela.setVisible(true); // Certifique-se de que a janela é visível

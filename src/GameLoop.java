@@ -21,6 +21,7 @@ public class GameLoop extends JPanel implements Runnable {
     List<Npc> npcs = new ArrayList<>();
     List<Line> line = new ArrayList<>();
     private JFrame frame;
+    private Menu menu;
     private Carro carro1, carro2, carro3, carro4, carro5, carro6;
     private Npc npc1, npc2, npc3, npc4, npc5;
     private Player player1;
@@ -126,7 +127,8 @@ public class GameLoop extends JPanel implements Runnable {
         drawPanel.sortNpc(npcs);
         if(drawPanel.getPos() >= drawPanel.getPosFinal())
         {
-            System.out.println("Parar o game. A corrida acabou");
+            stopThread();
+            menu.endTrack();
         }
 
         /////// IMPLEMENTAÇÃO DA CURVA ///////
@@ -453,6 +455,10 @@ public class GameLoop extends JPanel implements Runnable {
     
         // Retornar true se a área da interseção for maior ou igual a metade da área do retângulo do jogador
         return intersectionArea >= halfPlayerArea;
+    }
+
+    public void setMenu(Menu menu) {
+       this.menu = menu;
     }
 }
 
