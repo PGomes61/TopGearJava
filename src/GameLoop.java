@@ -125,8 +125,7 @@ public class GameLoop extends JPanel implements Runnable {
             return;
         }
         drawPanel.sortNpc(npcs);
-        if(drawPanel.getPos() >= drawPanel.getPosFinal())
-        {
+        if(drawPanel.getPos() >= drawPanel.getPosFinal()){
             stopThread();
             menu.endTrack();
         }
@@ -305,7 +304,7 @@ public class GameLoop extends JPanel implements Runnable {
             iterator.remove(); // Remove o carro da lista
         }
         
-        Carro carro1Player = new Player(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2.0, 2.0, 80.0, 30000.0, this);
+        Carro carro1Player = new Player(EnviromentVariables.SPRITE_C1_F, EnviromentVariables.SPRITE_C1_E, EnviromentVariables.SPRITE_C1_D, 2.0, 2.0, 80.0, 300.0, this);
         Carro carro2Player = new Player(EnviromentVariables.SPRITE_C2_F, EnviromentVariables.SPRITE_C2_E, EnviromentVariables.SPRITE_C2_D, 2.4, 1.4, 60.0, 290.0, this);
         Carro carro3Player = new Player(EnviromentVariables.SPRITE_C3_F, EnviromentVariables.SPRITE_C3_E, EnviromentVariables.SPRITE_C3_D, 2.0, 1.8, 80.0, 300.0, this);
         Carro carro4Player = new Player(EnviromentVariables.SPRITE_C4_F, EnviromentVariables.SPRITE_C4_E, EnviromentVariables.SPRITE_C4_D, 2.0, 2.2, 80.0, 290.0, this);
