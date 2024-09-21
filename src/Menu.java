@@ -66,7 +66,7 @@ public class Menu extends JPanel{
                             menuArrows2.setClip("menu_change_option");
                             menuArrows3.setClip("menu_change_option");
                             menuConfirm.setClip("menu_select_option");
-                            mainSong.setClip("game_soundtrack");
+                            mainSong.setClip("menu_soundtrack");
                             mainSong.setVolume(0.55f);
                             mainSong.play();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
