@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.awt.BasicStroke;
+
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -30,6 +32,7 @@ public class DrawPanel extends JPanel {
     double amplitude = 1000;
     private int tamMaxPista;
     JFrame frame;
+    private Map map;
 
     public DrawPanel(Player player1, JFrame frame, List<Npc> npcs, int pista) {
         this.frame = frame;
@@ -38,7 +41,7 @@ public class DrawPanel extends JPanel {
         this.player1 = player1;
         setCenario();
         sortCenario(cenarios);
-
+        this.map = new Map(this);
         switch(pista){
             case 1:
                 pista1();
@@ -230,6 +233,8 @@ public class DrawPanel extends JPanel {
                     g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, npcWidth, npcHeight, null);
                 }
             }
+        map.drawMiniMap(g2);
+
         }
         
         npcs.get(0).npcOffset();
@@ -237,10 +242,10 @@ public class DrawPanel extends JPanel {
         npcs.get(2).npcOffset();   
         npcs.get(3).npcOffset();
         npcs.get(4).npcOffset();
-
         g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 25, frame.getHeight() - player1.getImagem().getIconHeight() - 200, (int) (player1.getImagem().getIconWidth() * 4), (int) (player1.getImagem().getIconHeight() * 2.5), null);
     }
     
+
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
         int[] xPoints = {x1 - w1, x2 - w2, x2 + w2, x1 + w1};
         int[] yPoints = {y1, y2, y2, y1};
@@ -484,5 +489,9 @@ public class DrawPanel extends JPanel {
 
         npcs.get(4).setOffset(-0.5);
         npcs.get(4).setPos(1000);
+    }
+
+    public List<Npc> getNpcs(){
+        return this.npcs;
     }
 }

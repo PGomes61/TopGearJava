@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 
 public class GameLoop extends JPanel implements Runnable {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
@@ -72,10 +72,11 @@ public class GameLoop extends JPanel implements Runnable {
         this.frame = frame;
     }
 
+    private Timer timer;
+
     @Override
     public void run() {
         lastTime = System.nanoTime();
-        
         while (running) {
             synchronized (this) {
                 while (player1.pause) {
@@ -100,9 +101,12 @@ public class GameLoop extends JPanel implements Runnable {
                 accumulator -= TIME_PER_UPDATE;
             }
 
-            repaint();  // Renderiza o jogo
+            // Renderize o jogo
+            repaint(); 
 
+            // Aguarde para manter a taxa de atualização alvo
             try {
+                Thread.sleep((long) (1000 / TARGET_FPS));
                 Thread.sleep((long) (1000 / TARGET_FPS));
             } catch (InterruptedException e) {
                 e.printStackTrace();
