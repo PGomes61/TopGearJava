@@ -36,17 +36,19 @@ public class DrawPanel extends JPanel {
         this.player1 = player1;
         setCenario();
         sortCenario(cenarios);
-        this.map = new Map(this);
         this.cronometro = new Cronometro(this);
         switch(pista){
             case 1:
                 pista1();
+                this.map = new Map(this,1);
                 break;
             case 2:
                 pista2();
+                this.map = new Map(this,2);
                 break;
             case 3:
                 pista3();
+                this.map = new Map(this,3);
                 break;
             default:
                 break;
