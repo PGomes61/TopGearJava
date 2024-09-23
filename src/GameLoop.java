@@ -101,7 +101,7 @@ public class GameLoop extends JPanel implements Runnable {
                 accumulator -= TIME_PER_UPDATE;
             }
 
-            // Renderize o jogo
+            // Renderize o jogo 
             repaint(); 
 
             // Aguarde para manter a taxa de atualização alvo
