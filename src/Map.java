@@ -1,4 +1,4 @@
-    import java.awt.*;
+        import java.awt.*;
     import java.io.IOException;
     import java.io.File;
 import java.security.spec.MGF1ParameterSpec;
@@ -81,9 +81,9 @@ import javax.swing.ImageIcon;
             g.setColor(Color.DARK_GRAY);
             g.setColor(Color.GREEN);  // Cor do jogador
             g.drawImage(minimapImage, miniMapX+10, miniMapY+10, drawPanel);
-            for(int i=0 ; i<cx.length; i++){
-                g.fillOval((int)cx[i]+20, (int)cy[i]+20, 10, 10 ); 
-            }
+            //for(int i=0 ; i<cx.length; i++){
+            //    g.fillOval((int)cx[i]+20, (int)cy[i]+20, 10, 10 ); 
+            //}
         }
 
         public void drawPlayer(){

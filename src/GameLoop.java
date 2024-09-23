@@ -1,8 +1,11 @@
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javax.swing.*;
 
@@ -28,11 +31,19 @@ public class GameLoop extends JPanel implements Runnable {
     private DrawPanel drawPanel;
     private Random random = new Random();
     private int pistaEscolhida, count = 0;
+    private Sounds colidindo = new Sounds();
     
     public GameLoop() {
         this.setDoubleBuffered(true);
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
+        new Thread(() -> {
+            try {
+                this.colidindo.setClip("car_collision");
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
 
     public void startThread() {
@@ -454,6 +465,18 @@ public class GameLoop extends JPanel implements Runnable {
         // Calcular metade da área do retângulo do jogador
         int playerArea = playerWidth * playerHeight;
         int halfPlayerArea = playerArea / 2;
+
+        if(intersectionArea >= halfPlayerArea){
+            new Thread(() -> {
+                try {
+                    colidindo.reset();
+                    colidindo.play();
+                } catch (LineUnavailableException ex) {
+                    ex.printStackTrace();
+                }
+            }).start();
+
+        }
     
         // Retornar true se a área da interseção for maior ou igual a metade da área do retângulo do jogador
         return intersectionArea >= halfPlayerArea;
