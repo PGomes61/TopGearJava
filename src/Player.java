@@ -14,6 +14,7 @@ public class Player extends Carro implements KeyListener{
     private Sounds acelerando;
     private Sounds freando;
     private boolean somIniciado = false;
+    private boolean wasAccelerating = false;
 
     public Player(String path1, String path2, String path3, double aceleracao, double peso, double tracao, double velocidade, GameLoop game){
         super(path1, path2, path3, aceleracao, peso, tracao, velocidade);
@@ -116,23 +117,33 @@ public class Player extends Carro implements KeyListener{
             case KeyEvent.VK_UP:
                 upPressed = true;
                 
-                new Thread(() -> {
-                    try {
-                        if (!somIniciado) {
-                            Thread.sleep(4500);
-                            somIniciado = true;
+                if(start){
+                    new Thread(() -> {
+                        try {
+                            acelerando.play();
+                        } catch (LineUnavailableException ex) {
+                            ex.printStackTrace();
                         }
-
-                        acelerando.play();
-                    } catch (InterruptedException | LineUnavailableException ex) {
-                        ex.printStackTrace();
-                    }
-                }).start();
+                    }).start();
+                }
+                
 
                 break;
             case KeyEvent.VK_ESCAPE:
+                wasAccelerating = upPressed;
+                
+                new Thread(() -> {
+                    try {
+                        acelerando.pause();
+                        acelerando.reset();
+                    } catch (LineUnavailableException ex) {
+                        ex.printStackTrace();
+                    }
+                }).start();
+                
                 if(this.pause == false){
                     game.pauseThread();
+                
                     upPressed = false;
                     leftPressed = false;
                     rightPressed = false;
@@ -141,8 +152,20 @@ public class Player extends Carro implements KeyListener{
                 }
                 break;
             case KeyEvent.VK_ENTER:
-                if(this.pause == true)
+            
+                if(this.pause == true){
                     game.resumeThread();
+                    
+                    if(wasAccelerating) {
+                        new Thread(() -> {
+                            try {
+                                acelerando.play();
+                            } catch (LineUnavailableException ex) {
+                                ex.printStackTrace();
+                            }
+                        }).start();
+                    }
+                }    
                 break;
         }
     }
@@ -259,5 +282,9 @@ public class Player extends Carro implements KeyListener{
             super.velocidadeInicial -= 1;
             super.velocidadeInicial -= 1;
         }
+    }
+
+    public void setSomIniciadoFalse(){
+        this.somIniciado = false;
     }
 }
