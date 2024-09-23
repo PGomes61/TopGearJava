@@ -1,17 +1,10 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.awt.BasicStroke;
-
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class DrawPanel extends JPanel {
     public double bgOffset = -512;
@@ -33,6 +26,8 @@ public class DrawPanel extends JPanel {
     private int tamMaxPista;
     JFrame frame;
     private Map map;
+    private Cronometro cronometro;
+
 
     public DrawPanel(Player player1, JFrame frame, List<Npc> npcs, int pista) {
         this.frame = frame;
@@ -42,6 +37,7 @@ public class DrawPanel extends JPanel {
         setCenario();
         sortCenario(cenarios);
         this.map = new Map(this);
+        this.cronometro = new Cronometro(this);
         switch(pista){
             case 1:
                 pista1();
@@ -233,9 +229,11 @@ public class DrawPanel extends JPanel {
                     g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, npcWidth, npcHeight, null);
                 }
             }
+            
+        }
         map.drawMiniMap(g2);
 
-        }
+        cronometro.drawCronometro(g);
         
         npcs.get(0).npcOffset();
         npcs.get(1).npcOffset();
@@ -259,6 +257,7 @@ public class DrawPanel extends JPanel {
 
     private void makeTurn(int pos1, int pos2, double curve, Line line, int i) {
         if (i > pos1 + this.tamMaxPista * this.count && i < pos2 + this.tamMaxPista * this.count) {
+            System.out.println(pos1);
             line.curve = curve;
             
             if (line.curve > 0) {
@@ -294,10 +293,12 @@ public class DrawPanel extends JPanel {
             //double elevationAtual = 0;
 
             makeTurn(800, 1000, 1.0, line, i);
-            makeTurn(1300, 1450, 0.5, line, i);
-            makeTurn(1450, 1750, -0.7, line, i);
-            makeTurn(1750, 2000, 1.2, line, i);
-            makeTurn(2300, 2450, -0.6, line, i);
+            makeTurn(1100, 1400, 0.5, line, i);
+
+            makeTurn(1500, 1650, -0.7, line, i);
+
+            makeTurn(1750, 2200, 1.2, line, i);
+            makeTurn(2600, 2850, -0.6, line, i);
             makeTurn(3000, 3150, 0.5, line, i);
             makeTurn(3150, 3300, -0.9, line, i);
             makeTurn(3300, 3450, 0.5, line, i);

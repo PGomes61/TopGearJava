@@ -107,7 +107,6 @@ public class GameLoop extends JPanel implements Runnable {
             // Aguarde para manter a taxa de atualização alvo
             try {
                 Thread.sleep((long) (1000 / TARGET_FPS));
-                Thread.sleep((long) (1000 / TARGET_FPS));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

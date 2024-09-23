@@ -21,6 +21,5 @@ public class Line {
         X = (1 + scale * (x - camX)) * width / 2;
         Y = (1 - scale * (y - camY /*+ elevation*/)) * height / 2;
         W = scale * roadW * width/2;
-        System.out.println("............"+roadW);
     }
 }
