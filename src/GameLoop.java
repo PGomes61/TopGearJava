@@ -1,8 +1,12 @@
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -28,11 +32,22 @@ public class GameLoop extends JPanel implements Runnable {
     private DrawPanel drawPanel;
     private Random random = new Random();
     private int pistaEscolhida, count = 0;
+    private Sounds gameSong;
     
     public GameLoop() {
         this.setDoubleBuffered(true);
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
+        this.gameSong = new Sounds();
+
+        new Thread(() -> {
+                        try {
+                            gameSong.setClip("game_soundtrack");
+                            gameSong.setVolume(0.8f);
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
     }
 
     public void startThread() {
@@ -40,6 +55,14 @@ public class GameLoop extends JPanel implements Runnable {
             gameThread = new Thread(this);
             running = true;
             gameThread.start();
+            new Thread(() -> {
+                try {
+                    gameSong.play();
+                } catch (LineUnavailableException ex) {
+                    ex.printStackTrace();
+                }
+            }).start();
+
         }
     }
 
@@ -49,6 +72,14 @@ public class GameLoop extends JPanel implements Runnable {
             try {
                 gameThread.interrupt(); // Sinaliza a thread para parar
                 gameThread.join(); // Espera a thread terminar
+                new Thread(() -> {
+                    try {
+                        gameSong.pause();
+                        gameSong.reset();
+                    } catch (LineUnavailableException ex) {
+                        ex.printStackTrace();
+                    }
+                }).start();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
@@ -62,10 +93,25 @@ public class GameLoop extends JPanel implements Runnable {
         synchronized (this) {
             this.notify(); // Notifica a thread para acordar
         }
+        new Thread(() -> {
+            try {
+                gameSong.play();
+            } catch (LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+
     }
 
     public void pauseThread() {
         player1.pause = true;
+        new Thread(() -> {
+            try {
+                gameSong.pause();
+            } catch (LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
 
     public void setFrame(JFrame frame) {
@@ -128,6 +174,7 @@ public class GameLoop extends JPanel implements Runnable {
         if(drawPanel.getPos() >= drawPanel.getPosFinal()){
             stopThread();
             menu.endTrack();
+            player1.setSomIniciadoFalse();
         }
 
         /////// IMPLEMENTAÇÃO DA CURVA ///////

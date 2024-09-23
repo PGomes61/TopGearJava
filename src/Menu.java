@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import javax.print.attribute.standard.JobKOctets;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
@@ -47,7 +46,7 @@ public class Menu extends JPanel{
     private JPanel fim = new JPanel();
     private boolean multiplayer = false;
     private boolean multiplayerAux = false;
-    private Sounds mainSong;
+    private Sounds menuSong;
     private Sounds menuArrows1;
     private Sounds menuArrows2;
     private Sounds menuArrows3;
@@ -56,7 +55,7 @@ public class Menu extends JPanel{
     public Menu(JFrame frame, GameLoop painelCorrida){
         this.frame = frame;
         this.painelCorrida = painelCorrida;
-        this.mainSong = new Sounds();
+        this.menuSong = new Sounds();
         this.menuArrows1 = new Sounds();
         this.menuArrows2 = new Sounds();
         this.menuArrows3 = new Sounds();
@@ -68,9 +67,9 @@ public class Menu extends JPanel{
                             menuArrows2.setClip("menu_change_option");
                             menuArrows3.setClip("menu_change_option");
                             menuConfirm.setClip("menu_select_option");
-                            mainSong.setClip("menu_soundtrack");
-                            mainSong.setVolume(0.55f);
-                            mainSong.play();
+                            menuSong.setClip("menu_soundtrack");
+                            menuSong.setVolume(0.55f);
+                            menuSong.play();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                             ex.printStackTrace();
                         }
@@ -234,6 +233,7 @@ public class Menu extends JPanel{
                         try {
                             menuConfirm.reset();
                             menuConfirm.play();
+
                         } catch (LineUnavailableException ex) {
                             ex.printStackTrace();
                         }
@@ -1401,8 +1401,8 @@ public class Menu extends JPanel{
                     
                     new Thread(() -> {
                         try {
-                            mainSong.pause();
-                            mainSong.reset();
+                            menuSong.pause();
+                            menuSong.reset();
                             menuConfirm.reset();
                             menuConfirm.play();
                         } catch (LineUnavailableException ex) {
@@ -1480,8 +1480,8 @@ public class Menu extends JPanel{
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
                         try {
-                            mainSong.pause();
-                            mainSong.reset();
+                            menuSong.pause();
+                            menuSong.reset();
                             menuConfirm.reset();
                             menuConfirm.play();
                         } catch (LineUnavailableException ex) {
@@ -1560,8 +1560,8 @@ public class Menu extends JPanel{
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
                         try {
-                            mainSong.pause();
-                            mainSong.reset();
+                            menuSong.pause();
+                            menuSong.reset();
                             menuConfirm.reset();
                             menuConfirm.play();
                         } catch (LineUnavailableException ex) {
@@ -1640,8 +1640,8 @@ public class Menu extends JPanel{
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
                         try {
-                            mainSong.pause();
-                            mainSong.reset();
+                            menuSong.pause();
+                            menuSong.reset();
                             menuConfirm.reset();
                             menuConfirm.play();
                         } catch (LineUnavailableException ex) {
@@ -1720,8 +1720,8 @@ public class Menu extends JPanel{
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
                         try {
-                            mainSong.pause();
-                            mainSong.reset();
+                            menuSong.pause();
+                            menuSong.reset();
                             menuConfirm.reset();
                             menuConfirm.play();
                         } catch (LineUnavailableException ex) {
@@ -1800,8 +1800,8 @@ public class Menu extends JPanel{
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Thread(() -> {
                         try {
-                            mainSong.pause();
-                            mainSong.reset();
+                            menuSong.pause();
+                            menuSong.reset();
                             menuConfirm.reset();
                             menuConfirm.play();
                         } catch (LineUnavailableException ex) {
@@ -1880,8 +1880,9 @@ public class Menu extends JPanel{
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     new Thread(() -> {
                         try {
-                            mainSong.reset();
-                            mainSong.play();
+                            menuSong.reset();
+                            menuSong.play();
+                            
                         } catch (LineUnavailableException ex) {
                             ex.printStackTrace();
                         }
