@@ -33,6 +33,17 @@ public class Player extends Carro implements KeyListener{
         
     }
 
+    public void pauseAcelerando(){
+        new Thread(() -> {
+            try {
+                this.acelerando.pause();
+                this.acelerando.reset();
+
+            } catch (LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+    }
     public ImageIcon getImagem(int caso){
         switch (caso) {
             case 1:

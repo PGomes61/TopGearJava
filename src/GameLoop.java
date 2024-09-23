@@ -45,19 +45,14 @@ public class GameLoop extends JPanel implements Runnable {
 
         new Thread(() -> {
                         try {
+                            colidindo.setClip("car_collision");
                             gameSong.setClip("game_soundtrack");
                             gameSong.setVolume(0.8f);
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                             ex.printStackTrace();
                         }
                     }).start();
-        new Thread(() -> {
-            try {
-                this.colidindo.setClip("car_collision");
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
-                ex.printStackTrace();
-            }
-        }).start();
+        
     }
 
     public void startThread() {
@@ -530,6 +525,10 @@ public class GameLoop extends JPanel implements Runnable {
 
     public void setMenu(Menu menu) {
        this.menu = menu;
+    }
+
+    public Player getPlayer1(){
+        return player1;
     }
 }
 

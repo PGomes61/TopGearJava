@@ -52,6 +52,8 @@ public class Menu extends JPanel{
     private Sounds menuArrows2;
     private Sounds menuArrows3;
     private Sounds menuConfirm;
+    private Sounds yaba = new Sounds();
+    
 
     public Menu(JFrame frame, GameLoop painelCorrida){
         this.frame = frame;
@@ -70,6 +72,7 @@ public class Menu extends JPanel{
                             menuConfirm.setClip("menu_select_option");
                             menuSong.setClip("menu_soundtrack");
                             menuSong.setVolume(0.55f);
+                            yaba.setClip("YABBA DABBA DOO");
                             menuSong.play();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                             ex.printStackTrace();
@@ -190,6 +193,16 @@ public class Menu extends JPanel{
     }
 
     public void endTrack(){
+        
+        new Thread(() -> {
+            try {
+                yaba.reset();
+                yaba.play();
+                painelCorrida.getPlayer1().pauseAcelerando();
+            } catch (LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
         frame.remove(painelCorrida);
         frame.add(pause);
         cl.show(pause, "fim");
