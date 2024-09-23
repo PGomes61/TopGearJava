@@ -375,7 +375,7 @@ public class DrawPanel extends JPanel {
         }
     }
     private void pista2(){
-        this.tamMaxPista = 8050;
+        this.tamMaxPista = 8450;
         this.lap = 4;
         int segurança = 1000;
         Cenario linhaa = new Cenario(EnviromentVariables.SPRITE_SEMAFORO7, 1622000);
@@ -411,6 +411,7 @@ public class DrawPanel extends JPanel {
             makeTurn(7100, 7200, -0.5, line, i);
             makeTurn(7350, 7500, -0.8, line, i);
             makeTurn(7700, 7850, 0.7, line, i);
+            makeTurn(7850, 8450, 0, line, i);
             
             lines.add(line);
             if(i == tamMaxPista * (count + 1))

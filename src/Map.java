@@ -34,16 +34,16 @@
             ImageIcon icon;
             switch (choice) {
                 case 1:
-                    icon = new ImageIcon("/home/luan/projetos/TopGearJava/src/Menus/map1.png");
+                    icon = new ImageIcon("./src/Menus/map1.png");
                     break;
                 case 2:
-                    icon = new ImageIcon("/home/luan/projetos/TopGearJava/src/Menus/map2.jpg");
+                    icon = new ImageIcon("./src/Menus/map2.jpg");
                     this.miniMapWidth = 350;
                     this.miniMapHeight = 225;
                     //this.speedAdjust = 0.0007160348f;
                     break;
                 default:
-                    icon = new ImageIcon("/home/luan/projetos/TopGearJava/src/Menus/map2.png");
+                    icon = new ImageIcon("./src/Menus/map2.png");
                     break;
             }
             this.minimapImage = icon.getImage().getScaledInstance(miniMapWidth, miniMapHeight, Image.SCALE_SMOOTH);
