@@ -1,8 +1,5 @@
         import java.awt.*;
-    import java.io.IOException;
-    import java.io.File;
-import java.security.spec.MGF1ParameterSpec;
-import javax.swing.ImageIcon;
+    import javax.swing.ImageIcon;
 
 
     public class Map{
@@ -25,7 +22,7 @@ import javax.swing.ImageIcon;
 
         private Image minimapImage;  // Variável para armazenar a imagem do minimapa
 
-        private int speedAdjust = 1600;
+        private float speedAdjust = 0.0006269299f;
 
 
 
@@ -41,6 +38,8 @@ import javax.swing.ImageIcon;
                     break;
                 case 2:
                     icon = new ImageIcon("/home/luan/projetos/TopGearJava/src/Menus/map2.jpg");
+                    this.miniMapWidth = 350;
+                    this.miniMapHeight = 225;
                     break;
                 default:
                     icon = new ImageIcon("/home/luan/projetos/TopGearJava/src/Menus/map2.png");
@@ -87,9 +86,9 @@ import javax.swing.ImageIcon;
         }
 
         public void drawPlayer(){
-            int aa = (int)(drawPanel.getPos()*0.0006269299); //esse valor é a regra de 3 da posição final, posição do jogador, e tamanho do vetor
+            int aa = (int)(drawPanel.getPos()*speedAdjust); //esse valor é a regra de 3 da posição final, posição do jogador, e tamanho do vetor
             int playerIndex = Math.floorMod(aa, cx.length);
-            System.out.println("..."+playerIndex);
+            System.out.println(cx.length);
             int posicaoPlayerX = cx[playerIndex];  
             int posicaoPlayerY = cy[playerIndex];
 
@@ -103,7 +102,7 @@ import javax.swing.ImageIcon;
 
             for (Npc npc : drawPanel.getNpcs()) {
                 int npcPos = npc.getPos(); // Posição ao longo da pista
-                int npcIndex = npcPos/speedAdjust  % cx.length;
+                int npcIndex = npcPos/1600  % cx.length;
                 int posicaoNpcX = cx[npcIndex];  
                 int posicaoNpcY = cy[npcIndex];
 
