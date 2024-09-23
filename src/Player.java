@@ -1,4 +1,4 @@
-import java.awt.event.KeyEvent;
+                        import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
@@ -276,11 +276,13 @@ public class Player extends Carro implements KeyListener{
     }
 
     public void colidindo(){
+        
         if(super.velocidadeInicial >= 30){
             super.velocidadeInicial -= 1;
             super.velocidadeInicial -= 1;
             super.velocidadeInicial -= 1;
             super.velocidadeInicial -= 1;
+
         }
     }
 

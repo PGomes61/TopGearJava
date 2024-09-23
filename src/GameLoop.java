@@ -7,8 +7,10 @@ import java.util.Random;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import javax.swing.*;
 
 public class GameLoop extends JPanel implements Runnable {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
@@ -32,6 +34,7 @@ public class GameLoop extends JPanel implements Runnable {
     private DrawPanel drawPanel;
     private Random random = new Random();
     private int pistaEscolhida, count = 0;
+    private Sounds colidindo = new Sounds();
     private Sounds gameSong;
     
     public GameLoop() {
@@ -48,6 +51,13 @@ public class GameLoop extends JPanel implements Runnable {
                             ex.printStackTrace();
                         }
                     }).start();
+        new Thread(() -> {
+            try {
+                this.colidindo.setClip("car_collision");
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
 
     public void startThread() {
@@ -118,10 +128,11 @@ public class GameLoop extends JPanel implements Runnable {
         this.frame = frame;
     }
 
+    private Timer timer;
+
     @Override
     public void run() {
         lastTime = System.nanoTime();
-        
         while (running) {
             synchronized (this) {
                 while (player1.pause) {
@@ -146,8 +157,10 @@ public class GameLoop extends JPanel implements Runnable {
                 accumulator -= TIME_PER_UPDATE;
             }
 
-            repaint();  // Renderiza o jogo
+            // Renderize o jogo 
+            repaint(); 
 
+            // Aguarde para manter a taxa de atualização alvo
             try {
                 Thread.sleep((long) (1000 / TARGET_FPS));
             } catch (InterruptedException e) {
@@ -498,6 +511,18 @@ public class GameLoop extends JPanel implements Runnable {
         // Calcular metade da área do retângulo do jogador
         int playerArea = playerWidth * playerHeight;
         int halfPlayerArea = playerArea / 2;
+
+        if(intersectionArea >= halfPlayerArea){
+            new Thread(() -> {
+                try {
+                    colidindo.reset();
+                    colidindo.play();
+                } catch (LineUnavailableException ex) {
+                    ex.printStackTrace();
+                }
+            }).start();
+
+        }
     
         // Retornar true se a área da interseção for maior ou igual a metade da área do retângulo do jogador
         return intersectionArea >= halfPlayerArea;

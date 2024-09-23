@@ -1,15 +1,10 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class DrawPanel extends JPanel {
     public double bgOffset = -512;
@@ -30,6 +25,9 @@ public class DrawPanel extends JPanel {
     double amplitude = 1000;
     private int tamMaxPista;
     JFrame frame;
+    private Map map;
+    private Cronometro cronometro;
+    private int bigAux=0;
 
     public DrawPanel(Player player1, JFrame frame, List<Npc> npcs, int pista) {
         this.frame = frame;
@@ -38,16 +36,19 @@ public class DrawPanel extends JPanel {
         this.player1 = player1;
         setCenario();
         sortCenario(cenarios);
-
+        this.cronometro = new Cronometro(this);
         switch(pista){
             case 1:
                 pista1();
+                this.map = new Map(this,1);
                 break;
             case 2:
                 pista2();
+                this.map = new Map(this,2);
                 break;
             case 3:
                 pista3();
+                this.map = new Map(this,3);
                 break;
             default:
                 break;
@@ -230,17 +231,41 @@ public class DrawPanel extends JPanel {
                     g2.drawImage(npc.getImagem().getImage(), (int) npcX, npcY, npcWidth, npcHeight, null);
                 }
             }
+            
         }
+        map.drawMiniMap(g2);
+
+        ajusteNpcLap();
+
+        cronometro.drawCronometro(g);
         
         npcs.get(0).npcOffset();
         npcs.get(1).npcOffset();
         npcs.get(2).npcOffset();   
         npcs.get(3).npcOffset();
         npcs.get(4).npcOffset();
-
         g2.drawImage(player1.getImagem().getImage(), ((frame.getWidth() - player1.getImagem().getIconWidth()) / 2) - 25, frame.getHeight() - player1.getImagem().getIconHeight() - 200, (int) (player1.getImagem().getIconWidth() * 4), (int) (player1.getImagem().getIconHeight() * 2.5), null);
     }
     
+    public void ajusteNpcLap(){
+        if(cronometro.getLap()==2&&bigAux==0){
+            for(Npc npcs : npcs){
+                npcs.setPosLap();
+            }
+            bigAux=1;
+        }else if(cronometro.getLap()==3&&bigAux==1){
+            for(Npc npcs : npcs){
+                npcs.setPosLap();
+            }
+            bigAux=2;
+        }else if(cronometro.getLap()==4&&bigAux==2){
+            for(Npc npcs : npcs){
+                npcs.setPosLap();
+            }
+            bigAux=3;
+        }
+    }
+
     void drawQuad(Graphics g, Color c, int x1, int y1, int w1, int x2, int y2, int w2) {
         int[] xPoints = {x1 - w1, x2 - w2, x2 + w2, x1 + w1};
         int[] yPoints = {y1, y2, y2, y1};
@@ -254,6 +279,7 @@ public class DrawPanel extends JPanel {
 
     private void makeTurn(int pos1, int pos2, double curve, Line line, int i) {
         if (i > pos1 + this.tamMaxPista * this.count && i < pos2 + this.tamMaxPista * this.count) {
+            System.out.println(pos1);
             line.curve = curve;
             
             if (line.curve > 0) {
@@ -289,22 +315,34 @@ public class DrawPanel extends JPanel {
             //double elevationAtual = 0;
 
             makeTurn(800, 1000, 1.0, line, i);
-            makeTurn(1300, 1450, 0.5, line, i);
-            makeTurn(1450, 1750, -0.7, line, i);
-            makeTurn(1750, 2000, 1.2, line, i);
-            makeTurn(2300, 2450, -0.6, line, i);
-            makeTurn(3000, 3150, 0.5, line, i);
-            makeTurn(3150, 3300, -0.9, line, i);
-            makeTurn(3300, 3450, 0.5, line, i);
-            makeTurn(3600, 3800, 1.0, line, i);
-            makeTurn(4300, 4750, -1.2, line, i);
-            makeTurn(4750, 4850, 0.2, line, i);
-            makeTurn(5250, 5450, 1.0, line, i);      
-            makeTurn(5800, 6000, 1.0, line, i);
-            makeTurn(6300, 6500, -0.7, line, i);
-            makeTurn(6750, 6900, 0.5, line, i);
-            makeTurn(6900, 7050, -0.6, line, i);
-            makeTurn(7050, 7200, 0.5, line, i);
+            makeTurn(1100, 1400, 0.5, line, i);
+
+            makeTurn(1500, 1650, -0.7, line, i);
+
+            makeTurn(1750, 2200, 1.2, line, i);
+            makeTurn(2600, 2850, -0.6, line, i);
+
+            makeTurn(3000, 3350, 0.5, line, i);
+
+
+            makeTurn(3700-10, 3850-10, 0.5, line, i); //curva meio cima
+            makeTurn(3900-10, 4050-10, -0.5, line, i); //curva meio cima
+            makeTurn(4100-10, 4150-10, 0.5, line, i); //curva meio cima
+
+
+            //cima
+            makeTurn(3600+700, 4000+700, 1.0, line, i); // 4300  // final do de cima
+
+
+            makeTurn(4200+700, 4300+700, 1.2, line, i);    
+            makeTurn(4300+700, 4750+700, -1.2, line, i);    
+            makeTurn(4750+700, 4850+700, 0.2, line, i);
+            makeTurn(5250+700, 5450+700, 1.0, line, i);      
+            makeTurn(5800+700, 6000+700, 1.0, line, i);
+            makeTurn(6300+700, 6500+700, -0.7, line, i);
+            makeTurn(6750+700, 6900+700, 0.5, line, i);
+            makeTurn(6900+700, 7050+700, -0.6, line, i);
+            makeTurn(7050+700, 7200+700, 0.5, line, i);
             
             // if (i > 600 + this.tamMaxPista * count && i < 1200 + this.tamMaxPista * count) {
             //     line.curve = -1;
@@ -484,5 +522,9 @@ public class DrawPanel extends JPanel {
 
         npcs.get(4).setOffset(-0.5);
         npcs.get(4).setPos(1000);
+    }
+
+    public List<Npc> getNpcs(){
+        return this.npcs;
     }
 }

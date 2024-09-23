@@ -49,6 +49,10 @@ public class Npc extends Carro{
         this.pos = pos;
     }    
 
+    public void setPosLap(){
+        this.pos += 6412200/4;
+    }
+
     public void setX(double x){
         this.xTela = x;
     }
