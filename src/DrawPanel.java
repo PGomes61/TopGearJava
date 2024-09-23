@@ -279,7 +279,7 @@ public class DrawPanel extends JPanel {
 
     private void makeTurn(int pos1, int pos2, double curve, Line line, int i) {
         if (i > pos1 + this.tamMaxPista * this.count && i < pos2 + this.tamMaxPista * this.count) {
-            System.out.println(pos1);
+            //System.out.println(pos1);
             line.curve = curve;
             
             if (line.curve > 0) {

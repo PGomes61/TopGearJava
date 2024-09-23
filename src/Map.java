@@ -70,8 +70,8 @@
 
         public void drawMiniMap(Graphics g) {
             this.g = g;
-            System.out.println("aaaaaa"+this.mapChoice);
-            System.out.println(cx[0]);
+            //System.out.println("aaaaaa"+this.mapChoice);
+            //System.out.println(cx[0]);
             drawMiniMapp();
 
             drawPlayer();
@@ -94,7 +94,7 @@
         public void drawPlayer(){
             int aa = (int)(drawPanel.getPos()*speedAdjust); //esse valor é a regra de 3 da posição final, posição do jogador, e tamanho do vetor
             int playerIndex = Math.floorMod(aa, cx.length);
-            System.out.println(cx.length);
+            //System.out.println(cx.length);
             int posicaoPlayerX = cx[playerIndex];  
             int posicaoPlayerY = cy[playerIndex];
 

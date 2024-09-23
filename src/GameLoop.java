@@ -246,7 +246,7 @@ public class GameLoop extends JPanel implements Runnable {
         // Lógica do movimento do jogador (como já está implementado)
         if (player1.upPressed && !player1.downPressed) {
             drawPanel.setPosAcrescimo(2 * (int) player1.getVelocidade());
-            System.out.println(player1.getVelocidade());
+            //System.out.println(player1.getVelocidade());
             player1.acelerar();
         }
         if (player1.downPressed && !player1.upPressed) {
